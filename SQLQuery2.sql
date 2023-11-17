@@ -1,0 +1,7 @@
+﻿create table Børn(Børn_ID int NOT NULL PRIMARY KEY,
+Navn VARCHAR(50) NOT NULL,
+Adresse VARCHAR(50) NOT NULL,
+Telefon VARCHAR(50) NOT NULL,
+Ark_ID int NOT NULL,
+FOREIGN KEY (Ark_ID) 
+REFERENCES Lodseddelark(Ark_ID));

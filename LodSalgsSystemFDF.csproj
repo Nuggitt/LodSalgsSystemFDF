@@ -6,4 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\ADOServices\Interfaces\" />
+    <Folder Include="Services\ADOServices\ADOBørnService\" />
+    <Folder Include="Services\ADOServices\ADOBørnegruppeService\" />
+    <Folder Include="Services\ADOServices\ADOLederService\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,13 @@
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddRazorPages();
+builder.Services.AddTransient<IBørnegruppeService>();
+builder.Services.AddTransient<IBørnegruppeService, BørnegruppeService>();
 
 var app = builder.Build();
 

@@ -1,7 +1,12 @@
+using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
+using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddTransient<AdonetIndtægtService>();
+builder.Services.AddTransient<IIndtægtService, IndtægtService>();
 
 var app = builder.Build();
 

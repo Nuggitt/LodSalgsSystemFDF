@@ -1,0 +1,53 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Salgs.GetSalgsModel
+@{
+    ViewData["Title"] = "GetSalgs";
+}
+
+<h1>Liste over alle salg</h1>
+<p>
+    <a asp-page="/Salgs/Create">Opret nyt Salg</a>
+</p>
+
+<h4 style="color:red"> List of studios</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Salg_ID
+            </th>
+            <th>
+                Ark_ID
+            </th>
+            <th>
+                Børn_ID
+            </th>
+            <th>
+                Pris
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Salgs)
+            {
+                <tr>
+                    <td>
+                        @item.Salg_ID
+                    </td>
+                    <td>
+                        @item.Ark_ID
+                    </td>
+                    <td>
+                        @item.Børn_ID
+                    </td>
+                    <td>
+                        @item.Pris
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

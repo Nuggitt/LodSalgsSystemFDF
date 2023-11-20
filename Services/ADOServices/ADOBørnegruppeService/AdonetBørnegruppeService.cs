@@ -1,8 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
-using Microsoft.Data.SqlClient;
-using System.Data.SqlTypes;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
+using System.Data.SqlClient;
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 {
     public class AdonetBørnegruppeService

@@ -13,25 +13,25 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public AdonetIndtægtService(IConfiguration config)
         {
             configuration = config;
-            connectionString = configuration.GetConnectionString("DatacraftConnection");
+            connectionString = configuration.GetConnectionString("Datacraft.dk");
         }
 
-        public List<Indtægt> GetAllIndtægts()
+        public List<Indtægt> GetAllIndtægter()
         {
             List<Indtægt> indtægtList = new List<Indtægt>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT * FROM Indtægt";
+                string sql = "SELECT * FROM [dbo].[Indtægt]";
                 SqlCommand command = new SqlCommand(sql, connection);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(reader["ID"]);
+                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
                         indtægt.Dato = Convert.ToDateTime(reader["Dato"]);
-                        indtægt.Salg_ID = Convert.ToInt32(reader["ID"]);
+                        indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
 
                         indtægtList.Add(indtægt);
 
@@ -39,7 +39,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                     }
                 }
             }
-            return indtægtList; 
+            return indtægtList;
         }
     }
 }

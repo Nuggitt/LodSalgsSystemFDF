@@ -10,9 +10,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         {
             _indtægtService = indtægtService;
         }
-        public IEnumerable<Indtægt> GetIndtægts()
+        public IEnumerable<Indtægt> GetIndtægter()
         {
-            return _indtægtService.GetAllIndtægts();
+            return _indtægtService.GetAllIndtægter();
         }
     }
 }

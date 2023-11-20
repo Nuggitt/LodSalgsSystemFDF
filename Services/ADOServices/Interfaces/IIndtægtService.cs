@@ -4,6 +4,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
 {
     public interface IIndtægtService
     {
-        IEnumerable<Indtægt> GetIndtægts();
+        IEnumerable<Indtægt> GetIndtægter();
     }
 }

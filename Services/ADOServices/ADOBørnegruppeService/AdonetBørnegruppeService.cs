@@ -1,6 +1,6 @@
 ﻿namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 {
-    public class AdonetActorService
+    public class AdonetBørnegruppeService
     {
     }
 }

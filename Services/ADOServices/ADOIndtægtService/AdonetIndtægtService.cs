@@ -13,7 +13,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public AdonetIndtægtService(IConfiguration config)
         {
             configuration = config;
-            connectionString = configuration.GetConnectionString("Datacraft.dk");
+            connectionString = configuration.GetConnectionString("Datacraft2.dk");
         }
 
         public List<Indtægt> GetAllIndtægter()

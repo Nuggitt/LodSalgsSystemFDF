@@ -28,11 +28,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     while (dataReader.Read())
                     {
                         Børnegruppe børnegruppe = new Børnegruppe();
-                        børnegruppe.Børnegruppe_Id = Convert.ToInt32(dataReader["Børnegruppe_Id"]);
+                        børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_Id"]);
                         børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
                         børnegruppe.Lokale = Convert.ToString(dataReader["Lokale"]);
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
-                        børnegruppe.LederId = Convert.ToInt32(dataReader["LederID"]);
+                        børnegruppe.Leder_ID = Convert.ToInt32(dataReader["LederID"]);
 
                         lstbørnegruppe.Add(børnegruppe);
                     }

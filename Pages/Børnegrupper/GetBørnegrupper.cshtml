@@ -1,0 +1,59 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Børnegrupper.GetBørnegruppeModel
+@{
+    ViewData["Title"] = "GetBørnegrupper";
+}
+
+<h1>Liste over alle børnegrupper</h1>
+<p>
+    <a asp-page="/Børnegrupper/Create">Opret ny børnegruppe</a>
+</p>
+
+<h4 style="color:red"> List of Børnegrupper</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Børnegruppe_ID
+            </th>
+            <th>
+                Gruppenavn
+            </th>
+            <th>
+                Lokale
+            </th>
+            <th>
+                AntalBørn
+            </th>
+            <th>
+                LederID
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Børnegrupper)
+            {
+                <tr>
+                    <td>
+                        @item.Børnegruppe_ID
+                    </td>
+                    <td>
+                        @item.Gruppenavn
+                    </td>
+                    <td>
+                        @item.Lokale
+                    </td>
+                    <td>
+                        @item.Antalbørn
+                    </td>
+                    <td>
+                        @item.Leder_ID
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

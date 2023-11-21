@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Pages\BrugerLogins\" />
     <Folder Include="Pages\Børns\" />
-    <Folder Include="Pages\Børnegrupper\" />
     <Folder Include="Pages\Ledere\" />
     <Folder Include="Pages\Lodseddelarks\" />
   </ItemGroup>

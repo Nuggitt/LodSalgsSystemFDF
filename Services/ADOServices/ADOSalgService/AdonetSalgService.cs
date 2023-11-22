@@ -42,5 +42,28 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             }
             return salgList;
         }
+
+        public Salg CreateSalg(Salg salg)
+        {
+            List<Salg> salgs = new List<Salg>();
+            string sql = "INSERT INTO dbo.Salg (Salg_ID, Ark_ID, Børn_ID, Pris) VALUES(@Salg_ID, @Ark_ID, @Børn_ID, @Pris)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql,connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
+                    command.Parameters.AddWithValue("@Ark_ID", salg.Ark_ID);
+                    command.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                    command.Parameters.AddWithValue("@Pris", salg.Pris);
+                    salgs.Add(salg);
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return salg;
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         {
             return _salgService.GetAllSalgs();
         }
+
+        public Salg CreateSalg(Salg salg)
+        {
+            return _salgService.CreateSalg(salg);
+        }
     }
 }

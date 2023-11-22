@@ -25,6 +25,9 @@
             <th>
                 Pris
             </th>
+            <th>
+                Slet Salg
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -45,6 +48,11 @@
                     </td>
                     <td>
                         @item.Pris
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID"> Slet dette salg  </a>
+                        </p>
                     </td>
                 </tr>
             }

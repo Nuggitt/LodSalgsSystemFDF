@@ -6,6 +6,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
     {
         IEnumerable<Salg> GetSalgs();
 
+        Salg GetSalgById(int id);
+
         Salg CreateSalg(Salg salg);
+
+        Salg DeleteSalg(Salg salg);
     }
 }

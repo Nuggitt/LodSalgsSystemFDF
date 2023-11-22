@@ -1,0 +1,49 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Salgs.DeleteModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Slet et Salg</h1>
+
+<h3>Er du sikker på at du vil slette det indberettede salg?</h3>
+<div>
+    <h4>Studio</h4>
+    <hr />
+    <form method="post">
+        <dl class="row">
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Salg.Salg_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Salg.Salg_ID)
+
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Salg.Ark_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Salg.Ark_ID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Salg.Børn_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Salg.Børn_ID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Salg.Pris)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Salg.Pris)
+            </dd>
+        </dl>
+
+
+        <input type="hidden" asp-for="Salg.Salg_ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-page="/Salgs/GetSalgs">Klik Her for at vende tilbage til liste af salg</a>
+    </form>
+</div>
+

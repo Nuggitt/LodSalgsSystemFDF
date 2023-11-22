@@ -17,9 +17,19 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             return _salgService.GetAllSalgs();
         }
 
+        public Salg GetSalgById(int id)
+        {
+            return _salgService.GetSalgById(id);
+        }
+
         public Salg CreateSalg(Salg salg)
         {
             return _salgService.CreateSalg(salg);
+        }
+
+        public Salg DeleteSalg(Salg salg)
+        {
+            return _salgService.DeleteSalg(salg);
         }
     }
 }

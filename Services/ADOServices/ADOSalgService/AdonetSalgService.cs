@@ -110,6 +110,27 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             return salg;
         }
 
+        public Salg UpdateSalg(Salg salg)
+        {
+            string sql = "UPDATE dbo.Salg Set Ark_ID = @Ark_ID, Børn_ID = @Børn_ID, Pris = @Pris WHERE Salg_ID = @Salg_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
+                    command.Parameters.AddWithValue("@Ark_ID", salg.Ark_ID);
+                    command.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                    command.Parameters.AddWithValue("@Pris", salg.Pris);
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return salg;
+        }
+
 
     }
 }

@@ -31,5 +31,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         {
             return _salgService.DeleteSalg(salg);
         }
+
+        public Salg UpdateSalg(Salg salg)
+        {
+            return _salgService.UpdateSalg(salg);
+        }
     }
 }

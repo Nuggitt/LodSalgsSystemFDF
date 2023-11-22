@@ -11,5 +11,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Salg CreateSalg(Salg salg);
 
         Salg DeleteSalg(Salg salg);
+
+        Salg UpdateSalg(Salg salg);
     }
 }

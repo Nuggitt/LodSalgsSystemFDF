@@ -28,6 +28,9 @@
             <th>
                 Slet Salg
             </th>
+            <th>
+                Ret Salg
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +55,11 @@
                     <td>
                         <p>
                             <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID"> Slet dette salg  </a>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Salgs/Update" asp-route-id="@item.Salg_ID"> Ret dette salg  </a>
                         </p>
                     </td>
                 </tr>

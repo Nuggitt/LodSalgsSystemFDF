@@ -1,0 +1,47 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Indtægter.GetIndtægterModel
+@{
+    ViewData["Title"] = "GetIndtæger";
+}
+
+<h1>Liste over alle indtægter</h1>
+<p>
+    <a asp-page="/Indtægter/Create">Opret ny indtægt</a>
+</p>
+
+<h4 style="color:red"> Liste over alle indtægter</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Indtægt_ID
+            </th>
+            <th>
+                Dato
+            </th>
+            <th>
+                Salg_ID
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Indtægter)
+            {
+                <tr>
+                    <td>
+                        @item.Indtægt_ID
+                    </td>
+                    <td>
+                        @item.Dato
+                    </td>
+                    <td>
+                        @item.Salg_ID
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

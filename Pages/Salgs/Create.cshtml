@@ -1,0 +1,43 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Salgs.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Opret Salg</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="  ModelOnly  " class="text-danger">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Salg.Salg_ID" class="control-label"></label>
+                <input asp-for="@Model.Salg.Salg_ID" class="form-control" />
+                <span asp-validation-for="@Model.Salg.Salg_ID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Salg.Ark_ID" class="control-label"></label>
+                <input asp-for="@Model.Salg.Ark_ID" class="form-control" />
+                <span asp-validation-for="@Model.Salg.Ark_ID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Salg.Børn_ID" class="control-label"></label>
+                <input asp-for="@Model.Salg.Børn_ID" class="form-control" />
+                <span asp-validation-for="@Model.Salg.Børn_ID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.Salg.Pris" class="control-label"></label>
+                <input asp-for="@Model.Salg.Pris" class="form-control" />
+                <span asp-validation-for="@Model.Salg.Pris" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

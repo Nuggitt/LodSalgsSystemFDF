@@ -1,7 +1,21 @@
+using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
+using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+using LodSalgsSystemFDF.Services.ADOServices.ADOSalgService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddRazorPages();
+builder.Services.AddTransient<AdonetIndtægtService>();
+builder.Services.AddTransient<IIndtægtService, IndtægtService>();
+builder.Services.AddTransient<AdonetBørnegruppeService>();
+builder.Services.AddTransient<IBørnegruppeService, BørnegruppeService>();
+builder.Services.AddTransient<AdonetSalgService>();
+builder.Services.AddTransient<ISalgService,SalgService>();
 
 var app = builder.Build();
 

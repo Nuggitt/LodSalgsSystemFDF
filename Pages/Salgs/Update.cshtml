@@ -1,0 +1,44 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Salgs.UpdateModel
+@{
+}
+<h1>Ret Salget</h1>
+
+<h3>Er du sikker på du vil rette dette salg?</h3>
+<div>
+    <h4>Salg</h4>
+    <hr />
+    <form method="post">
+
+
+        <div class="form-group">
+            <label asp-for="@Model.Salg.Salg_ID" class="control-label"></label>
+            <input asp-for="@Model.Salg.Salg_ID" class="form-control" />
+            <span asp-validation-for="@Model.Salg.Salg_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Salg.Ark_ID" class="control-label"></label>
+            <input asp-for="@Model.Salg.Ark_ID" class="form-control" />
+            <span asp-validation-for="@Model.Salg.Ark_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Salg.Børn_ID" class="control-label"></label>
+            <input asp-for="@Model.Salg.Børn_ID" class="form-control" />
+            <span asp-validation-for="@Model.Salg.Børn_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Salg.Pris" class="control-label"></label>
+            <input asp-for="@Model.Salg.Pris" class="form-control" />
+            <span asp-validation-for="@Model.Salg.Pris" class="text-danger"></span>
+        </div>
+
+
+
+        <input type="hidden" asp-for="Salg.Salg_ID" />
+        <input type="submit" value="Update" class="btn btn-danger" />
+        <a asp-page="/Salg/GetSalgs">Tilbage til listen af salg</a>
+    </form>
+</div>

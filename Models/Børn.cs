@@ -6,18 +6,24 @@ namespace LodSalgsSystemFDF.Models
     [Table("Børn")]
     public class Børn
     {
-        public int Id { get; set; }
+        [Key]
+        public int Børn_ID { get; set; }
         [Required]
         [StringLength(30)]
 
         public string Navn { get; set; }
+        [Required]
 
         public string Adresse { get; set; }
+        [Required]
 
         public string Telefon { get; set; }
+        [Required]
 
         public int Ark_ID { get; set; }
+        [Required]
 
         public int Børnegruppe_ID { get; set; }
+        
     }
 }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LodSalgsSystemFDF.Models
 {
+    [Table("Salg")]
     public class Salg
     {
         [Key]

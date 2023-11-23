@@ -1,0 +1,39 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Indtægter.UpdateModel
+@{
+}
+@{
+}
+<h1>Ret Indtægten</h1>
+
+<h3>Er du sikker på du vil rette denne indtægt?</h3>
+<div>
+    <h4>Indtægt</h4>
+    <hr />
+    <form method="post">
+
+
+        <div class="form-group">
+            <label asp-for="@Model.Indtægt.Indtægt_ID" class="control-label"></label>
+            <input asp-for="@Model.Indtægt.Indtægt_ID" class="form-control" />
+            <span asp-validation-for="@Model.Indtægt.Indtægt_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Indtægt.Dato" class="control-label"></label>
+            <input asp-for="@Model.Indtægt.Dato" class="form-control" />
+            <span asp-validation-for="@Model.Indtægt.Dato" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Indtægt.Salg_ID" class="control-label"></label>
+            <input asp-for="@Model.Indtægt.Salg_ID" class="form-control" />
+            <span asp-validation-for="@Model.Indtægt.Salg_ID" class="text-danger"></span>
+        </div>
+
+
+        <input type="hidden" asp-for="Indtægt.Indtægt_ID" />
+        <input type="submit" value="Update" class="btn btn-danger" />
+        <a asp-page="/Indtægter/GetIndtægter">Tilbage til listen af Indtægter</a>
+    </form>
+</div>

@@ -75,31 +75,108 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             return salg;
         }
 
+        //public Salg CreateSalg(Salg salg)
+        //{
+        //    List<Salg> salgsList = new List<Salg>();
+        //    string sql = "INSERT INTO dbo.Salg (Salg_ID, Børn_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodSeddelerPrSalg,  Pris) VALUES(@Salg_ID, @Børn_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodSeddelerPrSalg,  @Pris)";
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        using (SqlCommand command = new SqlCommand(sql, connection))
+        //        {
+        //            connection.Open();
+
+        //            command.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
+        //            command.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+        //            command.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
+        //            command.Parameters.AddWithValue("@Dato", salg.Dato);
+        //            command.Parameters.AddWithValue("@AntalLodseddelerRetur", salg.AntalLodseddelerRetur);
+        //            command.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrSalg", salg.AntalSolgteLodSeddelerPrSalg);
+        //            command.Parameters.AddWithValue("@Pris", salg.Pris);
+        //            salgsList.Add(salg);
+
+        //            int numberOfRowsAffected = command.ExecuteNonQuery();
+        //        }
+        //    }
+        //    if (salg.AntalSolgteLodSeddelerPrSalg != null)
+        //    {
+        //        List<Børn> børnList = new List<Børn>();
+        //        Børn barn = new Børn();
+        //        barn.AntalSolgteLodsedler = salg.AntalSolgteLodSeddelerPrSalg;
+        //        barn.Børn_ID = salg.Salg_ID;
+        //        string sql2 = "UPDATE dbo.Børn SET AntalSolgteLodseddeler = @AntalSolgteLodseddeler WHERE Børn_ID = @Børn_ID";
+        //        using (SqlConnection con = new SqlConnection(connectionString))
+        //        {
+        //            using (SqlCommand cmd = new SqlCommand(sql2, con))
+        //            {
+        //                con.Open();
+
+
+        //                cmd.Parameters.AddWithValue("@Børn_ID", barn.Børn_ID);
+        //                cmd.Parameters.AddWithValue("@AntalSolgteLodseddeler", barn.AntalSolgteLodsedler);
+        //                børnList.Add(barn);
+
+        //                int numberOfRowAffected2 = cmd.ExecuteNonQuery();
+
+
+        //            }
+        //        }
+        //    }
+
+        //    return salg;
+        //}
+
         public Salg CreateSalg(Salg salg)
         {
-            List<Salg> salgsList = new List<Salg>();
-            string sql = "INSERT INTO dbo.Salg (Salg_ID, Børn_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodSeddelerPrSalg,  Pris) VALUES(@Salg_ID, @Børn_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodSeddelerPrSalg,  @Pris)";
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand(sql,connection))
+                connection.Open();
+                using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    connection.Open();
+                    try
+                    {
+                        string insertSql = "INSERT INTO dbo.Salg (Salg_ID, Børn_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodSeddelerPrSalg,  Pris) VALUES(@Salg_ID, @Børn_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodSeddelerPrSalg,  @Pris)";
 
-                    command.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
-                    command.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
-                    command.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
-                    command.Parameters.AddWithValue("@Dato", salg.Dato);
-                    command.Parameters.AddWithValue("@AntalLodseddelerRetur", salg.AntalLodseddelerRetur);
-                    command.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrSalg", salg.AntalSolgteLodSeddelerPrSalg);
-                    command.Parameters.AddWithValue("@Pris", salg.Pris);
-                    salgsList.Add(salg);
+                        using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
+                        {
+                            insertCommand.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
+                            insertCommand.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                            insertCommand.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
+                            insertCommand.Parameters.AddWithValue("@Dato", salg.Dato);
+                            insertCommand.Parameters.AddWithValue("@AntalLodseddelerRetur", salg.AntalLodseddelerRetur);
+                            insertCommand.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrSalg", salg.AntalSolgteLodSeddelerPrSalg);
+                            insertCommand.Parameters.AddWithValue("@Pris", salg.Pris);
 
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                            insertCommand.ExecuteNonQuery();
+                        }
+
+                        if (salg.AntalSolgteLodSeddelerPrSalg != null)
+                        {
+                            string updateSql = "UPDATE dbo.Børn SET AntalSolgteLodseddeler = @AntalSolgteLodseddeler WHERE Børn_ID = @Børn_ID";
+
+                            using (SqlCommand updateCommand = new SqlCommand(updateSql, connection, transaction))
+                            {
+                                updateCommand.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                                updateCommand.Parameters.AddWithValue("@AntalSolgteLodseddeler", salg.AntalSolgteLodSeddelerPrSalg);
+
+                                updateCommand.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions, log the error, or perform any necessary cleanup.
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
+
             return salg;
         }
+
 
         public Salg DeleteSalg(Salg salg)
         {

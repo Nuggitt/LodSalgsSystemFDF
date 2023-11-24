@@ -25,7 +25,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe DeleteBørnegruppe(Børnegruppe børnegruppe)
         {
-            return børnegruppeService.Deletebørnegruppe(børnegruppe);
+            return børnegruppeService.DeleteBørnegruppe(børnegruppe);
         }
 
          public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)

@@ -8,10 +8,7 @@ namespace LodSalgsSystemFDF.Models
     {
         [Key]
         [Required]
-        public int Indtægt_ID { get; set; }
-        [Required]
-        [Column("Dato")]
-        public DateTime Dato { get; set; }
+        public int Indtægt_ID { get; set; }          
         [Required]
         public int Salg_ID { get; set; }
 

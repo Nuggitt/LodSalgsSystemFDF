@@ -29,8 +29,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                     while (reader.Read())
                     {
                         Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
-                        indtægt.Dato = Convert.ToDateTime(reader["Dato"]);
+                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);                     
                         indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
 
                         indtægtList.Add(indtægt);
@@ -57,8 +56,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                 {
                     while (reader.Read())
                     {
-                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
-                        indtægt.Dato = Convert.ToDateTime(reader["Dato"]);
+                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);                        
                         indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
                         indtægtsList.Add(indtægt);
             
@@ -71,7 +69,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public Indtægt CreateIndtægt(Indtægt indtægt)
         {
             List<Indtægt> indtægtsList = new List<Indtægt>();
-            string sql = "INSERT INTO dbo.Indtægt (Indtægt_ID, Dato, Salg_ID) VALUES(@Indtægt_ID, @Dato, @Salg_ID)";
+            string sql = "INSERT INTO dbo.Indtægt (Indtægt_ID, Salg_ID) VALUES(@Indtægt_ID, @Salg_ID)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -80,7 +78,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                     connection.Open();
 
                     command.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
-                    command.Parameters.AddWithValue("@Dato", indtægt.Dato);
                     command.Parameters.AddWithValue("@Salg_ID", indtægt.Salg_ID);
                     indtægtsList.Add(indtægt);
 
@@ -110,7 +107,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
 
         public Indtægt UpdateIndtægt(Indtægt indtægt)
         {
-            string sql = "UPDATE dbo.Indtægt Set Dato = @Dato, Salg_ID = @Salg_ID WHERE Indtægt_ID = @Indtægt_ID";
+            string sql = "UPDATE dbo.Indtægt, Salg_ID = @Salg_ID WHERE Indtægt_ID = @Indtægt_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -118,10 +115,8 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                 {
                     connection.Open();
 
-                    command.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
-                    command.Parameters.AddWithValue("@Dato", indtægt.Dato);
+                    command.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);                   
                     command.Parameters.AddWithValue("@Salg_ID", indtægt.Salg_ID);
-
                     int numberOfRowsAffected = command.ExecuteNonQuery();
                 }
             }

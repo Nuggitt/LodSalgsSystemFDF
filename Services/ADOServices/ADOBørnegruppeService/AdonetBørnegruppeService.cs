@@ -33,6 +33,8 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Lokale = Convert.ToString(dataReader["Lokale"]);
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
+                        børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
+                        børnegruppe.AntalSolgteLodSeddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
 
                         lstbørnegruppe.Add(børnegruppe);
                     }

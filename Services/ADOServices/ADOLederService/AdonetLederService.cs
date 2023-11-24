@@ -34,7 +34,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                         leder.Telefon = Convert.ToString(dataReader["Telefon"]);
                         leder.Email = Convert.ToString(dataReader["Email"]);
                         leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
-                        leder.Ark_ID = Convert.ToInt32(dataReader["Ark_ID"]);
                         leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
                         
                         lederList.Add(leder);

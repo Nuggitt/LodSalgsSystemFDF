@@ -36,7 +36,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.Ark_ID = Convert.ToInt32(dataReader["Ark_ID"]);
+                        børn.AntalSolgteLodsedler = Convert.ToInt32(dataReader["AntalSolgteLodsedler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
                         listbørn.Add(børn);

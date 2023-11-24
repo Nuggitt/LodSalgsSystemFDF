@@ -15,5 +15,7 @@ namespace LodSalgsSystemFDF.Models
         public string Lokale { get; set; }
         public int Antalbørn { get; set; }
         public int Leder_ID { get; set; }
+        public int AntalLodSeddelerPrGruppe { get; set; }
+        public int AntalSolgteLodSeddeler {  get; set; }
     }
 }

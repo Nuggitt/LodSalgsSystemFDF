@@ -20,8 +20,6 @@ namespace LodSalgsSystemFDF.Models
             [Required]
             public bool ErLotteriBestyrer { get; set; }
             [Required]
-            public int Ark_ID { get; set; }
-            [Required]
             public int Børnegruppe_ID { get; set; }
     }
 }

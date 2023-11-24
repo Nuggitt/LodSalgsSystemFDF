@@ -6,14 +6,31 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
     public class BørnegruppeService : IBørnegruppeService
     {
         private AdonetBørnegruppeService børnegruppeService;
-
+        public IEnumerable<Børnegruppe> GetBørnegruppe()
+        {
+            return børnegruppeService.GetAllBørnegruppe();
+        }
         public BørnegruppeService(AdonetBørnegruppeService service)
         {
             børnegruppeService = service;
         }
-        public IEnumerable<Børnegruppe> GetBørnegruppe()
+        public Børnegruppe GetBørnegruppeId(int id)
         {
-            return børnegruppeService.GetAllBørnegruppe();
+            return børnegruppeService.GetBørnegruppeById(id);
+        }
+        public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe)
+        {
+            return børnegruppeService.CreateBørnegruppe(børnegruppe);
+        }
+
+        public Børnegruppe DeleteBørnegruppe(Børnegruppe børnegruppe)
+        {
+            return børnegruppeService.Deletebørnegruppe(børnegruppe);
+        }
+
+         public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)
+        {
+            return børnegruppeService.UpdateBørnegruppe(børnegruppe);
         }
     }
 }

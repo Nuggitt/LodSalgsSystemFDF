@@ -10,10 +10,16 @@ namespace LodSalgsSystemFDF.Models
         [Required]
         public int Salg_ID { get; set; }
         [Required]
-        public int Ark_ID { get; set; }
-        [Required]
         public int Børn_ID { get; set; }
         [Required]
+        public int Leder_ID { get; set; }
+        [Required]
+        public DateTime Dato { get; set; }
+
+        public int AntalLodseddelerRetur { get; set; }
+
+        public int AntalSolgteLodSeddelerPrSalg { get; set; }
+
         public double Pris { get; set; }
 
 

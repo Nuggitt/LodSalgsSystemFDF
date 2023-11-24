@@ -34,5 +34,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         {
             return _indtægtService.UpdateIndtægt(indtægt);
         }
+
+        
     }
 }

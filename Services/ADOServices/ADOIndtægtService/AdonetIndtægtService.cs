@@ -127,5 +127,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             }
             return indtægt;
         }
+
     }
 }

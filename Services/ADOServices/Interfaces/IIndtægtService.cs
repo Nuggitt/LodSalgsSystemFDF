@@ -13,5 +13,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Indtægt DeleteIndtægt(Indtægt indtægt);
 
         Indtægt UpdateIndtægt(Indtægt indtægt);
+
+        
     }
 }

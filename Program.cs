@@ -4,6 +4,7 @@ using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using LodSalgsSystemFDF.Services.ADOServices.ADOSalgService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddTransient<AdonetBørnegruppeService>();
 builder.Services.AddTransient<IBørnegruppeService, BørnegruppeService>();
 builder.Services.AddTransient<AdonetSalgService>();
 builder.Services.AddTransient<ISalgService,SalgService>();
+builder.Services.AddTransient<AdonetLederService>();
+builder.Services.AddTransient<ILederService, LederService>();
 
 var app = builder.Build();
 

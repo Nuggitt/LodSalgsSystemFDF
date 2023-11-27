@@ -1,4 +1,82 @@
 ﻿@page
 @model LodSalgsSystemFDF.Pages.Børns.GetBørnModel
 @{
+    ViewData["Title"] = "GetBørn";
 }
+
+
+<h1>Liste over alle Børn</h1>
+<p>
+    <a asp-page="/Salgs/Create">Opret nyt Barn</a>
+</p>
+
+<h4 style="color:red"> Listen over alle Børn</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Børn_ID
+            </th>
+            <th>
+                Navn
+            </th>
+            <th>
+                Adresse
+            </th>
+            <th>
+                Telefon
+            </th>
+            <th>
+                AntalSolgteLodsedler
+            </th>
+            <th>
+                Børnegruppe_ID
+            </th>
+            <th>
+                Slet Barn
+            </th>
+            <th>
+                Ret Barn
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Børns)
+            {
+                <tr>
+                    <td>
+                        @item.Børn_ID
+                    </td>
+                    <td>
+                        @item.Navn
+                    </td>
+                    <td>
+                        @item.Adresse
+                    </td>
+                    <td>
+                        @item.Telefon
+                    </td>
+                    <td>
+                        @item.AntalSolgteLodsedler
+                    </td>
+                    <td>
+                        @item.Børnegruppe_ID
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Børns/Delete" asp-route-id="@item.Børn_ID"> Slet dette salg  </a>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Børns/Update" asp-route-id="@item.Børn_ID"> Ret dette salg  </a>
+                        </p>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

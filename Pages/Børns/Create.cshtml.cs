@@ -11,7 +11,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
         private IBørnService _børnService;
 
         [BindProperty]
-        public Børn Børn { get; set; }
+        public Børn Børns { get; set; }
 
         public CreateModel(IBørnService børnService)
         {
@@ -24,7 +24,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
             {
                 return Page();
             }
-            Børn = _børnService.CreateBørn(Børn);
+            Børns = _børnService.CreateBørn(Børns);
             return RedirectToPage("GetBørn");
         }
     }

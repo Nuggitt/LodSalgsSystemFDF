@@ -13,7 +13,7 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         {
             _lederService = lederService;
         }
-
+        [BindProperty]
         public IEnumerable<Leder> Ledere { get; set; } = new List<Leder>();
         public void OnGet()
         {

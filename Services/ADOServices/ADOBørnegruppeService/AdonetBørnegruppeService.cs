@@ -139,5 +139,28 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             }
             return børnegruppe;
         }
+        public List<Børnegruppe> GetBørnegruppeByName(string name)
+        {
+            List<Børnegruppe> lstbørnegruppe = new List<Børnegruppe>();
+            Børnegruppe børnegruppe = new Børnegruppe();
+            string sql = "Select * from Børnegruppe Where Gruppenavn like @Gruppenavn";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Gruppenavn", name);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
+                        lstbørnegruppe.Add(børnegruppe);
+                    }
+                }
+                
+            }
+            return lstbørnegruppe;
+        } 
+
     }
 }

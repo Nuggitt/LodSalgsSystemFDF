@@ -55,7 +55,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
         {
             List<Børn> listbørn = new List<Børn>();
             Børn børn = new Børn();
-            string sql = "Select * FROM dbo.Salg WHERE Børn_ID = @Børn_ID";
+            string sql = "Select * FROM dbo.Børn WHERE Børn_ID = @Børn_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

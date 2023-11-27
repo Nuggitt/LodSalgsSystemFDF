@@ -4,7 +4,7 @@ using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 {
-    public class BørnService 
+    public class BørnService : IBørnService
     {
             private AdonetBørnService børnService;
 

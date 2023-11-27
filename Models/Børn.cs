@@ -20,7 +20,7 @@ namespace LodSalgsSystemFDF.Models
         public string Telefon { get; set; }
         [Required]
 
-        public int AntalSolgteLodsedler { get; set; }
+        public int AntalSolgteLodseddeler { get; set; }
         [Required]
 
         public int Børnegruppe_ID { get; set; }

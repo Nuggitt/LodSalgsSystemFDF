@@ -20,6 +20,9 @@ builder.Services.AddTransient<AdonetSalgService>();
 builder.Services.AddTransient<ISalgService,SalgService>();
 builder.Services.AddTransient<AdonetLederService>();
 builder.Services.AddTransient<ILederService, LederService>();
+builder.Services.AddTransient<AdonetBørnService>();
+builder.Services.AddTransient<IBørnService, BørnService>();
+
 
 var app = builder.Build();
 

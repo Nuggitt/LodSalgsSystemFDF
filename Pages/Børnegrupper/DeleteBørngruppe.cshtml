@@ -6,7 +6,7 @@
 
 <h1>Slet en børnegruppe</h1>
 
-<h3>Er du sikker på at du vil slette denne børnegruppe?</h3>
+<h3 style ="color:red">Er du sikker på at du vil slette denne børnegruppe?</h3>
 <div>
     <h4>Børnegruppe</h4>
     <hr />
@@ -22,10 +22,10 @@
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Børnegrupper.Børnegruppe_ID)
+                @Html.DisplayNameFor(model => model.Børnegrupper.Gruppenavn)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Børnegrupper.Børnegruppe_ID)
+                @Html.DisplayFor(model => model.Børnegrupper.Gruppenavn)
             </dd>
         </dl>
         <input type="hidden" asp-for="Børnegrupper.Børnegruppe_ID" />

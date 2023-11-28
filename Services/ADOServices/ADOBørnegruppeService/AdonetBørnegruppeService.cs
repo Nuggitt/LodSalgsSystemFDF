@@ -34,7 +34,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodSeddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
 
                         lstbørnegruppe.Add(børnegruppe);
                     }
@@ -47,7 +47,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         {
             List<Børnegruppe> børnegruppeList = new List<Børnegruppe>();
             Børnegruppe børnegruppe = new Børnegruppe();
-            string sql = "SELECT * Børnegruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+            string sql = "SELECT * FROM Børnegruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -64,7 +64,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(reader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(reader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodSeddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
                         børnegruppeList.Add(børnegruppe);
                         
                     }
@@ -76,7 +76,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe )
         {
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
-            string sql = "INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, AntalLodseddelerPrGruppe, AntalSolgteLodSeddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @AntalLodseddelerPrGruppe, @AntalSolgteLodSeddeler)";
+            string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddeler)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -88,8 +88,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn);
                     command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
                     command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
+                    command.Parameters.AddWithValue("@Leder_ID", børnegruppe.Leder_ID);
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
-                    command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodSeddeler);
+                    command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodseddeler);
 
                     børnegruppelist.Add(børnegruppe);
 
@@ -119,7 +120,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)
         {
-            string sql = "UPDATE Børnegruppe  Gruppenavn = @Gruppenavn, Lokale = @Lokale, AntalBørn = @AntalBørn, AntalLodseddelerPrGruppe = @AntalLodseddelerPrGruppe, AntalSolgteLodSeddeler = @AntalSolgteLodSeddeler WHERE Børnegruppe_ID = Børnegruppe_ID)";
+            string sql = "UPDATE dbo.Børnegruppe SET Gruppenavn = @Gruppenavn, Lokale = @Lokale, AntalBørn = @AntalBørn, AntalLodSeddelerPrGruppe = @AntalLodSeddelerPrGruppe, AntalSolgteLodseddeler = @AntalSolgteLodseddeler WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -132,7 +133,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
                     command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
-                    command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodSeddeler);
+                    command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børnegruppe.AntalSolgteLodseddeler);
 
                     int numberOfRowsAffected = command.ExecuteNonQuery();
                 }

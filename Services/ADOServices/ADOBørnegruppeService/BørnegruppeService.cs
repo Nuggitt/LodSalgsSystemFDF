@@ -32,5 +32,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         {
             return børnegruppeService.UpdateBørnegruppe(børnegruppe);
         }
+         public IEnumerable<Børnegruppe> GetBørnegruppeByName(string Name)
+        {
+            return børnegruppeService.GetBørnegruppeByName(Name);
+        }
+
     }
 }

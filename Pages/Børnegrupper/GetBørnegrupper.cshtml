@@ -8,6 +8,19 @@
 <p>
     <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
 </p>
+<head>
+    <title>Search Bar Example</title>
+</head>
+<body>
+
+    <form method="post" class="form-inline">
+        <div class="input-group mb-3">
+            <input asp-for="NameSearch" class="form-control mr-1" placeholder="Enter search term" />
+            <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+    
+</body>
 
 <h4 style="color:red"> List of Børnegrupper</h4>
 <table class="table">

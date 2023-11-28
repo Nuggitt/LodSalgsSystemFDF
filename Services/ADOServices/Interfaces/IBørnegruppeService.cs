@@ -9,5 +9,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe);
         Børnegruppe DeleteBørnegruppe(Børnegruppe børnegruppe);
         Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe);
+        IEnumerable<Børnegruppe> GetBørnegruppeByName(string Name);
     }
 }

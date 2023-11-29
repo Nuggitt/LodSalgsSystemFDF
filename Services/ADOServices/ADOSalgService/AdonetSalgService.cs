@@ -64,6 +64,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                     {
                         salg.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
                         salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
+                        salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
                         salg.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
                         salg.Dato = Convert.ToDateTime(reader["Dato"]);
                         salg.AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]);

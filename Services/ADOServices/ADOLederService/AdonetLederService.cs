@@ -130,7 +130,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         }
         public Leder UpdateLeder(Leder leder)
         {
-            string sql = "UPDATE Leder Leder_ID = @Leder_ID, Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, Email = @Email, ErLotteriBestyrer = @ErLotteriBestyrer, Børnegruppe_ID = @Børnegruppe_ID WHERE Leder_ID = Leder_ID)";
+            string sql = "UPDATE Leder Leder_ID = @Leder_ID, Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, Email = @Email, ErLotteriBestyrer = @ErLotteriBestyrer, Børnegruppe_ID = @Børnegruppe_ID WHERE Leder_ID = @Leder_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

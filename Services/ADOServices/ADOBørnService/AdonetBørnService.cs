@@ -129,7 +129,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
         public Børn UpdateBørn(Børn børn)
         {
-            string sql = "UPDATE SET Børn Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, AntalSolgteLodseddeler = @AntalSolgteLodseddeler, Børnegruppe_ID = @Børnegruppe_ID WHERE Børn_ID = Børn_ID)";
+            string sql = "UPDATE SET Børn Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, AntalSolgteLodseddeler = @AntalSolgteLodseddeler, Børnegruppe_ID = @Børnegruppe_ID WHERE Børn_ID = @Børn_ID)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

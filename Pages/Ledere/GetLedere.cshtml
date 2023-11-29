@@ -33,6 +33,12 @@
             <th>
                 Børnegruppe_ID
             </th>
+            <th>
+                Slet Leder
+            </th>
+            <th>
+                Ret Leder
+            </th>
         </tr>
     </head>
     <tbody>
@@ -65,12 +71,12 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Ledere/DeleteLeder" asp-route-id="@item.Leder_ID"> Slet denne leder  </a>
+                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> Slet denne leder  </a>
                         </p>
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Ledere/UpdateLeder" asp-route-id="@item.Leder_ID"> Ret denne leder  </a>
+                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> Ret denne leder  </a>
                         </p>
                     </td>
                 </tr>

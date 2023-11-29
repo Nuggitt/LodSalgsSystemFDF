@@ -1,0 +1,99 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Børnegrupper.GetBørnegruppeModel
+@{
+    ViewData["Title"] = "GetBørnegrupper";
+}
+
+<h1>Liste over alle børnegrupper</h1>
+<p>
+    <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
+</p>
+<head>
+    <title>Search Bar Example</title>
+</head>
+<body>
+
+    <form method="post" class="form-inline">
+        <div class="input-group mb-3">
+            <input asp-for="NameSearch" class="form-control mr-1" placeholder="Enter search term" />
+            <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+    
+</body>
+
+<h4 style="color:red"> List of Børnegrupper</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Børnegruppe_ID
+            </th>
+            <th>
+                Gruppenavn
+            </th>
+            <th>
+                Lokale
+            </th>
+            <th>
+                AntalBørn
+            </th>
+            <th>
+                LederID
+            </th>
+            <th>
+                Antal lodseddeler pr.gruppe
+            </th>
+            <th>
+                Antal solgte lodseddeler pr. gruppe
+            </th>
+            <th>
+                Slet børnegruppe
+            </th>
+            <th>
+                Opdater børnegruppe
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Børnegrupper)
+            {
+                <tr>
+                    <td>
+                        @item.Børnegruppe_ID
+                    </td>
+                    <td>
+                        @item.Gruppenavn
+                    </td>
+                    <td>
+                        @item.Lokale
+                    </td>
+                    <td>
+                        @item.Antalbørn
+                    </td>
+                    <td>
+                        @item.Leder_ID
+                    </td>
+                    <td>
+                        @item.AntalLodSeddelerPrGruppe
+                    </td>
+                    <td>
+                        @item.AntalSolgteLodseddeler
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Børnegrupper/DeleteBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Slet børnegruppen  </a>
+                        </p>
+                    </td>
+                    <td>
+                            <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Ret børnegruppen  </a>
+                    </td>
+                    
+                </tr>
+            }
+        }
+    </tbody>
+</table>

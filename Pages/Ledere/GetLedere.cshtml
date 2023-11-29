@@ -1,0 +1,86 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Ledere.GetLedereModel
+@{
+    ViewData["Title"] = "GetLedere";
+}
+
+<h1>Liste over ledere</h1>
+<p>
+    <a asp-page="/Ledere/CreateLeder">Opret ny leder</a>
+</p>
+<h4 style="color:red"> Liste af ledere</h4>
+<table class="table">
+    <head>
+        <tr>
+            <th>
+                Leder_ID
+            </th>
+            <th>
+                Leder navn
+            </th>
+            <th>
+                Adresse
+            </th>
+            <th>
+                Telefon
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Er Lotteri Bestyrer
+            </th>
+            <th>
+                Børnegruppe_ID
+            </th>
+            <th>
+                Slet Leder
+            </th>
+            <th>
+                Ret Leder
+            </th>
+        </tr>
+    </head>
+    <tbody>
+
+        @if (Model != null)
+        {
+            @foreach (var item in Model.Ledere)
+            {
+                <tr>
+                    <td>
+                        @item.Leder_ID
+                    </td>
+                    <td>
+                        @item.Navn
+                    </td>
+                    <td>
+                        @item.Adresse
+                    </td>
+                    <td>
+                        @item.Telefon
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.ErLotteriBestyrer
+                    </td>
+                    <td>
+                        @item.Børnegruppe_ID
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> Slet denne leder  </a>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> Ret denne leder  </a>
+                        </p>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

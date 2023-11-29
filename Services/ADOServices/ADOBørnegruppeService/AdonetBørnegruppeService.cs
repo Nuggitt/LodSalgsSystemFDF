@@ -154,7 +154,13 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                 {
                     while (reader.Read())
                     {
+                        børnegruppe.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
                         børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
+                        børnegruppe.Lokale = Convert.ToString(reader["Lokale"]);
+                        børnegruppe.Antalbørn = Convert.ToInt32(reader["AntalBørn"]);
+                        børnegruppe.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
+                        børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(reader["AntalLodSeddelerPrGruppe"]);
+                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
                         lstbørnegruppe.Add(børnegruppe);
                     }
                 }

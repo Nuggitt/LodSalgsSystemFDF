@@ -8,11 +8,17 @@ namespace LodSalgsSystemFDF.Models
     {
         [Key]
         [Required]
-        public int Indtægt_ID { get; set; }          
-        [Required]
+        public int Indtægt_ID { get; set; }
+
+        [ForeignKey("Salg_ID")]
         public int Salg_ID { get; set; }
 
+        // Navigation property
+        public virtual Salg Salg { get; set; }
+        public virtual Børn Børn { get; set; }
+        public virtual Børnegruppe Børnegruppe { get; set; }
 
 
+        // Other properties...
     }
 }

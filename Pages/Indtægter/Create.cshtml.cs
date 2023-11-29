@@ -19,10 +19,10 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
             Indtægt = _indtægtService.CreateIndtægt(Indtægt);
             return RedirectToPage("GetIndtægter");
         }

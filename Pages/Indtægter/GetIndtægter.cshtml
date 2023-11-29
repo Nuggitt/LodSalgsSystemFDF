@@ -20,6 +20,33 @@
                 Salg_ID
             </th>
             <th>
+                Dato
+            </th>
+            <th>
+                Børn_ID
+            </th>
+            <th>
+                Børnegruppe_ID
+            </th>
+            <th>
+                Gruppenavn
+            </th>
+            <th>
+                Navn
+            </th>
+            <th>
+                Adresse
+            </th>
+            <th>
+                Telefon
+            </th>
+            <th>
+                Antal Solgte Lodsedeler 
+            </th>
+            <th>
+                Solgte Lodsedeler for gruppen
+            </th>
+            <th>
                 Slet indtægt
             </th>
             <th>
@@ -40,6 +67,33 @@
                     
                     <td>
                         @item.Salg_ID
+                    </td>
+                    <td>
+                        @item.Salg.Dato
+                    </td>
+                    <td>
+                        @item.Børn.Børn_ID
+                    </td>
+                    <td>
+                        @item.Børnegruppe.Børnegruppe_ID
+                    </td>
+                    <td>
+                        @item.Børnegruppe.Gruppenavn
+                    </td>
+                    <td>
+                        @item.Børn.Navn
+                    </td>
+                    <td>
+                        @item.Børn.Adresse
+                    </td>
+                    <td>
+                        @item.Børn.Telefon
+                    </td>
+                    <td>
+                        @item.Børn.AntalSolgteLodseddeler
+                    </td>
+                    <td>
+                        @item.Børnegruppe.AntalSolgteLodseddeler
                     </td>
                     <td>
                         <p>

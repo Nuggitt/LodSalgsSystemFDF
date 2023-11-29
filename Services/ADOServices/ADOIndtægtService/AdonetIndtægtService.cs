@@ -29,7 +29,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                     while (reader.Read())
                     {
                         Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);                     
+                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
                         indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
 
                         indtægtList.Add(indtægt);
@@ -40,6 +40,43 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             }
             return indtægtList;
         }
+
+        //public List<Indtægt> GetAllIndtægter()
+        //{
+        //    List<Indtægt> indtægtList = new List<Indtægt>();
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+        //        string sql = "Select Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn,  Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddeler  FROM Indtægt\r\njoin Salg on Indtægt.Salg_ID = Salg.Salg_ID\r\njoin Børn on Salg.Salg_ID = Børn.Børn_ID\r\njoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID";
+        //        SqlCommand command = new SqlCommand(sql, connection);
+        //        using (SqlDataReader reader = command.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+
+        //                Indtægt indtægt = new Indtægt();
+        //                Salg salg = new Salg();
+        //                indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                salg.Dato = Convert.ToDateTime(reader["Dato"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+
+        //                indtægtList.Add(indtægt);
+
+
+        //            }
+        //        }
+        //    }
+        //    return indtægtList;
+        //}
 
         public Indtægt GetIndtægtById(int id)
         {

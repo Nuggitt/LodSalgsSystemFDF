@@ -17,7 +17,6 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Leder.Leder_ID)
-
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Leder.Navn)
@@ -40,7 +39,10 @@
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Leder.Email)
             </dt>
-            <dd class="col-sm-10">
+            <dt class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.Email)
+            </dt>
+            <dd class="col-sm-2">
                 @Html.DisplayFor(model => model.Leder.ErLotteriBestyrer)
             </dd>
             <dd class="col-sm-10">

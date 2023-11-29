@@ -29,5 +29,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         {
             return _lederService.GetLederByID(Leder_ID);
         }
+        public Leder UpdateLeder(Leder leder)
+        {
+            return _lederService.UpdateLeder(leder);
+        }
     }
 }

@@ -128,5 +128,28 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
             }
             return leder;
         }
+        public Leder UpdateLeder(Leder leder)
+        {
+            string sql = "UPDATE Leder Leder_ID = @Leder_ID, Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, Email = @Email, ErLotteriBestyrer = @ErLotteriBestyrer, Børnegruppe_ID = @Børnegruppe_ID WHERE Leder_ID = Leder_ID)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
+                    command.Parameters.AddWithValue("@Navn", leder.Navn);
+                    command.Parameters.AddWithValue("@Adresse", leder.Adresse);
+                    command.Parameters.AddWithValue("@Telefon", leder.Telefon);
+                    command.Parameters.AddWithValue("@Email", leder.Email);
+                    command.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return leder;
+        }
     }
 }

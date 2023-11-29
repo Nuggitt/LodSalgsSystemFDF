@@ -3,3 +3,60 @@
 @{
     ViewData["Title"] = "DeleteLedere";
 }
+<h1>Slet en leder</h1>
+
+<h3>Er du sikker på at du vil slette denne leder?</h3>
+<div>
+    <h4>Leder</h4>
+    <hr />
+    <form method="post">
+        <dl class="row">
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Leder.Leder_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.Leder_ID)
+
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Leder.Navn)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.Navn)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Leder.Adresse)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.Adresse)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Leder.Telefon)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.Telefon)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Leder.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.ErLotteriBestyrer)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.ErLotteriBestyrer)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Leder.Børnegruppe_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Leder.Børnegruppe_ID)
+            </dd>
+        </dl>
+
+
+        <input type="hidden" asp-for="Leder.Leder_ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-page="/Ledere/GetLedere">Klik Her for at vende tilbage til listen af ledere</a>
+    </form>
+</div>

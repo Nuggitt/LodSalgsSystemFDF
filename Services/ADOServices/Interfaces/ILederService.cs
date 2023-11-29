@@ -8,5 +8,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Leder CreateLeder(Leder leder);
         Leder DeleteLeder(Leder leder);
         Leder GetLederByID(int Leder_ID);
+        Leder UpdateLeder(Leder leder);
     }
 }

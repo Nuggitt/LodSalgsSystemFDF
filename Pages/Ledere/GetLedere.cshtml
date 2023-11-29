@@ -5,7 +5,9 @@
 }
 
 <h1>Liste over ledere</h1>
-
+<p>
+    <a asp-page="/Ledere/CreateLeder">Opret ny leder</a>
+</p>
 <h4 style="color:red"> Liste af ledere</h4>
 <table class="table">
     <head>
@@ -60,6 +62,16 @@
                     </td>
                     <td>
                         @item.Børnegruppe_ID
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Ledere/DeleteLeder" asp-route-id="@item.Leder_ID"> Slet denne leder  </a>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <a asp-page="/Ledere/UpdateLeder" asp-route-id="@item.Leder_ID"> Ret denne leder  </a>
+                        </p>
                     </td>
                 </tr>
             }

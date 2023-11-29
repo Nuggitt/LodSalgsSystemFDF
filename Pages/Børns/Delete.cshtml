@@ -1,0 +1,60 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Børns.DeleteModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Slet et Barn</h1>
+
+<h3>Er du sikker på at du vil slette dette barn?</h3>
+<div>
+    <h4>Børn</h4>
+    <hr />
+    <form method="post">
+        <dl class="row">
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Børn.Børn_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Børn.Børn_ID)
+
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Børn.Navn)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Børn.Navn)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Børn.Adresse)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Børn.Adresse)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Børn.Telefon)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Børn.Telefon)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Børn.AntalSolgteLodseddeler)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Børn.AntalSolgteLodseddeler)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Børn.Børnegruppe_ID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Børn.Børnegruppe_ID)
+            </dd>
+        </dl>
+
+
+        <input type="hidden" asp-for="Børn.Børn_ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-page="/Børn/Getbørn">Klik Her for at vende tilbage til liste af børn</a>
+    </form>
+</div>

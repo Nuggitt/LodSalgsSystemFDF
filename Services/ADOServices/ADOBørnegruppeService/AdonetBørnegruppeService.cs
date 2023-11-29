@@ -34,7 +34,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodSeddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
 
                         lstbørnegruppe.Add(børnegruppe);
                     }
@@ -42,6 +42,126 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             }
             return lstbørnegruppe;
         }
+
+        public Børnegruppe GetBørnegruppeById(int id)
+        {
+            List<Børnegruppe> børnegruppeList = new List<Børnegruppe>();
+            Børnegruppe børnegruppe = new Børnegruppe();
+            string sql = "SELECT * FROM Børnegruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Børnegruppe_ID", id);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        børnegruppe.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                        børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
+                        børnegruppe.Lokale = Convert.ToString(reader["Lokale"]);
+                        børnegruppe.Antalbørn = Convert.ToInt32(reader["AntalBørn"]);
+                        børnegruppe.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
+                        børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(reader["AntalLodSeddelerPrGruppe"]);
+                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
+                        børnegruppeList.Add(børnegruppe);
+                        
+                    }
+                }
+            }
+            return børnegruppe;
+        }
+
+        public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe )
+        {
+            List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
+            string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddeler)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Børnegruppe_ID",børnegruppe.Børnegruppe_ID );
+                    command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn);
+                    command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
+                    command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
+                    command.Parameters.AddWithValue("@Leder_ID", børnegruppe.Leder_ID);
+                    command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
+                    command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodseddeler);
+
+                    børnegruppelist.Add(børnegruppe);
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return børnegruppe;
+        }
+
+        public Børnegruppe DeleteBørnegruppe(Børnegruppe børnegruppe)
+        {
+            List<Børnegruppe> børnelist = new List<Børnegruppe>();
+            string sql = "DELETE FROM Børnegruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+
+            using SqlConnection connection = new SqlConnection(connectionString);
+
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                command.Parameters.AddWithValue("@Børnegruppe_ID", børnegruppe.Børnegruppe_ID);
+
+                int numberOfRowsAffected = command.ExecuteNonQuery();
+            }
+            return børnegruppe;
+        }
+
+        public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)
+        {
+            string sql = "UPDATE dbo.Børnegruppe SET Gruppenavn = @Gruppenavn, Lokale = @Lokale, AntalBørn = @AntalBørn, AntalLodSeddelerPrGruppe = @AntalLodSeddelerPrGruppe, AntalSolgteLodseddeler = @AntalSolgteLodseddeler WHERE Børnegruppe_ID = @Børnegruppe_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", børnegruppe.Børnegruppe_ID);
+                    command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn);
+                    command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
+                    command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
+                    command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
+                    command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børnegruppe.AntalSolgteLodseddeler);
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return børnegruppe;
+        }
+        public List<Børnegruppe> GetBørnegruppeByName(string name)
+        {
+            List<Børnegruppe> lstbørnegruppe = new List<Børnegruppe>();
+            Børnegruppe børnegruppe = new Børnegruppe();
+            string sql = "Select * from Børnegruppe Where Gruppenavn like @Gruppenavn";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Gruppenavn", name);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
+                        lstbørnegruppe.Add(børnegruppe);
+                    }
+                }
+                
+            }
+            return lstbørnegruppe;
+        } 
 
     }
 }

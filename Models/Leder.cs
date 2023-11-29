@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
         public partial class Leder
         {
             [Key]
+            [Required]
             public int Leder_ID { get; set; }
             [Required]
             [StringLength(30)]

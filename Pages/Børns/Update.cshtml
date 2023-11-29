@@ -1,0 +1,56 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Børns.UpdateModel
+@{
+}
+<h1>Ret Barnet</h1>
+
+<h3>Er du sikker på du vil rette dette Barn?</h3>
+<div>
+    <h4>Børn</h4>
+    <hr />
+    <form method="post">
+
+
+        <div class="form-group">
+            <label asp-for="@Model.Børn.Børn_ID" class="control-label"></label>
+            <input asp-for="@Model.Børn.Børn_ID" class="form-control" />
+            <span asp-validation-for="@Model.Børn.Børn_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Børn.Navn" class="control-label"></label>
+            <input asp-for="@Model.Børn.Navn" class="form-control" />
+            <span asp-validation-for="@Model.Børn.Navn" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Børn.Adresse" class="control-label"></label>
+            <input asp-for="@Model.Børn.Adresse" class="form-control" />
+            <span asp-validation-for="@Model.Børn.Adresse" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Børn.Telefon" class="control-label"></label>
+            <input asp-for="@Model.Børn.Telefon" class="form-control" />
+            <span asp-validation-for="@Model.Børn.Telefon" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Børn.AntalSolgteLodseddeler" class="control-label"></label>
+            <input asp-for="@Model.Børn.AntalSolgteLodseddeler" class="form-control" />
+            <span asp-validation-for="@Model.Børn.AntalSolgteLodseddeler" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Børn.Børnegruppe_ID" class="control-label"></label>
+            <input asp-for="@Model.Børn.Børnegruppe_ID" class="form-control" />
+            <span asp-validation-for="@Model.Børn.Børnegruppe_ID" class="text-danger"></span>
+        </div>
+
+
+
+        <input type="hidden" asp-for="Børn.Børn_ID" />
+        <input type="submit" value="Update" class="btn btn-danger" />
+        <a asp-page="/Børn/Getbørn">Tilbage til listen af børn</a>
+    </form>
+</div>

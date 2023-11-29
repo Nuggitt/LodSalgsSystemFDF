@@ -9,13 +9,18 @@ namespace LodSalgsSystemFDF.Models
         [Key]
         public int Børnegruppe_ID { get; set; }
         [Required]
-        [StringLength(30)]
+        [StringLength(50)]
         public string Gruppenavn { get; set; }
         [Required]
+        [StringLength(50)]
         public string Lokale { get; set; }
+        [Required]
         public int Antalbørn { get; set; }
+        [Required]
         public int Leder_ID { get; set; }
+        [Required]
         public int AntalLodSeddelerPrGruppe { get; set; }
-        public int AntalSolgteLodSeddeler {  get; set; }
+        [Required]
+        public int AntalSolgteLodseddeler {  get; set; }
     }
 }

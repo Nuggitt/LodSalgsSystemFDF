@@ -24,6 +24,12 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="@Model.Salg.Børnegruppe_ID" class="control-label"></label>
+            <input asp-for="@Model.Salg.Børnegruppe_ID" class="form-control" />
+            <span asp-validation-for="@Model.Salg.Børnegruppe_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
             <label asp-for="@Model.Salg.Leder_ID" class="control-label"></label>
             <input asp-for="@Model.Salg.Leder_ID" class="form-control" />
             <span asp-validation-for="@Model.Salg.Leder_ID" class="text-danger"></span>
@@ -42,9 +48,9 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="@Model.Salg.AntalSolgteLodSeddelerPrSalg" class="control-label"></label>
-            <input asp-for="@Model.Salg.AntalSolgteLodSeddelerPrSalg" class="form-control" />
-            <span asp-validation-for="@Model.Salg.AntalSolgteLodSeddelerPrSalg" class="text-danger"></span>
+            <label asp-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="control-label"></label>
+            <input asp-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="form-control" />
+            <span asp-validation-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="text-danger"></span>
         </div>
 
         <div class="form-group">

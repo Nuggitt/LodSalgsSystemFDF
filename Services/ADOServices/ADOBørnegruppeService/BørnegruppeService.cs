@@ -6,17 +6,17 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
     public class BørnegruppeService : IBørnegruppeService
     {
         private AdonetBørnegruppeService børnegruppeService;
-        public IEnumerable<Børnegruppe> GetBørnegruppe()
+        public async Task<IEnumerable<Børnegruppe>> GetBørnegruppeAsync()
         {
-            return børnegruppeService.GetAllBørnegruppe();
+            return await børnegruppeService.GetAllBørnegruppeAsync();
         }
         public BørnegruppeService(AdonetBørnegruppeService service)
         {
             børnegruppeService = service;
         }
-        public Børnegruppe GetBørnegruppeId(int id)
+        public async Task<Børnegruppe> GetBørnegruppeIdAsync(int id)
         {
-            return børnegruppeService.GetBørnegruppeById(id);
+            return await børnegruppeService.GetBørnegruppeById(id);
         }
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe)
         {

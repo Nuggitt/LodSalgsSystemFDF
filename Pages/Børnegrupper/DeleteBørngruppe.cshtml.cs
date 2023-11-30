@@ -15,9 +15,10 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         {
             IBS = børnegruppeService;
         }
-        public void OnGet(int id)
+        public async Task OnGetAsync(int id)
         {
-            Børnegrupper = IBS.GetBørnegruppeId(id);
+                Børnegrupper = await IBS.GetBørnegruppeIdAsync(id) /*?? new Børnegruppe()*/;
+            
         }
         public IActionResult OnPost() 
         {

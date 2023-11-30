@@ -35,7 +35,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                         leder.Email = Convert.ToString(dataReader["Email"]);
                         leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
                         leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        
+
                         lederList.Add(leder);
 
 
@@ -150,6 +150,34 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 }
             }
             return leder;
+        }
+        public List<Leder> GetLederByName(string Navn)
+        {
+            List<Leder> lederListS = new List<Leder>();
+            Leder leder = new Leder();
+            string sql = "SELECT * FROM Leder WHERE Navn LIKE @Navn";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Navn", Navn);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        leder.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
+                        leder.Navn = Convert.ToString(reader["Navn"]);
+                        leder.Adresse = Convert.ToString(reader["Adresse"]);
+                        leder.Telefon = Convert.ToString(reader["Telefon"]);
+                        leder.Email = Convert.ToString(reader["Email"]);
+                        leder.ErLotteriBestyrer = Convert.ToBoolean(reader["ErLotteriBestyrer"]);
+                        leder.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                        lederListS.Add(leder);
+                    }
+                }
+
+            }
+            return lederListS;
         }
     }
 }

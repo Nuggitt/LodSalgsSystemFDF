@@ -45,7 +45,7 @@ namespace LodSalgsSystemFDF.Pages.LogIn
                     LoggedInBruger = bruger;
 
                     var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
-
+                    if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                     return RedirectToPage("/Index");

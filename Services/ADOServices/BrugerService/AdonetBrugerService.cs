@@ -41,5 +41,26 @@ namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
             }
             return brugerList;
         }
+
+        public Bruger AddBruger(Bruger bruger)
+        {
+            List<Bruger> brugerList = new List<Bruger>();
+            string sql = "INSERT INTO dbo.Bruger (BrugerNavn, Password) VALUES(@BrugerNavn, @Password)";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@BrugerNavn", bruger.BrugerNavn);
+                    command.Parameters.AddWithValue("@Password", bruger.Password);
+                    brugerList.Add(bruger);
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return bruger;
+        }
     }
 }

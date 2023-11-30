@@ -15,5 +15,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
             Bruger = _adonetBrugerService.GetAllBrugere();
 
         }
+
+        public Bruger AddBruger(Bruger bruger)
+        {
+            return _adonetBrugerService.AddBruger(bruger);
+        }
     }
 }

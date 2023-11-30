@@ -48,7 +48,7 @@ namespace LodSalgsSystemFDF.Pages.LogIn
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    return RedirectToPage("/Børnegrupper/GetBørnegrupper");
+                    return RedirectToPage("/Index");
 
                 }
 

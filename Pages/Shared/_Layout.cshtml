@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using LodSalgsSystemFDF.Pages.LogIn;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,7 +18,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
@@ -43,6 +44,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @{
+                            if (LogInPageModel.LoggedInBruger == null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-black" asp-area="" asp-page="/LogIn/LogInPage">Login</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item nav-link text-black me-3">
+                                    User: @LogInPageModel.LoggedInBruger.BrugerNavn
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-black" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

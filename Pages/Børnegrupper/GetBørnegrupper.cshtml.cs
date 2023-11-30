@@ -1,11 +1,13 @@
 using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography.X509Certificates;
 
 namespace LodSalgsSystemFDF.Pages.Børnegrupper
 {
+    [Authorize]
     public class GetBørnegruppeModel : PageModel
     {
         private IBørnegruppeService _IB;

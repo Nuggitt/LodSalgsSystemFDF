@@ -1,10 +1,12 @@
 using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LodSalgsSystemFDF.Pages.Ledere
 {
+    [Authorize]
     public class GetLedereModel : PageModel
     {
         private ILederService _lederService;

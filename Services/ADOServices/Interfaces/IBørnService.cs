@@ -11,5 +11,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Børn CreateBørn(Børn børn);
         Børn UpdateBørn(Børn børn);
         Børn DeleteBørn(Børn børn);
+
+        IEnumerable<Børn> GetAllBørnDescending();
     }
 }

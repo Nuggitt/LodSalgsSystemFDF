@@ -19,5 +19,11 @@ namespace LodSalgsSystemFDF.Pages.Børns
         {
             Børns = _børnService.GetBørn();
         }
+
+        public void OnGetDescending()
+        {
+            Børns = _børnService.GetAllBørnDescending();
+        }
+
     }
 }

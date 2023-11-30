@@ -38,6 +38,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.UpdateBørn(børn);
         }
 
+        public IEnumerable<Børn> GetAllBørnDescending()
+        {
+            return _børnService.GetAllBørnDescending();
+        }
 
     }
 }

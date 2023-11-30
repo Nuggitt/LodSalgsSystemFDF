@@ -8,6 +8,9 @@ namespace LodSalgsSystemFDF.Pages.Ledere
     public class GetLedereModel : PageModel
     {
         private ILederService _lederService;
+        [BindProperty]
+        public string LederSearch { get; set; }
+
 
         public GetLedereModel(ILederService lederService)
         {
@@ -18,6 +21,11 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         public void OnGet()
         {
             Ledere = _lederService.GetLeder();
+        }
+        public IActionResult OnPostLederByName()
+        {
+            Ledere = _lederService.GetLederByName(LederSearch);
+            return Page();
         }
     }
 }

@@ -9,5 +9,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Leder DeleteLeder(Leder leder);
         Leder GetLederByID(int Leder_ID);
         Leder UpdateLeder(Leder leder);
+        IEnumerable<Leder> GetLederByName(string Navn);
+
     }
 }

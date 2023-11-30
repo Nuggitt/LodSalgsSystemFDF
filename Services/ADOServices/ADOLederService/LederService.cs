@@ -33,5 +33,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         {
             return _lederService.UpdateLeder(leder);
         }
+        public IEnumerable<Leder> GetLederByName(string Navn)
+        {
+            return _lederService.GetLederByName(Navn);
+        }
     }
 }

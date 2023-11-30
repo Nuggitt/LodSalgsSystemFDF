@@ -20,9 +20,9 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
 
        public IEnumerable<Børnegruppe> Børnegrupper  { get; set; } = new List<Børnegruppe>();
        
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Børnegrupper = _IB.GetBørnegruppe();
+            Børnegrupper = await _IB.GetBørnegruppeAsync();
         }
         public IActionResult OnPostBørnegruppeByName() 
         {

@@ -14,18 +14,18 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             configuration = config;
             connectionString = configuration.GetConnectionString("Datacraft.dk");
         }
-        public List<Børnegruppe> GetAllBørnegruppe()
+        public async Task<List<Børnegruppe>> GetAllBørnegruppeAsync()
         {
             //IEnumerable<Børnegruppe> lstbørnegruppe = new IEnumerable<Børnegruppe>();
             List<Børnegruppe> lstbørnegruppe = new List<Børnegruppe>();
             string sql = "Select * from Børnegruppe";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand(sql, connection);
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
-                    while (dataReader.Read())
+                    while (await dataReader.ReadAsync())
                     {
                         Børnegruppe børnegruppe = new Børnegruppe();
                         børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
@@ -43,7 +43,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             return lstbørnegruppe;
         }
 
-        public Børnegruppe GetBørnegruppeById(int id)
+        public async  Task<Børnegruppe> GetBørnegruppeById(int id)
         {
             List<Børnegruppe> børnegruppeList = new List<Børnegruppe>();
             Børnegruppe børnegruppe = new Børnegruppe();
@@ -53,10 +53,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             {
                 SqlCommand command = new SqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@Børnegruppe_ID", id);
-                connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
+                await connection.OpenAsync();
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         børnegruppe.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
                         børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);

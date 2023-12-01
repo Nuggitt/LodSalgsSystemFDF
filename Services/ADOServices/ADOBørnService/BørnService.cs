@@ -38,10 +38,47 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.UpdateBørn(børn);
         }
 
-        public IEnumerable<Børn> GetAllBørnDescending()
+        public IEnumerable<Børn> GetAllBørnNavnDescending()
         {
-            return _børnService.GetAllBørnDescending();
+            return _børnService.GetAllBørnNavnDescending();
         }
+
+        public IEnumerable<Børn> GetAllBørnIDDescending()
+        {
+            return _børnService.GetAllBørnIDDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerDescending()
+        {
+            return _børnService.GetAllBørnAntalSolgteLodseddelerDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnGruppeIDDescending()
+        {
+            return _børnService.GetAllBørnGruppeIDDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnNavnAscending()
+        {
+            return _børnService.GetAllBørnNavnAscending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnIDAscending()
+        {
+            return _børnService.GetAllBørnIDAscending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerAscending()
+        {
+            return _børnService.GetAllBørnAntalSolgteLodseddelerAscending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnGruppeIDAscending()
+        {
+            return _børnService.GetAllBørnGruppeIDAscending();
+        }
+
+
 
     }
 }

@@ -2,9 +2,8 @@
 {
     public class NegativeAmountExceptioncs : Exception
     {
-        public NegativeAmountExceptioncs()
+        public NegativeAmountExceptioncs(string message) : base(message)
         {
-
         }
     }
 }

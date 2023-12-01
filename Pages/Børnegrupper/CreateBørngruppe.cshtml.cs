@@ -16,6 +16,23 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         {
             _børnegruppeservice = børnegruppeService;
         }
+        //Exception
+        //public class DuplicatedBørnegruppeIdException : Exception
+        //{
+        //    public DuplicatedBørnegruppeIdException()
+        //    {
+        //    }
+
+        //    public DuplicatedBørnegruppeIdException(string message)
+        //        : base(message)
+        //    {
+        //    }
+
+        //    public DuplicatedBørnegruppeIdException(string message, Exception innerException)
+        //        : base(message, innerException)
+        //    {
+        //    }
+        //}
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
@@ -26,5 +43,24 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
             return RedirectToPage("GetBørnegrupper");
 
         }
+        //public IActionResult OnPost()
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Page();
+        //    }
+
+        //    try
+        //    {
+        //        // Try to create the Børnegruppe
+        //        Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
+        //        return RedirectToPage("GetBørnegrupper");
+        //    }
+        //    catch (DuplicatedBørnegruppeIdException ex)
+        //    {
+        //        ModelState.AddModelError("Børnegrupper.Børnegruppe_ID", ex.Message);
+        //        return Page();
+        //    }
+        //}
     }
 }

@@ -59,6 +59,13 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                 {
                     while (await reader.ReadAsync())
                     {
+                        //if (børnegruppe.Børnegruppe_ID < 0)
+                        //{
+                        //    try
+                        //    {
+
+                        //    }
+                        //}
                         børnegruppe.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
                         børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
                         børnegruppe.Lokale = Convert.ToString(reader["Lokale"]);

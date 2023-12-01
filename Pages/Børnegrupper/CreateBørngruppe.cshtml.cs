@@ -1,4 +1,5 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -35,12 +36,26 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         //}
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                return RedirectToPage("GetBørnegrupper");
+            }
+            catch (NegativeAmountExceptioncs ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
             }
-            Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
-            return RedirectToPage("GetBørnegrupper");
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+            //Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
+            //return RedirectToPage("GetBørnegrupper");
 
         }
         //public IActionResult OnPost()

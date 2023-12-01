@@ -20,9 +20,44 @@ namespace LodSalgsSystemFDF.Pages.Børns
             Børns = _børnService.GetBørn();
         }
 
-        public void OnGetDescending()
+        public void OnGetNavnDescending()
         {
-            Børns = _børnService.GetAllBørnDescending();
+            Børns = _børnService.GetAllBørnNavnDescending();
+        }
+
+        public void OnGetIDDescending()
+        {
+            Børns = _børnService.GetAllBørnIDDescending();
+        }
+
+        public void OnGetAntalSolgteLodseddelerDescending()
+        {
+            Børns = _børnService.GetAllBørnAntalSolgteLodseddelerDescending();
+        }
+
+        public void OnGetGruppeIDDescending()
+        {
+            Børns = _børnService.GetAllBørnGruppeIDDescending();
+        }
+
+        public void OnGetNavnAscending()
+        {
+            Børns = _børnService.GetAllBørnNavnAscending();
+        }
+
+        public void OnGetIDAscending()
+        {
+            Børns = _børnService.GetAllBørnIDAscending();
+        }
+
+        public void OnGetAntalSolgteLodseddelerAscending()
+        {
+            Børns = _børnService.GetAllBørnAntalSolgteLodseddelerAscending();
+        }
+
+        public void OnGetGruppeIDAscending()
+        {
+            Børns = _børnService.GetAllBørnGruppeIDAscending();
         }
 
     }

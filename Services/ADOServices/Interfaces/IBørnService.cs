@@ -12,6 +12,15 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Børn UpdateBørn(Børn børn);
         Børn DeleteBørn(Børn børn);
 
-        IEnumerable<Børn> GetAllBørnDescending();
+        IEnumerable<Børn> GetAllBørnNavnDescending();
+        IEnumerable<Børn> GetAllBørnIDDescending();
+        IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerDescending();
+        IEnumerable<Børn> GetAllBørnGruppeIDDescending();
+
+        IEnumerable<Børn> GetAllBørnNavnAscending();
+        IEnumerable<Børn> GetAllBørnIDAscending();
+        IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerAscending();
+        IEnumerable<Børn> GetAllBørnGruppeIDAscending();
+
     }
 }

@@ -152,7 +152,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
 
 
-        public List<Børn> GetAllBørnDescending()
+        public List<Børn> GetAllBørnNavnDescending()
         {
             List<Børn> listbørn = new List<Børn>();
             string sql = "SELECT * FROM Børn ORDER BY Navn DESC";
@@ -181,6 +181,217 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
             return listbørn;
         }
+
+        public List<Børn> GetAllBørnIDDescending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY Børn_ID DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
+        public List<Børn> GetAllBørnAntalSolgteLodseddelerDescending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY AntalSolgteLodseddeler DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
+        public List<Børn> GetAllBørnGruppeIDDescending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY Børnegruppe_ID DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
+        public List<Børn> GetAllBørnNavnAscending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY Navn ASC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
+        public List<Børn> GetAllBørnIDAscending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY Børn_ID ASC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
+        public List<Børn> GetAllBørnAntalSolgteLodseddelerAscending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY AntalSolgteLodseddeler ASC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
+        public List<Børn> GetAllBørnGruppeIDAscending()
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "SELECT * FROM Børn ORDER BY Børnegruppe_ID ASC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+                    }
+                }
+            }
+
+            return listbørn;
+        }
+
     }
 
 

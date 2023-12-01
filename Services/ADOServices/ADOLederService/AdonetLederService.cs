@@ -15,17 +15,17 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
             configuration = config;
             connectionString = configuration.GetConnectionString("Datacraft.dk");
         }
-        public List<Leder> GetAllLeder()
+        public async Task<List<Leder>> GetAllLederAsync()
         {
             List<Leder> lederList = new List<Leder>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 string sql = "SELECT * FROM Leder";
                 SqlCommand command = new SqlCommand(sql, connection);
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
-                    while (dataReader.Read())
+                    while (await dataReader.ReadAsync())
                     {
                         Leder leder = new Leder();
                         leder.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);

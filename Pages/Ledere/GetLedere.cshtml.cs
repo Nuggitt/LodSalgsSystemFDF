@@ -18,9 +18,9 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         }
         [BindProperty]
         public IEnumerable<Leder> Ledere { get; set; } = new List<Leder>();
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Ledere = _lederService.GetLeder();
+            Ledere = await _lederService.GetLederAsync();
         }
         public IActionResult OnPostLederByName()
         {

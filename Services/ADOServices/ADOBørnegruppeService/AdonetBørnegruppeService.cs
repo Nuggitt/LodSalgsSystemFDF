@@ -1,4 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 {
@@ -59,6 +60,13 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                 {
                     while (await reader.ReadAsync())
                     {
+                        //if (børnegruppe.Børnegruppe_ID < 0)
+                        //{
+                        //    try
+                        //    {
+
+                        //    }
+                        //}
                         børnegruppe.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
                         børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
                         børnegruppe.Lokale = Convert.ToString(reader["Lokale"]);
@@ -76,6 +84,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe )
         {
+            if(børnegruppe.Børnegruppe_ID <= 0)
+            {
+                throw new NegativeAmountExceptioncs("Børnegruppe_ID må ikke være negativt eller nul");
+            }
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
             string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddeler)";
 
@@ -84,7 +96,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
-
+                    
                     command.Parameters.AddWithValue("@Børnegruppe_ID",børnegruppe.Børnegruppe_ID );
                     command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn);
                     command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);

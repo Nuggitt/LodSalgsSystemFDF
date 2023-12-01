@@ -43,6 +43,7 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
                     return Page();
                 }
 
+                Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
                 return RedirectToPage("GetBørnegrupper");
             }
             catch (NegativeAmountExceptioncs ex)

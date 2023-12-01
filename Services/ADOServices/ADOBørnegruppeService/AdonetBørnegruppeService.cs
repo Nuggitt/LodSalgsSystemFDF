@@ -88,8 +88,20 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             {
                 throw new NegativeAmountExceptioncs("Børnegruppe_ID må ikke være negativt eller nul");
             }
+            
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
             string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddeler)";
+           
+            
+            //virker ikke lige NU
+            foreach (Børnegruppe duplicatekey in børnegruppelist)
+            {
+                if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
+                {
+                    throw new DuplicateKeyException(" id Eksiterer allerede");
+                }
+            }
+
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

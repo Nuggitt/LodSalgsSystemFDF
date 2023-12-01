@@ -1,9 +1,9 @@
 ﻿namespace LodSalgsSystemFDF.Models.Exceptions
 {
-    public class DuplicateKeyException : InvalidCastException
+    public class DuplicateKeyException : Exception
     {
 
-        public DuplicateKeyException(string errmsg)
+        public DuplicateKeyException(string errmsg) : base(errmsg)
         {
         }
     }

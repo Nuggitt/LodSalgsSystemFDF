@@ -28,12 +28,8 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         //        : base(message)
         //    {
         //    }
-
-        //    public DuplicatedBørnegruppeIdException(string message, Exception innerException)
-        //        : base(message, innerException)
-        //    {
-        //    }
         //}
+
         public IActionResult OnPost()
         {
             try
@@ -51,6 +47,14 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
             }
+
+            catch (DuplicateKeyException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return Page();
+            }
+
+
             //if (!ModelState.IsValid)
             //{
             //    return Page();

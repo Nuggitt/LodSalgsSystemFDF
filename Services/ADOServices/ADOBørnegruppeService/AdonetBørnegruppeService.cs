@@ -84,12 +84,12 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe )
         {
-            if(børnegruppe.Børnegruppe_ID <= 0)
+            if(børnegruppe.Børnegruppe_ID <=0 || børnegruppe.Antalbørn < 0 || børnegruppe.AntalLodSeddelerPrGruppe < 0 || børnegruppe.AntalSolgteLodseddeler < 0 || børnegruppe.Leder_ID <= 0)
             {
-                throw new NegativeAmountExceptioncs("Børnegruppe_ID må ikke være negativt eller nul");
+                throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
             }
 
-            if (CheckIfBørnegruppeIdExists(børnegruppe.Børnegruppe_ID.ToString()))
+            if (TjekIdEksisterer(børnegruppe.Børnegruppe_ID.ToString()))
             {
                 throw new DuplicateKeyException("Børnegruppe ID Eksisteres allerede, brug en anden.");
             }
@@ -137,7 +137,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             return børnegruppe;
         }
         // tjekker om Børnegruppe_ID eksiteres, bliver brugt i CreateBØrnegruppe for exception hvis ID allerede eksiterer
-        public bool CheckIfBørnegruppeIdExists(string børnegruppeId)
+        public bool TjekIdEksisterer(string børnegruppeId)
         {
             string sql = "SELECT COUNT(*) FROM Børnegruppe WHERE Børnegruppe_ID = @Id";
 

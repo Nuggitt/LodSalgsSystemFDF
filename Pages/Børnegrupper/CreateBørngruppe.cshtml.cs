@@ -50,9 +50,14 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
 
             catch (DuplicateKeyException ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError("Børnegrupper.Børnegruppe_ID", ex.Message);
                 return Page();
+
+                //ModelState.AddModelError(string.Empty, ex.Message);
+                //return Page();
+        
             }
+            
 
 
             //if (!ModelState.IsValid)

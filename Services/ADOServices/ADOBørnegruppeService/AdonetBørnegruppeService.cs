@@ -88,20 +88,25 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             {
                 throw new NegativeAmountExceptioncs("Børnegruppe_ID må ikke være negativt eller nul");
             }
-            
+
+            if (CheckIfBørnegruppeIdExists(børnegruppe.Børnegruppe_ID.ToString()))
+            {
+                throw new DuplicateKeyException("Børnegruppe ID Eksisteres allerede, brug en anden.");
+            }
+
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
             string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddeler)";
            
             
             //virker ikke lige NU
-            foreach (Børnegruppe duplicatekey in børnegruppelist)
-            {
-                if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
-                {
-                    throw new DuplicateKeyException(" id Eksiterer allerede");
-                }
-            }
-
+            //foreach (Børnegruppe duplicatekey in børnegruppelist)
+            //{
+            //    if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
+            //    {
+            //        throw new DuplicateKeyException(" ID Eksiterer allerede");
+            //    }
+            //}
+                
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -117,12 +122,38 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
                     command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodseddeler);
 
+                    foreach (Børnegruppe duplicatekey in børnegruppelist)
+                    {
+                        if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
+                        {
+                            throw new DuplicateKeyException(" ID Eksiterer allerede");
+                        }
+                    }
                     børnegruppelist.Add(børnegruppe);
 
                     int numberOfRowsAffected = command.ExecuteNonQuery();
                 }
             }
             return børnegruppe;
+        }
+        // tjekker om Børnegruppe_ID eksiteres, bliver brugt i CreateBØrnegruppe for exception hvis ID allerede eksiterer
+        public bool CheckIfBørnegruppeIdExists(string børnegruppeId)
+        {
+            string sql = "SELECT COUNT(*) FROM Børnegruppe WHERE Børnegruppe_ID = @Id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", børnegruppeId);
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
         }
 
         public Børnegruppe DeleteBørnegruppe(Børnegruppe børnegruppe)

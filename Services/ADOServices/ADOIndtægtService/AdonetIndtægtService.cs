@@ -170,5 +170,57 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             return indtægt;
         }
 
+        //public List<Indtægt> GetAntalSolgteLodseddelerDESC()
+        //{
+        //    List<Indtægt> indtægtlist = new List<Indtægt>();
+        //    string sql = "SELECT * FROM Indtægt ORDER BY AntalSolgteLodseddeler DESC";
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        SqlCommand command = new SqlCommand(sql, connection);
+        //        using (SqlDataReader dataReader = command.ExecuteReader())
+        //        {
+        //            while (dataReader.Read())
+        //            {
+        //                Indtægt indtægt= new Indtægt();
+        //                indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
+                        
+        //                indtægtlist.Add(indtægt);
+        //            }
+        //        }
+        //    }
+
+        //    return indtægtlist;
+        //}
+
+        //public List<Indtægt> GetAntalSolgteLodseddelerASC()
+        //{
+        //    List<Indtægt> indtægtlist = new List<Indtægt>();
+        //    string sql = "SELECT * FROM Indtægt ORDER BY AntalSolgteLodseddeler ASC";
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        SqlCommand command = new SqlCommand(sql, connection);
+        //        using (SqlDataReader dataReader = command.ExecuteReader())
+        //        {
+        //            while (dataReader.Read())
+        //            {
+        //                Indtægt indtægt = new Indtægt();
+        //                indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
+        //                indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
+
+        //                indtægtlist.Add(indtægt);
+        //            }
+        //        }
+        //    }
+
+        //    return indtægtlist;
+        //}
+
     }
 }

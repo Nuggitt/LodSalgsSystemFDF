@@ -1,4 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
@@ -35,6 +36,16 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             return _indtægtService.UpdateIndtægt(indtægt);
         }
 
-        
+
+        //public IEnumerable<Indtægt> GetAntalSolgteLodseddelerDESC()
+        //{
+        //    return _indtægtService.GetAntalSolgteLodseddelerDESC();
+        //}
+
+        //public IEnumerable<Indtægt> GetAntalSolgteLodseddelerASC()
+        //{
+        //    return _indtægtService.GetAntalSolgteLodseddelerASC();
+        //}
+
     }
 }

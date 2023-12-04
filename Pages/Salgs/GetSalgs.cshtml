@@ -9,6 +9,13 @@
     <a asp-page="/Salgs/Create">Opret nyt Salg</a>
 </p>
 
+<form method="post" class="form-inline">
+    <div class="input-group mb-3">
+        <input asp-for="NameSearch" class="form-control mr-1" placeholder="Enter search term" />
+        <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+
 <h4 style="color:red"> Listen over alle salg</h4>
 <table class="table">
     <thead>

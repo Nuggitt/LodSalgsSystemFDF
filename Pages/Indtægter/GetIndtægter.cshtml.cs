@@ -8,6 +8,10 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
     public class GetIndtægterModel : PageModel
     {
         private IIndtægtService _indtægtService;
+        private IBørnegruppeService _IB;
+
+        [BindProperty]
+        public string NameSearch { get; set; }
         public GetIndtægterModel(IIndtægtService indtægtService)
         {
             _indtægtService = indtægtService;
@@ -19,5 +23,6 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
         {
             Indtægter = _indtægtService.GetIndtægter();
         }
+        
     }
 }

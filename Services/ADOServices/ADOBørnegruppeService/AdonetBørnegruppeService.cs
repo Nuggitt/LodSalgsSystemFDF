@@ -91,7 +91,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
             if (TjekIdEksisterer(børnegruppe.Børnegruppe_ID.ToString()))
             {
-                throw new DuplicateKeyException("Børnegruppe ID Eksisteres allerede, brug en anden.");
+                throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
             }
 
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
@@ -139,7 +139,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         // tjekker om Børnegruppe_ID eksiteres, bliver brugt i CreateBØrnegruppe for exception hvis ID allerede eksiterer
         public bool TjekIdEksisterer(string børnegruppeId)
         {
-            string sql = "SELECT COUNT(*) FROM Børnegruppe WHERE Børnegruppe_ID = @Id";
+            string sql = "SELECT COUNT(*) FROM Børnegruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -147,7 +147,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@Id", børnegruppeId);
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", børnegruppeId);
 
                     int count = (int)command.ExecuteScalar();
 

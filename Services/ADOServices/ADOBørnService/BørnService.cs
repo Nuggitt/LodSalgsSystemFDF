@@ -78,6 +78,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.GetAllBørnGruppeIDAscending();
         }
 
+        //public IEnumerable<Børn> GetAllBørnItems(string Børn, string Navn)
+        //{
+        //    return _børnService.GetAllBørnItems(Børn, Navn);
+        //}
+
 
 
     }

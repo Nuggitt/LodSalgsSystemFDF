@@ -47,35 +47,46 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
 
         public Leder CreateLeder(Leder leder)
         {
+            {
+            if(leder.Leder_ID <= 0)
+                {
+                    throw new NegativeAmountExceptioncs("Værdi må ikke være negativ");
+                }
+            if (LederIdEksisterer(leder.Leder_ID.ToString()))
+                {
+                    throw new DuplicateKeyException("ID eksisterer allerede");
+                }
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    try
-                    {
-                        string insertSql = "INSERT INTO dbo.Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer,  Børnegruppe_ID) VALUES(@Leder_ID, @Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer,  @Børnegruppe_ID)";
+                            try
+                            {
+                                string insertSql = "INSERT INTO dbo.Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer,  Børnegruppe_ID) VALUES(@Leder_ID, @Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer,  @Børnegruppe_ID)";
 
-                        using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
-                        {
-                            insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
-                            insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
-                            insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
-                            insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
-                            insertCommand.Parameters.AddWithValue("@Email", leder.Email);
-                            insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
-                            insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
+                                using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
+                                {
+                                    insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
+                                    insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
+                                    insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
+                                    insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
+                                    insertCommand.Parameters.AddWithValue("@Email", leder.Email);
+                                    insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
+                                    insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
 
-                            insertCommand.ExecuteNonQuery();
-                        }
+                                    insertCommand.ExecuteNonQuery();
+                                }
 
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle exceptions, log the error, or perform any necessary cleanup.
-                        transaction.Rollback();
-                        throw;
+                                transaction.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                // Handle exceptions, log the error, or perform any necessary cleanup.
+                                transaction.Rollback();
+                                throw;
+                            }
                     }
                 }
             }

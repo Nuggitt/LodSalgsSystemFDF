@@ -9,7 +9,8 @@ namespace LodSalgsSystemFDF.Pages.Salgs
     public class GetSalgsModel : PageModel
     {
         private ISalgService _salgService;
-        public string NameSearch { get; set; }
+        private IBørnegruppeService _IB;
+        public string IDSearch { get; set; }
         public GetSalgsModel(ISalgService salgService)
         {
             _salgService = salgService;
@@ -21,6 +22,13 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         {
             Salgs = _salgService.GetSalgs();
         }
-        
+        public IActionResult OnPostBørnegruppeByID()
+        {
+            {
+                Salgs = _salgService.GetBørnegruppeByID(IDSearch);
+                return Page();
+            }
+
+        }
     }
 }

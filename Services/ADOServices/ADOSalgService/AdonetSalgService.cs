@@ -236,6 +236,36 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             }
             return salg;
         }
+        public List<Salg> GetBørnegruppeByID(string ID)
+        {
+            List<Salg> listsalg = new List<Salg>();
+            Salg salg = new Salg();
+            string sql = "Select * from Salg Where Børnegruppe_ID like @Børnegruppe_ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Børnegruppe_ID", ID);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                       
+                        salg.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+                        salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
+                        salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                        salg.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);                        
+                        salg.AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]);
+                        salg.AntalSolgteLodseddelerPrSalg = Convert.ToInt32(reader["AntalSolgteLodseddelerPrSalg"]);
+                        salg.Pris = Convert.ToInt32(reader["Pris"]);
+                        listsalg.Add(salg);
+
+                    }
+                }
+
+            }
+            return listsalg;
+        }
 
 
     }

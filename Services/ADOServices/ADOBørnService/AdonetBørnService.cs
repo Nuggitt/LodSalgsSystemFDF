@@ -392,6 +392,39 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return listbørn;
         }
 
+        //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
+        //{
+        //    List<T> listbørn = new List<T>();
+        //    string sql = $"SELECT * FROM Børn ORDER BY Navn DESC";
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
+
+        //        SqlCommand command = new SqlCommand(sql, connection);
+        //        using (SqlDataReader dataReader = command.ExecuteReader())
+        //        {
+        //            while (dataReader.Read())
+        //            {
+        //                var børn = Activator.CreateInstance<T>();
+
+        //                foreach (var property in typeof(T).GetProperties())
+        //                {
+        //                    if (!dataReader.IsDBNull(dataReader.GetOrdinal(property.Name)))
+        //                    {
+        //                        var value = dataReader[property.Name];
+        //                        property.SetValue(børn, value == DBNull.Value ? null : value);
+        //                    }
+        //                }
+
+        //                listbørn.Add(børn);
+        //            }
+        //        }
+        //    }
+
+        //    return listbørn;
+        //}
+
     }
 
 

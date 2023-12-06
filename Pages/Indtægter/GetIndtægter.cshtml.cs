@@ -1,4 +1,5 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,6 +24,18 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
         {
             Indtægter = _indtægtService.GetIndtægter();
         }
-        
+
+        //public void GetIndtægtIDDESC()
+        //{
+        //    Indtægter = _indtægtService.GetIndtægtIDDESC();
+        //}
+
+        //public void GetIndtægtIDASC()
+        //{
+        //    Indtægter = _indtægtService.GetIndtægtIDASC();
+        //}
+
+
+
     }
 }

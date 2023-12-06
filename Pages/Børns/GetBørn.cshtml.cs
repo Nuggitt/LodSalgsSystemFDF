@@ -60,5 +60,11 @@ namespace LodSalgsSystemFDF.Pages.Børns
             Børns = _børnService.GetAllBørnGruppeIDAscending();
         }
 
+
+        //public void OnGetAllBørnItems(string Børn, string Navn)
+        //{
+        //    Børns = _børnService.GetAllBørnItems(Børn, Navn);
+        //}
+
     }
 }

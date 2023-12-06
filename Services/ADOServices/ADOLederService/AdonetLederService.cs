@@ -1,6 +1,6 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
-
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
 {
     public class AdonetLederService
@@ -178,6 +178,22 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
 
             }
             return lederListS;
+        }
+        public bool LederIdEksisterer(string lederID)
+        {
+            string sql = "SELECT COUNT(*) FROM Leder WHERE Leder_ID = @Leder_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", lederID);
+
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
+                }
+            }
         }
     }
 }

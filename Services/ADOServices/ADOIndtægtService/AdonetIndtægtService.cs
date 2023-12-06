@@ -170,10 +170,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             return indtægt;
         }
 
-        //public List<Indtægt> GetAntalSolgteLodseddelerDESC()
+        //public List<Indtægt> GetIndtægtIDDESC()
         //{
         //    List<Indtægt> indtægtlist = new List<Indtægt>();
-        //    string sql = "SELECT * FROM Indtægt ORDER BY AntalSolgteLodseddeler DESC";
+        //    string sql = "SELECT * FROM Indtægt ORDER BY Indtægt_ID DESC";
 
         //    using (SqlConnection connection = new SqlConnection(connectionString))
         //    {
@@ -184,10 +184,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         //        {
         //            while (dataReader.Read())
         //            {
-        //                Indtægt indtægt= new Indtægt();
+        //                Indtægt indtægt = new Indtægt();
         //                indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
         //                indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-                        
+
         //                indtægtlist.Add(indtægt);
         //            }
         //        }
@@ -196,10 +196,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         //    return indtægtlist;
         //}
 
-        //public List<Indtægt> GetAntalSolgteLodseddelerASC()
+        //public List<Indtægt> GetIndtægtIDASC()
         //{
         //    List<Indtægt> indtægtlist = new List<Indtægt>();
-        //    string sql = "SELECT * FROM Indtægt ORDER BY AntalSolgteLodseddeler ASC";
+        //    string sql = "SELECT * FROM Indtægt ORDER BY Indtægt_ID ASC";
 
         //    using (SqlConnection connection = new SqlConnection(connectionString))
         //    {

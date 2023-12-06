@@ -37,14 +37,14 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         }
 
 
-        //public IEnumerable<Indtægt> GetAntalSolgteLodseddelerDESC()
+        //public IEnumerable<Indtægt> GetIndtægtIDDESC()
         //{
-        //    return _indtægtService.GetAntalSolgteLodseddelerDESC();
+        //    return _indtægtService.GetIndtægtIDDESC();
         //}
 
-        //public IEnumerable<Indtægt> GetAntalSolgteLodseddelerASC()
+        //public IEnumerable<Indtægt> GetIndtægtIDASC()
         //{
-        //    return _indtægtService.GetAntalSolgteLodseddelerASC();
+        //    return _indtægtService.GetIndtægtIDASC();
         //}
 
     }

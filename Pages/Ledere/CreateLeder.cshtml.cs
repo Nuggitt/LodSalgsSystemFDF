@@ -1,4 +1,5 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,12 +20,25 @@ namespace LodSalgsSystemFDF.Pages.Ledere
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+                Leder = _lederService.CreateLeder(Leder);
+                return RedirectToPage("GetLedere");
+            }
+            catch (DuplicateKeyException ex)
+            {
+                ModelState.AddModelError("Leder.Leder_ID", ex.Message);
                 return Page();
             }
-            Leder = _lederService.CreateLeder(Leder);
-            return RedirectToPage("GetLedere");
+            catch (NegativeAmountExceptioncs ex)
+            {
+                ModelState.AddModelError("Leder.Leder_ID", ex.Message);
+                return Page();
+            }
         }
     }
 }

@@ -14,9 +14,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
 
         Indtægt UpdateIndtægt(Indtægt indtægt);
 
-        //IEnumerable<Indtægt> GetAntalSolgteLodseddelerDESC();
+        //IEnumerable<Indtægt> GetIndtægtIDDESC();
 
-        //IEnumerable<Indtægt> GetAntalSolgteLodseddelerASC();
+        //IEnumerable<Indtægt> GetIndtægtIDASC();
 
 
     }

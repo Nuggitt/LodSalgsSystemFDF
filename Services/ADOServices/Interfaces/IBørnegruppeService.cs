@@ -10,5 +10,18 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Børnegruppe DeleteBørnegruppe(Børnegruppe børnegruppe);
         Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe);
         IEnumerable<Børnegruppe> GetBørnegruppeByName(string Name);
+        IEnumerable<Børnegruppe> GetAllBørnegruppeIDDESC();
+        IEnumerable<Børnegruppe> GetAllBørnegruppeIDASC();
+        IEnumerable<Børnegruppe> SortAllGruppeNavnDESC();
+        IEnumerable<Børnegruppe> SortAllGruppeNavnASC();
+        IEnumerable<Børnegruppe> SortAllAntalBørnDESC();
+        IEnumerable<Børnegruppe> SortAllAntalBørnASC();
+        IEnumerable<Børnegruppe> SortAllLederIDDESC();
+        IEnumerable<Børnegruppe> SortAllLederIDASC();
+        IEnumerable<Børnegruppe> SortAllAntalLodSeddelerPrGruppeDESC();
+        IEnumerable<Børnegruppe> SortAllAntalLodSeddelerPrGruppeASC();
+        IEnumerable<Børnegruppe> SortAllAntalSolgtePrGruppeDESC();
+        IEnumerable<Børnegruppe> SortAllAntalSolgtePrGruppeASC();
+        
     }
 }

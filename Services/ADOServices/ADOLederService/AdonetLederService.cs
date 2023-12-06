@@ -206,5 +206,34 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 }
             }
         }
+        public List<Leder> GelAllLederNavnDescending()
+        {
+            List<Leder> listlederdes = new List<Leder>();
+            string sql = "SELECT * FROM Leder ORDER BY Navn DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Leder leder = new Leder();
+                        leder.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
+                        leder.Navn = Convert.ToString(dataReader["Navn"]);
+                        leder.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        leder.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        leder.Email = Convert.ToString(dataReader["Email"]);
+                        leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
+                        leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listlederdes.Add(leder);
+                    }
+                }
+            }
+            return listlederdes;
+        }
     }
 }

@@ -1,11 +1,13 @@
 using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LodSalgsSystemFDF.Pages.Indtægter
 {
+    [Authorize]
     public class GetIndtægterModel : PageModel
     {
         private IIndtægtService _indtægtService;

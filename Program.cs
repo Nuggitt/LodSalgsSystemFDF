@@ -6,6 +6,9 @@ using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using LodSalgsSystemFDF.Services.ADOServices.ADOSalgService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
+using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,22 @@ builder.Services.AddTransient<AdonetLederService>();
 builder.Services.AddTransient<ILederService, LederService>();
 builder.Services.AddTransient<AdonetBørnService>();
 builder.Services.AddTransient<IBørnService, BørnService>();
+builder.Services.AddTransient<AdonetBrugerService>();
+builder.Services.AddTransient<BrugerService, BrugerService>();
+builder.Services.Configure<CookiePolicyOptions>(options => {
+    // This lambda determines whether user consent for non-essential cookies is needed for a given request. options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+
+});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
+    cookieOptions.LoginPath = "/Login/LogInPage";
+
+});
+builder.Services.AddMvc().AddRazorPagesOptions(options => {
+    options.Conventions.AuthorizeFolder("/Børnegrupper");
+
+}).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
 
 var app = builder.Build();
@@ -38,7 +57,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

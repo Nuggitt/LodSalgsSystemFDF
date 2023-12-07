@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="Pages\BrugerLogins\**" />
+    <Compile Remove="Pages\Lodseddelarks\**" />
+    <Content Remove="Pages\BrugerLogins\**" />
+    <Content Remove="Pages\Lodseddelarks\**" />
+    <EmbeddedResource Remove="Pages\BrugerLogins\**" />
+    <EmbeddedResource Remove="Pages\Lodseddelarks\**" />
+    <None Remove="Pages\BrugerLogins\**" />
+    <None Remove="Pages\Lodseddelarks\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+
     <Compile Remove="Pages\Lodseddelarks\**" />
     <Content Remove="Pages\Lodseddelarks\**" />
     <EmbeddedResource Remove="Pages\Lodseddelarks\**" />
@@ -19,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\BrugerLogins\" />
+
   </ItemGroup>
 
 </Project>

@@ -31,5 +31,9 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         {
             Ledere = _lederService.GetAllLederNavnDescending();
         }
+        public void OnGetLederNavnAscending()
+        {
+            Ledere = _lederService.GetAllLederNavnAscending();
+        }
 }
 }

@@ -199,7 +199,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 connection.Open();
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@Børnegruppe_ID", lederID);
+                    command.Parameters.AddWithValue("@Leder_ID", lederID);
 
                     int count = (int)command.ExecuteScalar();
                     return count > 0;
@@ -234,6 +234,35 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 }
             }
             return listlederdes;
+        }
+        public List<Leder> GetAllLederNavnAscending()
+        {
+            List<Leder> listlederasc = new List<Leder>();
+            string sql = "SELECT * FROM Leder ORDER BY Navn ASC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Leder leder = new Leder();
+                        leder.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
+                        leder.Navn = Convert.ToString(dataReader["Navn"]);
+                        leder.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        leder.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        leder.Email = Convert.ToString(dataReader["Email"]);
+                        leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
+                        leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listlederasc.Add(leder);
+                    }
+                }
+            }
+            return listlederasc;
         }
     }
 }

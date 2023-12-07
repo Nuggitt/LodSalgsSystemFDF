@@ -37,7 +37,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         {
             return _salgService.UpdateSalg(salg);
         }
-        public IEnumerable<Salg> GetBørnegruppeByID(string ID)
+        public IEnumerable<Salg> GetBørnegruppeByID(int ID)
         {
             return _salgService.GetBørnegruppeByID(ID);
         }

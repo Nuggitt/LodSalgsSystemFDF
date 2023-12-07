@@ -10,7 +10,8 @@ namespace LodSalgsSystemFDF.Pages.Salgs
     {
         private ISalgService _salgService;
         private IBørnegruppeService _IB;
-        public string IDSearch { get; set; }
+        [BindProperty]
+        public int IDSearch { get; set; }
         public GetSalgsModel(ISalgService salgService)
         {
             _salgService = salgService;

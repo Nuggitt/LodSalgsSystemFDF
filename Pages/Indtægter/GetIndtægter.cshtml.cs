@@ -25,16 +25,25 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
             Indtægter = _indtægtService.GetIndtægter();
         }
 
-        //public void GetIndtægtIDDESC()
-        //{
-        //    Indtægter = _indtægtService.GetIndtægtIDDESC();
-        //}
+        public void GetIndtægtIDDESC()
+        {
+            Indtægter = _indtægtService.GetIndtægtIDDESC();
+        }
 
-        //public void GetIndtægtIDASC()
-        //{
-        //    Indtægter = _indtægtService.GetIndtægtIDASC();
-        //}
+        public void GetIndtægtIDASC()
+        {
+            Indtægter = _indtægtService.GetIndtægtIDASC();
+        }
 
+        public void GetAntalSolgteLodseddelerDESC()
+        {
+            Indtægter = _indtægtService.GetAntalSolgteLodseddelerDESC();
+        }
+
+        public void GetAntalSolgteLodseddelerASC()
+        {
+            Indtægter = _indtægtService.GetAntalSolgteLodseddelerASC();
+        }
 
 
     }

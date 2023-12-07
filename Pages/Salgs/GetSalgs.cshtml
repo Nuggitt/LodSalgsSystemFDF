@@ -33,6 +33,7 @@
                     <input asp-for="MaxPrice" class="form-control mr-1" />
                     <input type="submit" asp-page-handler="PriceFilter" value="Filter" class="btn btn-primary" />
                 </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             </form>
             <th>
                 Salg_ID

@@ -1,4 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
@@ -270,6 +271,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
 
         public IEnumerable<Salg> PriceFilters(float maxPrice, float minPrice)
         {
+            if (minPrice < 0 || maxPrice < 0 )
+            {
+                throw new NegativeAmountExceptioncs("MinPrice and MaxPrice cannot be negative values.");
+            }
             List<Salg> filterList = new List<Salg>();
             
             string sql = "SELECT * FROM Salg WHERE (@MinPrice = 0 OR Pris >= @MinPrice) AND (@MaxPrice = 0 OR Pris <= @MaxPrice)";

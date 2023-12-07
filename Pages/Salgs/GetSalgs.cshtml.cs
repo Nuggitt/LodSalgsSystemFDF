@@ -1,4 +1,5 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,22 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         }
         public IActionResult OnpostPriceFilter()
         {
-            Salgs = _salgService.PriceFilter(MaxPrice, MinPrice);
-            return Page();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                 Salgs = _salgService.PriceFilter(MaxPrice, MinPrice);
+                 return Page();
+            }
+            catch (NegativeAmountExceptioncs ex) 
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return Page();
+            }
+           
         }
     }
 }

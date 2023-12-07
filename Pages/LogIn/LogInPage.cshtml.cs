@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace LodSalgsSystemFDF.Pages.LogIn
 {
@@ -18,7 +19,7 @@ namespace LodSalgsSystemFDF.Pages.LogIn
         [BindProperty]
         public string BrugerNavn { get; set; }
 
-        [BindProperty,DataType(DataType.Password)]
+        [BindProperty, DataType(DataType.Password)]
         public string Password { get; set; }
 
         public string Message { get; set; }
@@ -39,16 +40,23 @@ namespace LodSalgsSystemFDF.Pages.LogIn
             foreach (Bruger bruger in brugere)
             {
 
-                if (BrugerNavn == bruger.BrugerNavn && Password == bruger.Password)
+                if (BrugerNavn == bruger.BrugerNavn)
                 {
+                    var passwordHasher = new PasswordHasher<string>();
 
-                    LoggedInBruger = bruger;
+                    //if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Success)
+                    {
+                        LoggedInBruger = bruger;
 
-                    var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
-                    if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                    return RedirectToPage("/Index");
+                        var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
+                        
+                        if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
+
+
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        return RedirectToPage("/Index");
+                    }
 
                 }
 

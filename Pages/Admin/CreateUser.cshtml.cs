@@ -1,6 +1,7 @@
 using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -15,10 +16,12 @@ namespace LodSalgsSystemFDF.Pages.Admin
         public string BrugerNavn { get; set; }
         [BindProperty,DataType(DataType.Password)]
         public string Password { get; set; }
+        private PasswordHasher<string> passwordHasher;
 
         public CreateUserModel(BrugerService brugerService)
         {
             _brugerService = brugerService;
+            passwordHasher = new PasswordHasher<string>();
         }
         public void OnGet()
         {
@@ -30,7 +33,7 @@ namespace LodSalgsSystemFDF.Pages.Admin
             {
                 return Page();
             }
-            _brugerService.AddBruger(new Bruger(BrugerNavn, Password));
+            _brugerService.AddBruger(new Bruger(BrugerNavn, passwordHasher.HashPassword(null, Password)));
             return RedirectToPage("/Børns/GetBørn");
         }
     }

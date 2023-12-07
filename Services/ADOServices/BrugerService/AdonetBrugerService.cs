@@ -1,4 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
+using Microsoft.AspNetCore.Identity;
 using System.Data.SqlClient;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
@@ -7,6 +8,8 @@ namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
     {
         private IConfiguration configuration { get; }
         string connectionString;
+
+        private PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
 
         public AdonetBrugerService() { }
 
@@ -52,9 +55,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
-
+                    string hashedPassword = passwordHasher.HashPassword(null, bruger.Password);
+                    
                     command.Parameters.AddWithValue("@BrugerNavn", bruger.BrugerNavn);
-                    command.Parameters.AddWithValue("@Password", bruger.Password);
+                    command.Parameters.AddWithValue("@Password", hashedPassword);
                     brugerList.Add(bruger);
 
                     int numberOfRowsAffected = command.ExecuteNonQuery();

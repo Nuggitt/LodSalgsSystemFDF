@@ -12,6 +12,10 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         private IBørnegruppeService _IB;
         [BindProperty]
         public int IDSearch { get; set; }
+        [BindProperty]
+        public float MinPrice { get; set; } = 0;
+        [BindProperty]
+        public float MaxPrice { get; set; }
         public GetSalgsModel(ISalgService salgService)
         {
             _salgService = salgService;
@@ -30,6 +34,11 @@ namespace LodSalgsSystemFDF.Pages.Salgs
                 return Page();
             }
 
+        }
+        public IActionResult OnpostPriceFilter()
+        {
+            Salgs = _salgService.PriceFilter(IDSearch);
+            return Page();
         }
     }
 }

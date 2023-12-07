@@ -41,5 +41,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         {
             return _salgService.GetBørnegruppeByID(ID);
         }
+
+        public IEnumerable<Salg> PriceFilter(int maxPrice, int minPrice = 0)
+        {
+            return _salgService.PriceFilters(maxPrice, minPrice);
+        }
     }
 }

@@ -22,15 +22,68 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
 
        public IEnumerable<Børnegruppe> Børnegrupper  { get; set; } = new List<Børnegruppe>();
        
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Børnegrupper = _IB.GetBørnegruppe();
+            Børnegrupper = await _IB.GetBørnegruppeAsync();
         }
         public IActionResult OnPostBørnegruppeByName() 
         {
             Børnegrupper = _IB.GetBørnegruppeByName(NameSearch);
             return Page();
         }
-        
+        public void OnGetBørngruppeIDAscending()
+        {
+            Børnegrupper = _IB.GetAllBørnegruppeIDASC();
+        }
+        public void OnGetBørnegruppeIDDescending()
+        {
+            Børnegrupper = _IB.GetAllBørnegruppeIDDESC();
+        }
+
+        public void OnGetSortAllGruppeNavnAscending()
+        {
+            Børnegrupper = _IB.SortAllGruppeNavnASC();
+        }
+
+        public void OnGetSortAllGruppeNavnDescending()
+        {
+            Børnegrupper = _IB.SortAllGruppeNavnDESC();
+        }
+
+        public void OnGetSortAntalBørnDescending()
+        {
+            Børnegrupper = _IB.SortAllAntalBørnDESC();
+        }
+
+        public void OnGetSortAntalBørnAscending()
+        {
+            Børnegrupper = _IB.SortAllAntalBørnASC();
+        }
+        public void OnGetSortAntalLederDescending()
+        {
+            Børnegrupper = _IB.SortAllLederIDDESC();
+        }
+        public void OnGetSortAntalLederAscending()
+        {
+            Børnegrupper = _IB.SortAllLederIDASC();
+        }
+
+        public void OnGetSortAllAntalLodSeddelerPrGruppeDescending()
+        {
+            Børnegrupper = _IB.SortAllAntalLodSeddelerPrGruppeDESC();
+        }
+        public void OnGetSortAllAntalLodSeddelerPrGruppeAscending()
+        {
+            Børnegrupper = _IB.SortAllAntalLodSeddelerPrGruppeASC();
+        }
+
+        public void OnGetSortAllAntalSolgtePrGruppeDescending()
+        {
+            Børnegrupper = _IB.SortAllAntalSolgtePrGruppeDESC();
+        }
+        public void OnGetSortAllAntalSolgtePrGruppeAscending()
+        {
+            Børnegrupper = _IB.SortAllAntalSolgtePrGruppeASC();
+        }
     }
 }

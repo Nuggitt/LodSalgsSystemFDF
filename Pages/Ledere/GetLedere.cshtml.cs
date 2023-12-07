@@ -10,6 +10,9 @@ namespace LodSalgsSystemFDF.Pages.Ledere
     public class GetLedereModel : PageModel
     {
         private ILederService _lederService;
+        [BindProperty]
+        public string LederSearch { get; set; }
+
 
         public GetLedereModel(ILederService lederService)
         {
@@ -17,9 +20,22 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         }
         [BindProperty]
         public IEnumerable<Leder> Ledere { get; set; } = new List<Leder>();
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Ledere = _lederService.GetLeder();
+            Ledere = await _lederService.GetLederAsync();
         }
-    }
+        public IActionResult OnPostLederByName()
+        {
+            Ledere = _lederService.GetLederByName(LederSearch);
+            return Page();
+        }
+        public void OnGetLederNavnDescending()
+        {
+            Ledere = _lederService.GetAllLederNavnDescending();
+        }
+        public void OnGetLederNavnAscending()
+        {
+            Ledere = _lederService.GetAllLederNavnAscending();
+        }
+}
 }

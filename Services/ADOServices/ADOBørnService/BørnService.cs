@@ -13,14 +13,15 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             {
                 _børnService = børnservice;
             }
-            public IEnumerable<Børn> GetBørn()
-            {
-                return _børnService.GetAllBørn();
+
+        public async Task<IEnumerable<Børn>> GetBørn()
+        {
+            return await _børnService.GetAllBørn();
         }
 
-        public Børn GetBørn(int id)
+        public async Task<Børn> GetBørn(int id)
         {
-            return _børnService.GetBørn(id);
+            return await _børnService.GetBørn(id);
         }
 
         public Børn CreateBørn(Børn børn)
@@ -37,6 +38,52 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
         {
             return _børnService.UpdateBørn(børn);
         }
+
+        public IEnumerable<Børn> GetAllBørnNavnDescending()
+        {
+            return _børnService.GetAllBørnNavnDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnIDDescending()
+        {
+            return _børnService.GetAllBørnIDDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerDescending()
+        {
+            return _børnService.GetAllBørnAntalSolgteLodseddelerDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnGruppeIDDescending()
+        {
+            return _børnService.GetAllBørnGruppeIDDescending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnNavnAscending()
+        {
+            return _børnService.GetAllBørnNavnAscending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnIDAscending()
+        {
+            return _børnService.GetAllBørnIDAscending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerAscending()
+        {
+            return _børnService.GetAllBørnAntalSolgteLodseddelerAscending();
+        }
+
+        public IEnumerable<Børn> GetAllBørnGruppeIDAscending()
+        {
+            return _børnService.GetAllBørnGruppeIDAscending();
+        }
+
+        //public IEnumerable<Børn> GetAllBørnItems(string Børn, string Navn)
+        //{
+        //    return _børnService.GetAllBørnItems(Børn, Navn);
+        //}
+
 
 
     }

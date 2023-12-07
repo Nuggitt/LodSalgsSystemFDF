@@ -1,6 +1,6 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
-
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
 {
     public class AdonetLederService
@@ -15,17 +15,17 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
             configuration = config;
             connectionString = configuration.GetConnectionString("Datacraft.dk");
         }
-        public List<Leder> GetAllLeder()
+        public async Task<List<Leder>> GetAllLederAsync()
         {
             List<Leder> lederList = new List<Leder>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 string sql = "SELECT * FROM Leder";
                 SqlCommand command = new SqlCommand(sql, connection);
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
-                    while (dataReader.Read())
+                    while (await dataReader.ReadAsync())
                     {
                         Leder leder = new Leder();
                         leder.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
@@ -35,7 +35,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                         leder.Email = Convert.ToString(dataReader["Email"]);
                         leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
                         leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        
+
                         lederList.Add(leder);
 
 
@@ -47,35 +47,46 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
 
         public Leder CreateLeder(Leder leder)
         {
+            {
+            if(leder.Leder_ID <= 0)
+                {
+                    throw new NegativeAmountExceptioncs("Værdi må ikke være negativ");
+                }
+            if (LederIdEksisterer(leder.Leder_ID.ToString()))
+                {
+                    throw new DuplicateKeyException("ID eksisterer allerede");
+                }
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    try
-                    {
-                        string insertSql = "INSERT INTO dbo.Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer,  Børnegruppe_ID) VALUES(@Leder_ID, @Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer,  @Børnegruppe_ID)";
+                            try
+                            {
+                                string insertSql = "INSERT INTO dbo.Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer,  Børnegruppe_ID) VALUES(@Leder_ID, @Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer,  @Børnegruppe_ID)";
 
-                        using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
-                        {
-                            insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
-                            insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
-                            insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
-                            insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
-                            insertCommand.Parameters.AddWithValue("@Email", leder.Email);
-                            insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
-                            insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
+                                using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
+                                {
+                                    insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
+                                    insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
+                                    insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
+                                    insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
+                                    insertCommand.Parameters.AddWithValue("@Email", leder.Email);
+                                    insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
+                                    insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
 
-                            insertCommand.ExecuteNonQuery();
-                        }
+                                    insertCommand.ExecuteNonQuery();
+                                }
 
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        // Handle exceptions, log the error, or perform any necessary cleanup.
-                        transaction.Rollback();
-                        throw;
+                                transaction.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                // Handle exceptions, log the error, or perform any necessary cleanup.
+                                transaction.Rollback();
+                                throw;
+                            }
                     }
                 }
             }
@@ -150,6 +161,108 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 }
             }
             return leder;
+        }
+        public List<Leder> GetLederByName(string Navn)
+        {
+            List<Leder> lederListS = new List<Leder>();
+            Leder leder = new Leder();
+            string sql = "SELECT * FROM Leder WHERE Navn LIKE @Navn";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Navn", Navn);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        leder.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
+                        leder.Navn = Convert.ToString(reader["Navn"]);
+                        leder.Adresse = Convert.ToString(reader["Adresse"]);
+                        leder.Telefon = Convert.ToString(reader["Telefon"]);
+                        leder.Email = Convert.ToString(reader["Email"]);
+                        leder.ErLotteriBestyrer = Convert.ToBoolean(reader["ErLotteriBestyrer"]);
+                        leder.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                        lederListS.Add(leder);
+                    }
+                }
+
+            }
+            return lederListS;
+        }
+        public bool LederIdEksisterer(string lederID)
+        {
+            string sql = "SELECT COUNT(*) FROM Leder WHERE Leder_ID = @Leder_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Leder_ID", lederID);
+
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public List<Leder> GelAllLederNavnDescending()
+        {
+            List<Leder> listlederdes = new List<Leder>();
+            string sql = "SELECT * FROM Leder ORDER BY Navn DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Leder leder = new Leder();
+                        leder.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
+                        leder.Navn = Convert.ToString(dataReader["Navn"]);
+                        leder.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        leder.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        leder.Email = Convert.ToString(dataReader["Email"]);
+                        leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
+                        leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listlederdes.Add(leder);
+                    }
+                }
+            }
+            return listlederdes;
+        }
+        public List<Leder> GetAllLederNavnAscending()
+        {
+            List<Leder> listlederasc = new List<Leder>();
+            string sql = "SELECT * FROM Leder ORDER BY Navn ASC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Leder leder = new Leder();
+                        leder.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
+                        leder.Navn = Convert.ToString(dataReader["Navn"]);
+                        leder.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        leder.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        leder.Email = Convert.ToString(dataReader["Email"]);
+                        leder.ErLotteriBestyrer = Convert.ToBoolean(dataReader["ErLotteriBestyrer"]);
+                        leder.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listlederasc.Add(leder);
+                    }
+                }
+            }
+            return listlederasc;
         }
     }
 }

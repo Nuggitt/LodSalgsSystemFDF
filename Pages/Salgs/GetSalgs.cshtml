@@ -9,10 +9,32 @@
     <a asp-page="/Salgs/Create">Opret nyt Salg</a>
 </p>
 
+<form method="post" class="form-inline">
+    <div class="input-group mb-3">
+        <input asp-for="IDSearch" class="form-control mr-1" placeholder="Søg efter BørnegruppeID" />
+        <input type="submit" asp-page-handler="BørnegruppeByID" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+
 <h4 style="color:red"> Listen over alle salg</h4>
 <table class="table">
     <thead>
         <tr>
+            <form method="post" class="form-inline">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Min</span>
+                    </div>
+                    <input asp-for="MinPrice" class="form-control mr-1" />
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Max</span>
+                    </div>
+                    <input asp-for="MaxPrice" class="form-control mr-1" />
+                    <input type="submit" asp-page-handler="PriceFilter" value="Filter" class="btn btn-primary" />
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </form>
             <th>
                 Salg_ID
             </th>

@@ -1,4 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
@@ -35,6 +36,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         public Salg UpdateSalg(Salg salg)
         {
             return _salgService.UpdateSalg(salg);
+        }
+        public IEnumerable<Salg> GetBørnegruppeByID(int ID)
+        {
+            return _salgService.GetBørnegruppeByID(ID);
         }
     }
 }

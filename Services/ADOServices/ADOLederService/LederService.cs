@@ -37,5 +37,13 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         {
             return _lederService.GetLederByName(Navn);
         }
+        public IEnumerable<Leder> GetAllLederNavnDescending()
+        {
+            return _lederService.GelAllLederNavnDescending();
+        }
+        public IEnumerable<Leder> GetAllLederNavnAscending()
+        {
+            return _lederService.GetAllLederNavnAscending();
+        }
     }
 }

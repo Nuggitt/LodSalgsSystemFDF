@@ -10,7 +10,7 @@
 </p>
 <form method="post" class="form-inline">
     <div class="input-group mb-3">
-        <input asp-for="LederSearch" class="form-control mr-1" placeholder="Enter search term" />
+        <input asp-for="LederSearch" class="form-control mr-1" placeholder="Søg efter leder" />
         <input type="submit" asp-page-handler="LederByname" value="Search" class="btn btn-primary" />
     </div>
 </form>
@@ -22,7 +22,7 @@
                 Leder_ID
             </th>
             <th>
-                Leder navn
+            Leder navn <a data-toggle="tooltip" title="Sorter navn faldende" asp-page-handler="LederNavnDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter navn rejsende" asp-page-handler="LederNavnAscending"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
                 Adresse

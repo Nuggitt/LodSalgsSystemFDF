@@ -16,9 +16,9 @@ namespace LodSalgsSystemFDF.Pages.Børns
         {
             _børnService=børnService;
         }
-        public void OnGet(int id)
+        public async Task OnGet(int id)
         {
-            Børn = _børnService.GetBørn(id);
+            Børn = await _børnService.GetBørn(id);
         }
 
         public IActionResult OnPost()

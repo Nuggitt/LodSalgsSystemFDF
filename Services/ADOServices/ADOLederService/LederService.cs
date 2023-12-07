@@ -13,9 +13,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         {
             _lederService = lederService;
         }
-        public IEnumerable<Leder> GetLeder()
+        public async Task<IEnumerable<Leder>> GetLederAsync()
         {
-            return _lederService.GetAllLeder();
+            return await _lederService.GetAllLederAsync();
         }
         public Leder CreateLeder(Leder leder)
         {
@@ -32,6 +32,18 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         public Leder UpdateLeder(Leder leder)
         {
             return _lederService.UpdateLeder(leder);
+        }
+        public IEnumerable<Leder> GetLederByName(string Navn)
+        {
+            return _lederService.GetLederByName(Navn);
+        }
+        public IEnumerable<Leder> GetAllLederNavnDescending()
+        {
+            return _lederService.GelAllLederNavnDescending();
+        }
+        public IEnumerable<Leder> GetAllLederNavnAscending()
+        {
+            return _lederService.GetAllLederNavnAscending();
         }
     }
 }

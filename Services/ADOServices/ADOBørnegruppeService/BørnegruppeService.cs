@@ -6,17 +6,17 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
     public class BørnegruppeService : IBørnegruppeService
     {
         private AdonetBørnegruppeService børnegruppeService;
-        public IEnumerable<Børnegruppe> GetBørnegruppe()
+        public async Task<IEnumerable<Børnegruppe>> GetBørnegruppeAsync()
         {
-            return børnegruppeService.GetAllBørnegruppe();
+            return await børnegruppeService.GetAllBørnegruppeAsync();
         }
         public BørnegruppeService(AdonetBørnegruppeService service)
         {
             børnegruppeService = service;
         }
-        public Børnegruppe GetBørnegruppeId(int id)
+        public async Task<Børnegruppe> GetBørnegruppeIdAsync(int id)
         {
-            return børnegruppeService.GetBørnegruppeById(id);
+            return await børnegruppeService.GetBørnegruppeById(id);
         }
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe)
         {
@@ -37,5 +37,64 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             return børnegruppeService.GetBørnegruppeByName(Name);
         }
 
+        public IEnumerable<Børnegruppe> GetAllBørnegruppeIDDESC()
+        {
+            return børnegruppeService.GetAllBørnGruppeIDDescending();
+        }
+
+        public IEnumerable<Børnegruppe> GetAllBørnegruppeIDASC()
+        {
+            return børnegruppeService.GetAllBørnGruppeIDAscending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllGruppeNavnDESC()
+        {
+            return børnegruppeService.SortAllGruppeNavnDescending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllGruppeNavnASC()
+        {
+            return børnegruppeService.SortAllGruppeNavnAscending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllAntalBørnDESC()
+        {
+            return børnegruppeService.SortAllAntalBørnDescending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllAntalBørnASC()
+        {
+            return børnegruppeService.SortAllAntalBørnAscending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllLederIDDESC()
+        {
+            return børnegruppeService.SortAllLederIDDescending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllLederIDASC()
+        {
+            return børnegruppeService.SortAllLederIDAscending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllAntalLodSeddelerPrGruppeDESC()
+        {
+            return børnegruppeService.SortAllAntalLodSeddelerPrGruppeDescending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllAntalLodSeddelerPrGruppeASC()
+        {
+            return børnegruppeService.SortAllAntalLodSeddelerPrGruppeAscending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllAntalSolgtePrGruppeDESC()
+        {
+            return børnegruppeService.SortAllAntalSolgtePrGruppeDescending();
+        }
+
+        public IEnumerable<Børnegruppe> SortAllAntalSolgtePrGruppeASC()
+        {
+            return børnegruppeService.SortAllAntalSolgtePrGruppeAscending();
+        }
     }
 }

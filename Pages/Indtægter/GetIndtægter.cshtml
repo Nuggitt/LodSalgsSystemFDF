@@ -8,13 +8,18 @@
 <p>
     <a asp-page="/Indtægter/Create">Opret ny indtægt</a>
 </p>
-
+<form method="post" class="form-inline">
+    <div class="input-group mb-3">
+        <input asp-for="NameSearch" class="form-control mr-1" placeholder="Enter search term" />
+        <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
+    </div>
+</form>
 <h4 style="color:red"> Liste over alle indtægter</h4>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Indtægt_ID
+                Indtægt_ID <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IndtægtIDDESC"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IndtægtIDASC"><i class="fa fa-angle-up"></i></a> 
             </th>
             <th>
                 Salg_ID
@@ -41,7 +46,7 @@
                 Telefon
             </th>
             <th>
-                Antal Solgte Lodsedeler 
+                Antal Solgte Lodsedeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDESC"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerASC"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
                 Solgte Lodsedeler for gruppen

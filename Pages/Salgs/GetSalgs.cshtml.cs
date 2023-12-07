@@ -13,7 +13,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         [BindProperty]
         public int IDSearch { get; set; }
         [BindProperty]
-        public float MinPrice { get; set; } = 0;
+        public float MinPrice { get; set; }
         [BindProperty]
         public float MaxPrice { get; set; }
         public GetSalgsModel(ISalgService salgService)
@@ -37,7 +37,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         }
         public IActionResult OnpostPriceFilter()
         {
-            Salgs = _salgService.PriceFilter(IDSearch);
+            Salgs = _salgService.PriceFilter(MaxPrice, MinPrice);
             return Page();
         }
     }

@@ -15,6 +15,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Salg UpdateSalg(Salg salg);
 
         IEnumerable<Salg> GetBørnegruppeByID(int ID);
-        IEnumerable<Salg> PriceFilter(int maxPrice, int minPrice = 0);
+        IEnumerable<Salg> PriceFilter(float maxPrice, float minPrice);
     }
 }

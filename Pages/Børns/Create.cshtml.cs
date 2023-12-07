@@ -1,4 +1,6 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +20,41 @@ namespace LodSalgsSystemFDF.Pages.Børns
             _børnService=børnService;
         }
 
+        //public IActionResult OnPost()
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Page();
+        //    }
+        //    Børns = _børnService.CreateBørn(Børns);
+        //    return RedirectToPage("GetBørn");
+        //}
+
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                Børns = _børnService.CreateBørn(Børns);
+                return RedirectToPage("GetBørn");
+            }
+            catch (NegativeAmountExceptioncs ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
             }
-            Børns = _børnService.CreateBørn(Børns);
-            return RedirectToPage("GetBørn");
+
+            catch (DuplicateKeyException ex)
+            {
+                ModelState.AddModelError("Børns.Børn_ID", ex.Message);
+                return Page();
+
+            }
+
         }
     }
 }

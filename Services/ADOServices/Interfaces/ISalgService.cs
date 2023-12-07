@@ -14,6 +14,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
 
         Salg UpdateSalg(Salg salg);
 
-        IEnumerable<Salg> GetBørnegruppeByID(string ID);
+        IEnumerable<Salg> GetBørnegruppeByID(int ID);
     }
 }

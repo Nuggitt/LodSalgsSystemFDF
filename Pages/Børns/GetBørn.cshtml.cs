@@ -15,9 +15,9 @@ namespace LodSalgsSystemFDF.Pages.Børns
         }
         [BindProperty]
         public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
-        public void OnGet()
+        public async Task OnGet()
         {
-            Børns = _børnService.GetBørn();
+            Børns = await _børnService.GetBørn();
         }
 
         public void OnGetNavnDescending()

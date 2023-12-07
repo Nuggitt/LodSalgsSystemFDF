@@ -11,6 +11,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         Leder UpdateLeder(Leder leder);
         IEnumerable<Leder> GetLederByName(string Navn);
         IEnumerable<Leder> GetAllLederNavnDescending();
+        IEnumerable<Leder> GetAllLederNavnAscending();
 
     }
 }

@@ -236,11 +236,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             }
             return salg;
         }
-        public List<Salg> GetBørnegruppeByID(string ID)
+        public List<Salg> GetBørnegruppeByID(int ID)
         {
             List<Salg> listsalg = new List<Salg>();
             Salg salg = new Salg();
-            string sql = "Select * from Salg Where Børnegruppe_ID like @Børnegruppe_ID";
+            string sql = "Select * from Salg Where Børnegruppe_ID = @Børnegruppe_ID";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(sql, connection);

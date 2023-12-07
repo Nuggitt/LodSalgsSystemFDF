@@ -1,6 +1,8 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
+using System.Reflection.PortableExecutable;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
@@ -18,18 +20,18 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             connectionString = configuration.GetConnectionString("Datacraft.dk");
         }
 
-        public List<Børn> GetAllBørn()
+    public async Task<List<Børn>> GetAllBørn()
         {
             List<Børn> listbørn = new List<Børn>();
             string sql = "Select * from Børn";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+               await connection.OpenAsync();
 
                 SqlCommand command = new SqlCommand(sql, connection);
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
-                    while (dataReader.Read())
+                    while (await dataReader.ReadAsync())
                     {
                         Børn børn = new Børn();
                         børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
@@ -51,7 +53,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return listbørn;
         }
 
-        public Børn GetBørn(int id)
+        public async Task<Børn> GetBørn(int id)
         {
             List<Børn> listbørn = new List<Børn>();
             Børn børn = new Børn();
@@ -61,10 +63,13 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             {
                 SqlCommand command = new SqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@Børn_ID", id);
-                connection.Open();
-                using (SqlDataReader dataReader = command.ExecuteReader())
+
+                await connection.OpenAsync();
+
+                using (SqlDataReader dataReader = await command.ExecuteReaderAsync())
                 {
-                    while (dataReader.Read())
+                    while (await dataReader.ReadAsync())
+
                     {
                         børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
@@ -85,6 +90,16 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
         public Børn CreateBørn(Børn børn)
         {
+            if (børn.Børn_ID <=0 || børn.AntalSolgteLodseddeler < 0 || børn.Børnegruppe_ID <= 0)
+            {
+                throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
+            }
+
+            if (TjekIdEksisterer(børn.Børn_ID.ToString()))
+            {
+                throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
+            }
+
             List<Børn> listbørn = new List<Børn>();
             string sql = "INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, AntalSolgteLodseddeler, Børnegruppe_ID) VALUES(@Børn_ID, @Navn, @Adresse, @Telefon, @AntalSolgteLodseddeler, @Børnegruppe_ID)";
 
@@ -109,7 +124,27 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return børn;
         }
 
-        public Børn DeleteBørn(Børn børn)
+        public bool TjekIdEksisterer(string børnId)
+        {
+            string sql = "SELECT COUNT(*) FROM Børn WHERE Børn_ID = @Børn_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Børn_ID", børnId);
+
+                    int count = (int)command.ExecuteScalar();
+
+                    return count > 0;
+                }
+            }
+        }
+
+
+                public Børn DeleteBørn(Børn børn)
         {
             List<Børn> Børn = new List<Børn>();
             string sql = "DELETE FROM Børn WHERE Børn_ID = @Børn_ID";

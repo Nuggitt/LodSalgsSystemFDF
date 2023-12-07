@@ -27,5 +27,9 @@ namespace LodSalgsSystemFDF.Pages.Ledere
             Ledere = _lederService.GetLederByName(LederSearch);
             return Page();
         }
-    }
+        public void OnGetLederNavnDescending()
+        {
+            Ledere = _lederService.GetAllLederNavnDescending();
+        }
+}
 }

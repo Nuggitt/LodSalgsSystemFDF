@@ -1,4 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
@@ -254,10 +255,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                         salg.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
                         salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
                         salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
-                        salg.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);                        
+                        salg.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
+                        salg.Dato = Convert.ToDateTime(reader["Dato"]);
                         salg.AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]);
                         salg.AntalSolgteLodseddelerPrSalg = Convert.ToInt32(reader["AntalSolgteLodseddelerPrSalg"]);
-                        salg.Pris = Convert.ToInt32(reader["Pris"]);
+                        salg.Pris = Convert.ToDouble(reader["Pris"]);
                         listsalg.Add(salg);
 
                     }
@@ -267,6 +269,44 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             return listsalg;
         }
 
+        public IEnumerable<Salg> PriceFilters(float maxPrice, float minPrice)
+        {
+            if (minPrice < 0 || maxPrice < 0 )
+            {
+                throw new NegativeAmountExceptioncs("MinPrice and MaxPrice cannot be negative values.");
+            }
+            List<Salg> filterList = new List<Salg>();
+            
+            string sql = "SELECT * FROM Salg WHERE (@MinPrice = 0 OR Pris >= @MinPrice) AND (@MaxPrice = 0 OR Pris <= @MaxPrice)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@MinPrice", minPrice);
+                command.Parameters.AddWithValue("@MaxPrice", maxPrice);
+                connection.Open();
 
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        Salg salg = new Salg();
+                        salg.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
+                        salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
+                        salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                        salg.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
+                        salg.Dato = Convert.ToDateTime(reader["Dato"]);
+                        salg.AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]);
+                        salg.AntalSolgteLodseddelerPrSalg = Convert.ToInt32(reader["AntalSolgteLodseddelerPrSalg"]);
+                        salg.Pris = Convert.ToDouble(reader["Pris"]);
+
+                        filterList.Add(salg);
+                    }
+
+                    return filterList;
+                }
+            }
+                                               
+        }
     }
 }

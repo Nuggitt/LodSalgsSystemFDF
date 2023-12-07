@@ -115,20 +115,20 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     connection.Open();
                     
                     command.Parameters.AddWithValue("@Børnegruppe_ID",børnegruppe.Børnegruppe_ID );
-                    command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn);
+                    command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn); 
                     command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
                     command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
                     command.Parameters.AddWithValue("@Leder_ID", børnegruppe.Leder_ID);
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
                     command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodseddeler);
 
-                    foreach (Børnegruppe duplicatekey in børnegruppelist)
-                    {
-                        if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
-                        {
-                            throw new DuplicateKeyException(" ID Eksiterer allerede");
-                        }
-                    }
+                    //foreach (Børnegruppe duplicatekey in børnegruppelist)
+                    //{
+                    //    if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
+                    //    {
+                    //        throw new DuplicateKeyException(" ID Eksiterer allerede");
+                    //    }
+                    //}
                     børnegruppelist.Add(børnegruppe);
 
                     int numberOfRowsAffected = command.ExecuteNonQuery();

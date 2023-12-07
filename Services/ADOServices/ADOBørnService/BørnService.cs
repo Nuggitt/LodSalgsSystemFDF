@@ -13,14 +13,15 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             {
                 _børnService = børnservice;
             }
-            public IEnumerable<Børn> GetBørn()
-            {
-                return _børnService.GetAllBørn();
+
+        public async Task<IEnumerable<Børn>> GetBørn()
+        {
+            return await _børnService.GetAllBørn();
         }
 
-        public Børn GetBørn(int id)
+        public async Task<Børn> GetBørn(int id)
         {
-            return _børnService.GetBørn(id);
+            return await _børnService.GetBørn(id);
         }
 
         public Børn CreateBørn(Børn børn)

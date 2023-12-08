@@ -27,7 +27,10 @@
                 Telefon
             </th>
             <th>
-                AntalSolgteLodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
+                Givet Lodsedler
+            </th>
+            <th>
+                Antal Solgte Lodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
                 Børnegruppe_ID <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDAscending"><i class="fa fa-angle-up"></i></a>
@@ -58,6 +61,9 @@
                     </td>
                     <td>
                         @item.Telefon
+                    </td>
+                    <td>
+                        @item.GivetLodsedler
                     </td>
                     <td>
                         @item.AntalSolgteLodseddeler

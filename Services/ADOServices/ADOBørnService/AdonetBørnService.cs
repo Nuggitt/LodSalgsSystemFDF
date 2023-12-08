@@ -38,6 +38,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -75,6 +76,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 

@@ -11,6 +11,9 @@ namespace LodSalgsSystemFDF.Pages.Børns
     public class GetBørnModel : PageModel
     {
         private IBørnService _børnService;
+        
+        [BindProperty]
+        public string NameSearch { get; set; }
         public GetBørnModel(IBørnService børnService)
         {
             _børnService = børnService;
@@ -62,6 +65,11 @@ namespace LodSalgsSystemFDF.Pages.Børns
             Børns = _børnService.GetAllBørnGruppeIDAscending();
         }
 
+        public IActionResult OnPostBørnByName()
+        {
+            Børns = _børnService.GetBørnByName(NameSearch);
+            return Page();
+        }
 
         //public void OnGetAllBørnItems(string Børn, string Navn)
         //{

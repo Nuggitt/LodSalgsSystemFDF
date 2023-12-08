@@ -300,7 +300,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public List<Indtægt> GetAntalSolgteLodseddelerASC()
         {
             List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "Select Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn,  Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddeler  FROM Indtægt\r\njoin Salg on Indtægt.Salg_ID = Salg.Salg_ID\r\njoin Børn on Salg.Salg_ID = Børn.Børn_ID\r\njoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY Børn.AntalSolgteLodseddeler ASC";
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddeler\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler ASC;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

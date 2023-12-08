@@ -93,7 +93,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
         //{
         //    return _børnService.GetAllBørnItems(Børn, Navn);
         //}
-
+        public IEnumerable<Børn> GetBørnByName(string Name)
+        {
+            return _børnService.GetBørnByName(Name);
+        }
 
 
     }

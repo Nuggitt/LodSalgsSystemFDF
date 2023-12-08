@@ -9,6 +9,12 @@
 <p>
     <a asp-page="/Børns/Create">Opret nyt Barn</a>
 </p>
+<form method="post" class="form-inline">
+    <div class="input-group mb-3">
+        <input asp-for="NameSearch" class="form-control mr-1" placeholder="Søg efter navn" />
+        <input type="submit" asp-page-handler="BørnByName" value="Search" class="btn btn-primary" />
+    </div>
+</form>
 
 <h4 style="color:red"> Listen over alle Børn</h4>
 <table class="table">

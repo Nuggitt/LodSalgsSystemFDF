@@ -22,6 +22,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         IEnumerable<Børn> GetAllBørnAntalSolgteLodseddelerAscending();
         IEnumerable<Børn> GetAllBørnGruppeIDAscending();
 
+        IEnumerable<Børn> GetGivetLodsedlerAscending();
+        IEnumerable<Børn> GetGivetLodsedlerDescending();
+
         //IEnumerable<Børn> GetAllBørnItems(string Børn, string Navn);
         IEnumerable<Børn> GetBørnByName(string Name);
 

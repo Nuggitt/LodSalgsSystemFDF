@@ -36,6 +36,12 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="@Model.Børns.GivetLodsedler" class="control-label"></label>
+                <input asp-for="@Model.Børns.GivetLodsedler" class="form-control" />
+                <span asp-validation-for="@Model.Børns.GivetLodsedler" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="@Model.Børns.AntalSolgteLodseddeler" class="control-label"></label>
                 <input asp-for="@Model.Børns.AntalSolgteLodseddeler" class="form-control" />
                 <span asp-validation-for="@Model.Børns.AntalSolgteLodseddeler" class="text-danger"></span>

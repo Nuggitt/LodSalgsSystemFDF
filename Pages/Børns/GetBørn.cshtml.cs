@@ -70,6 +70,16 @@ namespace LodSalgsSystemFDF.Pages.Børns
             Børns = _børnService.GetBørnByName(NameSearch);
             return Page();
         }
+        public void OnGetGivetLodsedlerDescending()
+        {
+            Børns = _børnService.GetGivetLodsedlerDescending();
+        }
+
+        public void OnGetGivetLodsedlerAscending()
+        {
+            Børns = _børnService.GetGivetLodsedlerAscending();
+        }
+
 
         //public void OnGetAllBørnItems(string Børn, string Navn)
         //{

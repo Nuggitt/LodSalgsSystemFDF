@@ -25,16 +25,18 @@ namespace LodSalgsSystemFDF.Pages.Børns
         }
         public async Task  OnGet(int id)
         {
+
             Børn = await _børneService.GetBørn(id);
-            Børns = await _børneService.GetBørn();  
-            
+            Børns = await _børneService.GetBørn();
+
         }
+
 
         public IActionResult OnPost()
         {
             
             Børn = _børneService.TildelLodsedler(Børn, Amount);
-            return RedirectToPage("GetBørn");
+            return RedirectToPage();
         }
     }
 }

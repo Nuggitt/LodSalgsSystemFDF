@@ -1,9 +1,7 @@
 ﻿@page
-@model LodSalgsSystemFDF.Pages.Børnegrupper.GetBørnegruppeModel
+@model LodSalgsSystemFDF.Pages.Børnegrupper.TildelLodsedlerBørnegruppeModel
 @{
-    ViewData["Title"] = "GetBørnegrupper";
 }
-
 <h1>Liste over alle børnegrupper</h1>
 <p>
     <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
@@ -19,7 +17,7 @@
             <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
         </div>
     </form>
-    
+
 </body>
 
 <h4 style="color:red"> List of Børnegrupper</h4>
@@ -27,7 +25,7 @@
     <thead>
         <tr>
             <th>
-                Børnegruppe_ID 
+                Børnegruppe_ID
                 <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="BørnegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="BørngruppeIDAscending"><i class="fa fa-angle-up"></i></a>
             </th>
@@ -108,19 +106,76 @@
                         </p>
                     </td>
                     <td>
-                            <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Ret børnegruppen  </a>
+                        <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Ret børnegruppen  </a>
                     </td>
                     <td>
 
-                        <a asp-page="/Børns/GetBørn" asp-page-handler="BørnInBørnegruppe" asp-route-id=" @item.Børnegruppe_ID"> Se Børn i specifikke gruppe  </a>
-                        
+                        <a asp-page="/Børnegrupper/GetBørnegrupper" asp-page-handler="BørnInBørnegruppe" asp-route-id=" @item.Børnegruppe_ID"> Se Børn i specifikke gruppe  </a>
+
                     </td>
                     <td>
                         <a class="btn" type="button" asp-page="TildelLodsedlerBørnegruppe" asp-route-id="@item.Børnegruppe_ID"><i class="fa fa-plus-square"></i></a>
                     </td>
-                    
+
                 </tr>
             }
         }
     </tbody>
 </table>
+
+<ul>
+    @foreach (var børnegruppe in @Model.Børnegrupper)
+    {
+
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><small class="text-muted">(@Model.Børnegruppe.Gruppenavn)</small>@Model.Børnegruppe.Gruppenavn</h5>
+                        <a type="button" class="close" asp-page="GetBørnegrupper">&times;</a>
+                    </div>
+                    <div class="modal-body">
+                        <p><b>Gruppe Navn:</b>@Model.Børnegruppe.Gruppenavn</p>
+                        <p><b>Lokale:</b>@Model.Børnegruppe.Lokale</p>
+                        <p><b>Leder ID:</b>@Model.Børnegruppe.Leder_ID</p>
+                        <p><b>Antal Børn:</b>@Model.Børnegruppe.Antalbørn</p>
+                        <p><b>Antal Lodsedler for gruppen:</b>@Model.Børnegruppe.AntalLodSeddelerPrGruppe</p>
+                        <p><b>Antal Solgte Lodsedler for gruppen:</b>@Model.Børnegruppe.AntalSolgteLodseddeler</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form method="post">
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="GivLodsedler">Giv Lodsedler</label>
+                                        <input asp-for="@Model.Amount" class="form-control" />
+                                        <span asp-validation-for="@Model.Børnegruppe.AntalLodSeddelerPrGruppe" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="submit" value="Tildel" class="btn btn-primary" />
+                                        <a type="button" class="btn btn-danger" asp-page="GetBørnegrupper">Close</a>
+                                        <input type="hidden" asp-for="Børnegruppe.Børnegruppe_ID" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</ul>
+
+@section Scripts
+    {
+    @*jquery - javascript der sikre at modalen kun kan lukkes ved klik i modalen og at den er åben når siden vises.*@
+    <script>
+        $(document).ready(function () {
+            $("#myModal").modal({ backdrop: "static" });
+            $("#myModal").modal('show');
+        });
+    </script>
+}

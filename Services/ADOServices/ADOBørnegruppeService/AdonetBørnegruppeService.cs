@@ -609,6 +609,26 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             return lstbørne;
         }
 
+        public Børnegruppe TildelLodsedlerBørnegruppe(Børnegruppe børngruppe, int amount)
+        {
+            string sql = "UPDATE Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", børngruppe.Børnegruppe_ID);
+                    command.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", amount);
+
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return børngruppe;
+        }
+
 
         //
     }

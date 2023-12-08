@@ -103,7 +103,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             }
 
             List<Børn> listbørn = new List<Børn>();
-            string sql = "INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, AntalSolgteLodseddeler, Børnegruppe_ID) VALUES(@Børn_ID, @Navn, @Adresse, @Telefon, @AntalSolgteLodseddeler, @Børnegruppe_ID)";
+            string sql = "INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, GivetLodsedler, AntalSolgteLodseddeler, Børnegruppe_ID) VALUES(@Børn_ID, @Navn, @Adresse, @Telefon, @GivetLodsedler, @AntalSolgteLodseddeler, @Børnegruppe_ID)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -115,6 +115,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                     command.Parameters.AddWithValue("@Navn", børn.Navn);
                     command.Parameters.AddWithValue("@Adresse", børn.Adresse);
                     command.Parameters.AddWithValue("@Telefon", børn.Telefon);
+                    command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
                     command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
                     command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
 
@@ -166,7 +167,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
         public Børn UpdateBørn(Børn børn)
         {
-            string sql = "UPDATE Børn SET Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, AntalSolgteLodseddeler = @AntalSolgteLodseddeler, Børnegruppe_ID = @Børnegruppe_ID WHERE Børn_ID = @Børn_ID";
+            string sql = "UPDATE Børn SET Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, GivetLodsedler = @GivetLodsedler, AntalSolgteLodseddeler = @AntalSolgteLodseddeler, Børnegruppe_ID = @Børnegruppe_ID WHERE Børn_ID = @Børn_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -178,6 +179,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                     command.Parameters.AddWithValue("@Navn", børn.Navn);
                     command.Parameters.AddWithValue("@Adresse", børn.Adresse);
                     command.Parameters.AddWithValue("@Telefon", børn.Telefon);
+                    command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
                     command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
                     command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
 
@@ -208,6 +210,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -238,6 +241,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -268,6 +272,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -298,6 +303,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -328,6 +334,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -358,6 +365,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -388,6 +396,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 
@@ -418,6 +427,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Navn = Convert.ToString(dataReader["Navn"]);
                         børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
                         børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
 

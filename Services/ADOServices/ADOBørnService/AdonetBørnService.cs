@@ -426,6 +426,30 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
             return listbørn;
         }
+        public List<Børn> GetBørnByName(string name)
+        {
+            List<Børn> listbørn = new List<Børn>();
+            Børn børn = new Børn();
+            string sql = "Select * from Børne Where Navn like @Navn";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Navn", name);
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        børn.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(reader["Navn"]);
+                        børn.Adresse = Convert.ToString(reader["Adresse"]);
+                        børn.Telefon = Convert.ToString(reader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(reader["GivetLodsedler"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);                       
+                        listbørn.Add(børn);
+                    }
+                }
 
         //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
         //{

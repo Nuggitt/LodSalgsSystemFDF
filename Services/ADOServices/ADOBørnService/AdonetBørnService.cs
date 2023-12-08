@@ -442,7 +442,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
         {
             List<Børn> listbørn = new List<Børn>();
             Børn børn = new Børn();
-            string sql = "Select * from Børne Where Navn like @Navn";
+            string sql = "Select * from Børn Where Navn like @Navn";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(sql, connection);
@@ -458,10 +458,13 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                         børn.Telefon = Convert.ToString(reader["Telefon"]);
                         børn.GivetLodsedler = Convert.ToInt32(reader["GivetLodsedler"]);
                         børn.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);                       
+                        børn.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
                         listbørn.Add(børn);
                     }
                 }
+                return listbørn;
+            }
+        }
 
         public List<Børn> GetGivetLodsedlerDescending()
         {
@@ -524,68 +527,43 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
             return listbørn;
         }
-        public List<Børn> GetBørnByName(string name)
-        {
-            List<Børn> listbørn = new List<Børn>();
-            Børn børn = new Børn();
-            string sql = "Select * from Børne Where Navn like @Navn";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Navn", name);
-                connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        børn.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(reader["Navn"]);
-                        børn.Adresse = Convert.ToString(reader["Adresse"]);
-                        børn.Telefon = Convert.ToString(reader["Telefon"]);                       
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);                       
-                        listbørn.Add(børn);
-                    }
-                }
 
-            }
-            return listbørn;
-            //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
-            //{
-            //    List<T> listbørn = new List<T>();
-            //    string sql = $"SELECT * FROM Børn ORDER BY Navn DESC";
+        //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
+        //{
+        //    List<T> listbørn = new List<T>();
+        //    string sql = $"SELECT * FROM Børn ORDER BY Navn DESC";
 
-            //    using (SqlConnection connection = new SqlConnection(connectionString))
-            //    {
-            //        connection.Open();
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        connection.Open();
 
-            //        SqlCommand command = new SqlCommand(sql, connection);
-            //        using (SqlDataReader dataReader = command.ExecuteReader())
-            //        {
-            //            while (dataReader.Read())
-            //            {
-            //                var børn = Activator.CreateInstance<T>();
+        //        SqlCommand command = new SqlCommand(sql, connection);
+        //        using (SqlDataReader dataReader = command.ExecuteReader())
+        //        {
+        //            while (dataReader.Read())
+        //            {
+        //                var børn = Activator.CreateInstance<T>();
 
-            //                foreach (var property in typeof(T).GetProperties())
-            //                {
-            //                    if (!dataReader.IsDBNull(dataReader.GetOrdinal(property.Name)))
-            //                    {
-            //                        var value = dataReader[property.Name];
-            //                        property.SetValue(børn, value == DBNull.Value ? null : value);
-            //                    }
-            //                }
+        //                foreach (var property in typeof(T).GetProperties())
+        //                {
+        //                    if (!dataReader.IsDBNull(dataReader.GetOrdinal(property.Name)))
+        //                    {
+        //                        var value = dataReader[property.Name];
+        //                        property.SetValue(børn, value == DBNull.Value ? null : value);
+        //                    }
+        //                }
 
-            //                listbørn.Add(børn);
-            //            }
-            //        }
-            //    }
+        //                listbørn.Add(børn);
+        //            }
+        //        }
+        //    }
 
-            //    return listbørn;
-            //}
+        //    return listbørn;
+        //}
 
-        }
+
     }
-
-
 }
+    
+
 

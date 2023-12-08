@@ -4,6 +4,7 @@ using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Cryptography;
 
 namespace LodSalgsSystemFDF.Pages.Børns
 {
@@ -11,7 +12,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
     public class GetBørnModel : PageModel
     {
         private IBørnService _børnService;
-        
+
         [BindProperty]
         public string NameSearch { get; set; }
         public GetBørnModel(IBørnService børnService)
@@ -22,7 +23,14 @@ namespace LodSalgsSystemFDF.Pages.Børns
         public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
         public async Task OnGet()
         {
+
             Børns = await _børnService.GetBørn();
+        }
+
+        public async Task OnGetBørnInBørnegruppe(int id)
+        {
+            Børns = await _børnService.GetBørnInBørnegruppe(id);
+
         }
 
         public void OnGetNavnDescending()
@@ -79,6 +87,8 @@ namespace LodSalgsSystemFDF.Pages.Børns
         {
             Børns = _børnService.GetGivetLodsedlerAscending();
         }
+
+
 
 
         //public void OnGetAllBørnItems(string Børn, string Navn)

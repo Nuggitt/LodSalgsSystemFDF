@@ -30,5 +30,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         //IEnumerable<Børn> GetAllBørnItems(string Børn, string Navn);
         IEnumerable<Børn> GetBørnByName(string Name);
 
+        Task<IEnumerable<Børn>> GetBørnInBørnegruppe(int id);
+
     }
 }

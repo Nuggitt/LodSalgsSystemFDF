@@ -104,6 +104,11 @@
                     <td>
                             <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Ret børnegruppen  </a>
                     </td>
+                    <td>
+
+                        <a asp-page="/Børns/GetBørn" asp-page-handler="BørnInBørnegruppe" asp-route-id=" @item.Børnegruppe_ID"> Se Børn i specifikke gruppe  </a>
+                        
+                    </td>
                     
                 </tr>
             }

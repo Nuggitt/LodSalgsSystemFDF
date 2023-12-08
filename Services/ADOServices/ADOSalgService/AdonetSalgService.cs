@@ -158,13 +158,15 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                         {
                             string sqlbørnegruppe = "Update dbo.Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
-                            using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe,connection, transaction))
+                            using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
                             {
                                 updcommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
                                 updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", salg.AntalLodseddelerRetur);
 
                                 updcommand.ExecuteNonQuery();
                             }
+
+
                         }
 
                         if (salg.AntalSolgteLodseddelerPrSalg != null)
@@ -177,6 +179,16 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                                 updateCommand.Parameters.AddWithValue("@AntalSolgteLodseddeler", salg.AntalSolgteLodseddelerPrSalg);
 
                                 updateCommand.ExecuteNonQuery();
+                            }
+
+                            string sqlbørn = "Update dbo.Børn SET GivetLodsedler = GivetLodsedler - @GivetLodsedler WHERE Børn_ID = @Børn_ID";
+
+                            using (SqlCommand updcommand = new SqlCommand(sqlbørn, connection, transaction))
+                            {
+                                updcommand.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                                updcommand.Parameters.AddWithValue("@GivetLodsedler", salg.AntalSolgteLodseddelerPrSalg);
+
+                                updcommand.ExecuteNonQuery();
                             }
                         }
 

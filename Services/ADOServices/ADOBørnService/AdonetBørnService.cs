@@ -528,6 +528,27 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return listbørn;
         }
 
+        public Børn TildelLodsedler(Børn børn, int amount)
+        {
+            string sql = "UPDATE Børn SET GivetLodsedler = GivetLodsedler + @GivetLodsedler WHERE Børn_ID = @Børn_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+                    command.Parameters.AddWithValue("@GivetLodsedler", amount);
+                    
+
+                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            return børn;
+        }
+    
+
         //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
         //{
         //    List<T> listbørn = new List<T>();

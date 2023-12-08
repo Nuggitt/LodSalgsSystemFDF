@@ -9,6 +9,12 @@
 <p>
     <a asp-page="/Børns/Create">Opret nyt Barn</a>
 </p>
+<form method="post" class="form-inline">
+    <div class="input-group mb-3">
+        <input asp-for="NameSearch" class="form-control mr-1" placeholder="Søg efter navn" />
+        <input type="submit" asp-page-handler="BørnByName" value="Search" class="btn btn-primary" />
+    </div>
+</form>
 
 <h4 style="color:red"> Listen over alle Børn</h4>
 <table class="table">
@@ -27,7 +33,10 @@
                 Telefon
             </th>
             <th>
-                AntalSolgteLodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
+                Givet Lodsedler <a data-toggle="tooltip" title="Sorter antal givet lodsedler faldende" asp-page-handler="GivetLodsedlerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter antal givet lodsedler rejsende" asp-page-handler="GivetLodsedlerAscending"><i class="fa fa-angle-up"></i></a>
+            </th>
+            <th>
+                Antal Solgte Lodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
                 Børnegruppe_ID <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDAscending"><i class="fa fa-angle-up"></i></a>
@@ -58,6 +67,9 @@
                     </td>
                     <td>
                         @item.Telefon
+                    </td>
+                    <td>
+                        @item.GivetLodsedler
                     </td>
                     <td>
                         @item.AntalSolgteLodseddeler

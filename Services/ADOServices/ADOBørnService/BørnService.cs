@@ -79,11 +79,24 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.GetAllBørnGruppeIDAscending();
         }
 
+        public IEnumerable<Børn> GetGivetLodsedlerDescending()
+        {
+            return _børnService.GetGivetLodsedlerDescending();
+        }
+
+        public IEnumerable<Børn> GetGivetLodsedlerAscending()
+        {
+            return _børnService.GetGivetLodsedlerAscending();
+        }
+
         //public IEnumerable<Børn> GetAllBørnItems(string Børn, string Navn)
         //{
         //    return _børnService.GetAllBørnItems(Børn, Navn);
         //}
-
+        public IEnumerable<Børn> GetBørnByName(string Name)
+        {
+            return _børnService.GetBørnByName(Name);
+        }
 
 
     }

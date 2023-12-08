@@ -20,6 +20,9 @@ namespace LodSalgsSystemFDF.Models
         public string Telefon { get; set; }
         [Required]
 
+        public int GivetLodsedler { get; set; }
+        [Required]
+
         public int AntalSolgteLodseddeler { get; set; }
         [Required]
 

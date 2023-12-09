@@ -1,13 +1,20 @@
 ﻿@page
+@using LodSalgsSystemFDF.Pages.LogIn;
 @model LodSalgsSystemFDF.Pages.Børnegrupper.GetBørnegruppeModel
 @{
     ViewData["Title"] = "GetBørnegrupper";
 }
 
 <h1>Liste over alle børnegrupper</h1>
-<p>
-    <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
-</p>
+@{
+    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+    {
+        <p>
+            <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
+        </p>
+    }
+}
+
 <head>
     <title>Search Bar Example</title>
 </head>

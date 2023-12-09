@@ -7,9 +7,15 @@
 
 
 <h1>Liste over alle Børn</h1>
-<p>
-    <a asp-page="/Børns/Create">Opret nyt Barn</a>
-</p>
+@{
+    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+    {
+        <p>
+            <a asp-page="/Børns/Create">Opret nyt Barn</a>
+        </p>
+        
+    }
+}
 <form method="post" class="form-inline">
     <div class="input-group mb-3">
         <input asp-for="NameSearch" class="form-control mr-1" placeholder="Søg efter navn" />
@@ -17,40 +23,73 @@
     </div>
 </form>
 
+
 <h4 style="color:red"> Listen over alle Børn</h4>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Børn_ID <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IDAscending"><i class="fa fa-angle-up"></i></a>
-            </th>
-            <th>
-                Navn <a data-toggle="tooltip" title="Sorter navn falende" asp-page-handler="NavnDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter navn rejsende" asp-page-handler="NavnAscending"><i class="fa fa-angle-up"></i></a>
-            </th>
-            <th>
-                Adresse
-            </th>
-            <th>
-                Telefon
-            </th>
-            <th>
-                Givet Lodsedler <a data-toggle="tooltip" title="Sorter antal givet lodsedler faldende" asp-page-handler="GivetLodsedlerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter antal givet lodsedler rejsende" asp-page-handler="GivetLodsedlerAscending"><i class="fa fa-angle-up"></i></a>
-            </th>
-            <th>
-                Antal Solgte Lodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
-            </th>
-            <th>
-                Børnegruppe_ID <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDAscending"><i class="fa fa-angle-up"></i></a>
-            </th>
-            <th>
-                Slet Barn
-            </th>
-            <th>
-                Ret Barn
-            </th>
-            <th>
-                Tildel Lodsedler
-            </th>
+            @{
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                {
+                    <th>
+                        Børn_ID <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IDAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Navn <a data-toggle="tooltip" title="Sorter navn falende" asp-page-handler="NavnDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter navn rejsende" asp-page-handler="NavnAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Adresse
+                    </th>
+                    <th>
+                        Telefon
+                    </th>
+                    <th>
+                        Givet Lodsedler <a data-toggle="tooltip" title="Sorter antal givet lodsedler faldende" asp-page-handler="GivetLodsedlerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter antal givet lodsedler rejsende" asp-page-handler="GivetLodsedlerAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Antal Solgte Lodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Børnegruppe_ID <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Slet Barn
+                    </th>
+                    <th>
+                        Ret Barn
+                    </th>
+                    <th>
+                        Tildel Lodsedler
+                    </th>
+                }
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                {
+                    <th>
+                        Børn_ID <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IDAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Navn <a data-toggle="tooltip" title="Sorter navn falende" asp-page-handler="NavnDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter navn rejsende" asp-page-handler="NavnAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Adresse
+                    </th>
+                    <th>
+                        Telefon
+                    </th>
+                    <th>
+                        Givet Lodsedler <a data-toggle="tooltip" title="Sorter antal givet lodsedler faldende" asp-page-handler="GivetLodsedlerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter antal givet lodsedler rejsende" asp-page-handler="GivetLodsedlerAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Antal Solgte Lodseddeler <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Børnegruppe_ID <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter gruppe_ID rejsende" asp-page-handler="GruppeIDAscending"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Tildel Lodsedler
+                    </th>
+                }
+            }
         </tr>
     </thead>
     <tbody>
@@ -59,42 +98,76 @@
         {
             @foreach (var item in Model.Børns)
             {
-                <tr>
-                    <td>
-                        @item.Børn_ID
-                    </td>
-                    <td>
-                        @item.Navn
-                    </td>
-                    <td>
-                        @item.Adresse
-                    </td>
-                    <td>
-                        @item.Telefon
-                    </td>
-                    <td>
-                        @item.GivetLodsedler
-                    </td>
-                    <td>
-                        @item.AntalSolgteLodseddeler
-                    </td>
-                    <td>
-                        @item.Børnegruppe_ID
-                    </td>
-                    <td>
-                        <p>
-                            <a asp-page="/Børns/Delete" asp-route-id="@item.Børn_ID"> Slet dette barn  </a>
-                        </p>
-                    </td>
-                    <td>
-                        <p>
-                            <a asp-page="/Børns/Update" asp-route-id="@item.Børn_ID"> Ret dette barn  </a>
-                        </p>
-                    </td>
-                    <td>
-                        <a class="btn" type="button" asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID"><i class="fa fa-plus-square"></i></a>
-                    </td>
-                </tr>
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                {
+                    <tr>
+                        <td>
+                            @item.Børn_ID
+                        </td>
+                        <td>
+                            @item.Navn
+                        </td>
+                        <td>
+                            @item.Adresse
+                        </td>
+                        <td>
+                            @item.Telefon
+                        </td>
+                        <td>
+                            @item.GivetLodsedler
+                        </td>
+                        <td>
+                            @item.AntalSolgteLodseddeler
+                        </td>
+                        <td>
+                            @item.Børnegruppe_ID
+                        </td>
+                        <td>
+                            <p>
+                                <a asp-page="/Børns/Delete" asp-route-id="@item.Børn_ID"> Slet dette barn  </a>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <a asp-page="/Børns/Update" asp-route-id="@item.Børn_ID"> Ret dette barn  </a>
+                            </p>
+                        </td>
+                        <td>
+                            <a class="btn" type="button" asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID"><i class="fa fa-plus-square"></i></a>
+                        </td>
+                    </tr>
+                }
+
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                {
+                    <tr>
+                        <td>
+                            @item.Børn_ID
+                        </td>
+                        <td>
+                            @item.Navn
+                        </td>
+                        <td>
+                            @item.Adresse
+                        </td>
+                        <td>
+                            @item.Telefon
+                        </td>
+                        <td>
+                            @item.GivetLodsedler
+                        </td>
+                        <td>
+                            @item.AntalSolgteLodseddeler
+                        </td>
+                        <td>
+                            @item.Børnegruppe_ID
+                        </td>
+                        <td>
+                            <a class="btn" type="button" asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID"><i class="fa fa-plus-square"></i></a>
+                        </td>
+                    </tr>
+                }
+                
             }
         }
     </tbody>

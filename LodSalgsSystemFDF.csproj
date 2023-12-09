@@ -36,4 +36,8 @@
 
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Billeder\skjoldetFDF.png" />
+  </ItemGroup>
+
 </Project>

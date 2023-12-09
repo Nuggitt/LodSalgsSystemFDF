@@ -44,13 +44,17 @@ namespace LodSalgsSystemFDF.Pages.LogIn
                 {
                     var passwordHasher = new PasswordHasher<string>();
 
-                    //if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Success)
+                    if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Failed)
                     {
                         LoggedInBruger = bruger;
 
                         var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
                         
+                        
                         if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
+                        if (BrugerNavn == "leder") claims.Add(new Claim(ClaimTypes.Role, "leder"));
+                        if (BrugerNavn == "lotteribestyrer") claims.Add(new Claim(ClaimTypes.Role, "lotteribestyrer"));
+
 
 
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

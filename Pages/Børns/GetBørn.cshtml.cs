@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 
 namespace LodSalgsSystemFDF.Pages.Børns
 {
-    [Authorize]
+    [Authorize(Roles ="admin, lotteribestyrer, leder")]
     public class GetBørnModel : PageModel
     {
         private IBørnService _børnService;

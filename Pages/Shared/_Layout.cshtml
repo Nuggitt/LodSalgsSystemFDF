@@ -15,9 +15,9 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light" style="background-color: #326295; border-bottom: 1px solid #000; box-shadow: 0 4px 2px -2px #333; margin-bottom: 20px;"   <div class="container">
             <div class="container">
             <a class="navbar-brand" asp-area="" asp-page="/Index">
-                <img src="~/Billeder/skjoldetFDF.png" alt="Logo" height="40" />
+                <img src="~/Billeder/skjoldetFDF.png" alt="Logo" height="50" />
             </a>
-            <a class="navbar-brand" asp-area="" asp-page="/Index">LodSalgsSystemFDF</a>
+            <a class="navbar-brand text-white" asp-area="" asp-page="/Index" style="weight">LodSalgsSystemFDF - Vanløse K19</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,28 +26,28 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         @{
                             if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Børns/GetBørn">Børn</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Børns/GetBørn">Børn</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegruppe</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegruppe</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
                                 </li>
                                 
                             }
@@ -59,17 +59,17 @@
                             if (LogInPageModel.LoggedInBruger == null)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-black" asp-area="" asp-page="/LogIn/LogInPage">Login</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogInPage">Login</a>
                                 </li>
                             }
                             else
                             {
-                                <li class="nav-item nav-link text-black me-3">
+                                <li class="nav-item nav-link text-white me-3">
                                     User: @LogInPageModel.LoggedInBruger.BrugerNavn
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-black" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a>
+                                    <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a>
                                 </li>
                             }
                         }

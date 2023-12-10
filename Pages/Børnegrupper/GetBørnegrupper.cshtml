@@ -4,7 +4,16 @@
     ViewData["Title"] = "GetBørnegrupper";
 }
 
-<h1>Liste over alle børnegrupper</h1>
+@* <style>
+    /* Add top margin equal to the height of the fixed navbar */
+    body {
+        margin-top: 100px; /* Adjust the value based on the actual height of your navbar */
+    }
+</style> *@
+
+<h1>Liste over alle børnegrupper </h1>
+
+
 <p>
     <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
 </p>
@@ -23,7 +32,17 @@
 </body>
 
 <h4 style="color:red"> List of Børnegrupper</h4>
-<table class="table">
+@* <style>
+    th {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    th a {
+        margin-left: 100px; /* Adjust the margin as needed for spacing */
+    }
+</style> *@
+<table class="table table-striped">
     <thead>
         <tr>
             <th>

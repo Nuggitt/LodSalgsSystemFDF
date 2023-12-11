@@ -175,7 +175,9 @@
                                 @item.Børnegruppe_ID
                             </td>
                             <td>
-                                <a class="btn" type="button" asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID"><i class="fa fa-plus-square"></i></a>
+                                <a asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                </a>
                             </td>
                         </tr>
                     }

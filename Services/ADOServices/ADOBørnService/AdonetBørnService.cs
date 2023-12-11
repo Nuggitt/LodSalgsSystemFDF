@@ -554,21 +554,21 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
                             using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
                             {
-                                updcommand.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID); // Use the existing Børnegruppe_ID
+                                updcommand.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
                                 updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", amount);
                                 updcommand.ExecuteNonQuery();
                             }
                         }
 
-                        // Commit the transaction after successful execution of both queries
+                        
                         transaction.Commit();
                     }
                     catch (Exception ex)
                     {
-                        // Handle exceptions and log or throw as necessary
+                        
                         Console.WriteLine($"Error: {ex.Message}");
 
-                        // Rollback the transaction in case of an error
+                        
                         transaction.Rollback();
                         throw;
                     }

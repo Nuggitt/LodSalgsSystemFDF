@@ -3,6 +3,7 @@ using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
+using System.Transactions;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
@@ -530,23 +531,56 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
         public Børn TildelLodsedler(Børn børn, int amount)
         {
-            string sql = "UPDATE Børn SET GivetLodsedler = GivetLodsedler + @GivetLodsedler WHERE Børn_ID = @Børn_ID";
+            string sqlbørn = "UPDATE Børn SET GivetLodsedler = GivetLodsedler + @GivetLodsedler WHERE Børn_ID = @Børn_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                connection.Open();
+
+                using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    connection.Open();
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sqlbørn, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+                            command.Parameters.AddWithValue("@GivetLodsedler", amount);
+                            command.ExecuteNonQuery();
+                        }
 
-                    command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
-                    command.Parameters.AddWithValue("@GivetLodsedler", amount);
-                    
+                        if (amount > 0)
+                        {
+                            string sqlbørnegruppe = "UPDATE Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe - @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                            using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
+                            {
+                                updcommand.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID); // Use the existing Børnegruppe_ID
+                                updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", amount);
+                                updcommand.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Commit the transaction after successful execution of both queries
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle exceptions and log or throw as necessary
+                        Console.WriteLine($"Error: {ex.Message}");
+
+                        // Rollback the transaction in case of an error
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
             return børn;
         }
+
+
+
+
+
 
         public async Task<IEnumerable<Børn>> GetBørnInBørnegruppe(int id)
         {
@@ -620,6 +654,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
     }
 }
-    
+
 
 

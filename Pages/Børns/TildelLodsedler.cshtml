@@ -114,6 +114,7 @@
                         <p><b>Telefon:</b>@Model.Børn.Telefon</p>
                         <p><b>Givet Lodsedler:</b>@Model.Børn.GivetLodsedler</p>
                         <p><b>Solgte Lodsedler:</b>@Model.Børn.AntalSolgteLodseddeler</p>
+                        <p><b>Børnegruppe_ID:</b>@Model.Børn.Børnegruppe_ID</p>
                     </div>
                     <div class="modal-footer">
                         <form method="post">
@@ -130,6 +131,7 @@
                                         <input type="submit" value="Tildel" class="btn btn-primary" />
                                         <a type="button" class="btn btn-danger" asp-page="GetBørn">Close</a>
                                         <input type="hidden" asp-for="Børn.Børn_ID" />
+                                        <input type="hidden" asp-for="Børn.Børnegruppe_ID" />
                                     </div>
                                 </div>
                             </div>

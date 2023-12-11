@@ -36,7 +36,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
         {
             
             Børn = _børneService.TildelLodsedler(Børn, Amount);
-            return RedirectToPage();
+            return RedirectToPage("GetBørn");
         }
     }
 }

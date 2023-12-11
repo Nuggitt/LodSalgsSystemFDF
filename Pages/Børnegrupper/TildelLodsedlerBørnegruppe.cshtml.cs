@@ -32,7 +32,7 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         {
 
             Børnegruppe = _børnegruppeService.TildelLodsedlerBørnegruppe(Børnegruppe, Amount);
-            return Page();
+            return RedirectToPage("GetBørnegrupper");
         }
     }
 }

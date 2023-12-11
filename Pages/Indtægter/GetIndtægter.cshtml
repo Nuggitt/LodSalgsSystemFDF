@@ -102,12 +102,16 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID"> Slet denne indtægt  </a>
+                            <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID"> Ret denne indtægt  </a>
+                            <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                 </tr>

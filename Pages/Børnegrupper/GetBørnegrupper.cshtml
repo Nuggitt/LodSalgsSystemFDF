@@ -117,11 +117,15 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Børnegrupper/DeleteBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Slet børnegruppen  </a>
+                            <a asp-page="/Børnegrupper/DeleteBørngruppe" asp-route-id="@item.Børnegruppe_ID">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                     <td>
-                            <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Ret børnegruppen  </a>
+                        <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
                     </td>
                     
                 </tr>

@@ -3,6 +3,7 @@ using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
 using System.Reflection.PortableExecutable;
+using System.Transactions;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
@@ -528,6 +529,95 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return listbørn;
         }
 
+        public Børn TildelLodsedler(Børn børn, int amount)
+        {
+            string sqlbørn = "UPDATE Børn SET GivetLodsedler = GivetLodsedler + @GivetLodsedler WHERE Børn_ID = @Børn_ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        using (SqlCommand command = new SqlCommand(sqlbørn, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+                            command.Parameters.AddWithValue("@GivetLodsedler", amount);
+                            command.ExecuteNonQuery();
+                        }
+
+                        if (amount > 0)
+                        {
+                            string sqlbørnegruppe = "UPDATE Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe - @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+
+                            using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
+                            {
+                                updcommand.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
+                                updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", amount);
+                                updcommand.ExecuteNonQuery();
+                            }
+                        }
+
+                        
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                        Console.WriteLine($"Error: {ex.Message}");
+
+                        
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+            return børn;
+        }
+
+
+
+
+
+
+        public async Task<IEnumerable<Børn>> GetBørnInBørnegruppe(int id)
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "Select * from Børn WHERE Børnegruppe_ID = @Børnegruppe_ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Børnegruppe_ID", id);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (await dataReader.ReadAsync())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+
+
+                    }
+
+                }
+
+            }
+
+            return listbørn;
+        }
+
+
         //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
         //{
         //    List<T> listbørn = new List<T>();
@@ -564,6 +654,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
     }
 }
-    
+
 
 

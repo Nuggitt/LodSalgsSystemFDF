@@ -98,6 +98,16 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.GetBørnByName(Name);
         }
 
+        public Børn TildelLodsedler(Børn børn, int amount)
+        {
+
+            return _børnService.TildelLodsedler(børn, amount);
+        }
+
+        public Task<IEnumerable<Børn>> GetBørnInBørnegruppe(int id)
+        {
+            return _børnService.GetBørnInBørnegruppe(id);
+        }
 
     }
 }

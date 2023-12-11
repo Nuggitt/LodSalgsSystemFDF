@@ -22,6 +22,8 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         IEnumerable<Børnegruppe> SortAllAntalLodSeddelerPrGruppeASC();
         IEnumerable<Børnegruppe> SortAllAntalSolgtePrGruppeDESC();
         IEnumerable<Børnegruppe> SortAllAntalSolgtePrGruppeASC();
-        
+
+        Børnegruppe TildelLodsedlerBørnegruppe(Børnegruppe børnegruppe, int amount);
+
     }
 }

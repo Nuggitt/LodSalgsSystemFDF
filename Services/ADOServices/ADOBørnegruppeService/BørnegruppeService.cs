@@ -96,5 +96,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         {
             return børnegruppeService.SortAllAntalSolgtePrGruppeAscending();
         }
+
+        public Børnegruppe TildelLodsedlerBørnegruppe(Børnegruppe børnegruppe, int amount)
+        {
+            return børnegruppeService.TildelLodsedlerBørnegruppe(børnegruppe,amount);
+        }
     }
 }

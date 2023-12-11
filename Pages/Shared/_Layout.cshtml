@@ -49,6 +49,35 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
                                 </li>
+
+                            }
+
+                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                            {
+                                
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
+                                </li>
+                            }
+
+                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                            {
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                </li>
                                 
                             }
                         }

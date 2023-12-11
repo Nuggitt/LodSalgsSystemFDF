@@ -31,4 +31,13 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
+
+  
+
+  
+  <ItemGroup>
+    <None Include="wwwroot\Billeder\skjoldetFDF.png" />
+  </ItemGroup>
+
+
 </Project>

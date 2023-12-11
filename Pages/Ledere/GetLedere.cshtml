@@ -19,8 +19,9 @@
     </div>
 </form>
 <h4 style="color:red"> Liste af ledere</h4>
-<table class="table">
-    <head>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
         <tr>
             <th>
                 Leder_ID
@@ -50,7 +51,7 @@
                 Ret Leder
             </th>
         </tr>
-    </head>
+    </thead>
     <tbody>
 
         @if (Model != null)
@@ -94,3 +95,4 @@
         }
     </tbody>
 </table>
+</div>

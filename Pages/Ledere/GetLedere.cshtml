@@ -6,7 +6,9 @@
 
 <h1>Liste over ledere</h1>
 <p>
-    <a asp-page="/Ledere/CreateLeder">Opret ny leder</a>
+    <a asp-page="/Ledere/CreateLeder">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
 </p>
 <form method="post" class="form-inline">
     <div class="input-group mb-3">
@@ -37,7 +39,7 @@
                 Er Lotteri Bestyrer
             </th>
             <th>
-                Børnegruppe_ID
+                Børnegruppe ID
             </th>
             <th>
                 Slet Leder
@@ -77,12 +79,12 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> Slet denne leder  </a>
+                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-trash" aria-hidden="true"></i>  </a>
                         </p>
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> Ret denne leder  </a>
+                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  </a>
                         </p>
                     </td>
                 </tr>

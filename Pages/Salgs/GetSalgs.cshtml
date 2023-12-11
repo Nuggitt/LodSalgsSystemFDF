@@ -6,7 +6,9 @@
 
 <h1>Liste over alle salg</h1>
 <p>
-    <a asp-page="/Salgs/Create">Opret nyt Salg</a>
+    <a asp-page="/Salgs/Create">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
 </p>
 <p>
     Søg efter BørnegruppeID
@@ -38,25 +40,25 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             </form>
             <th>
-                Salg_ID
+                Salg ID
             </th>
             <th>
-                Børn_ID
+                Børn ID
             </th>
             <th>
-                Børnegruppe_ID
+                Børnegruppe ID
             </th>
             <th>
-                Leder_ID
+                Leder ID
             </th>
             <th>
                 Dato
             </th>
             <th>
-                AntalLodseddelerRetur
+                Antal Lodseddeler Retur
             </th>
             <th>
-                AntalSoglteLodseddeler
+                Antal Soglte Lodseddeler
             </th>
             <th>
                 Pris
@@ -102,12 +104,16 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID"> Slet dette salg  </a>
+                            <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Salgs/Update" asp-route-id="@item.Salg_ID"> Ret dette salg  </a>
+                            <a asp-page="/Salgs/Update" asp-route-id="@item.Salg_ID">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                 </tr>

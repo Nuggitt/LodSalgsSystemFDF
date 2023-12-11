@@ -15,7 +15,9 @@
 
 
 <p>
-    <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
+    <a asp-page="/Børnegrupper/CreateBørngruppe">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
 </p>
 <head>
     <title>Search Bar Example</title>
@@ -46,7 +48,7 @@
     <thead>
         <tr>
             <th>
-                Børnegruppe_ID 
+                Børnegruppe ID 
                 <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="BørnegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="BørngruppeIDAscending"><i class="fa fa-angle-up"></i></a>
             </th>
@@ -60,22 +62,22 @@
 
             </th>
             <th>
-                AntalBørn
+                Antal Børn
                 <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalBørnDescending"><i class="fa fa-angle-down"></i></a>
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalBørnAscending"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
-                LederID
+                Leder ID
                 <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalLederDescending"><i class="fa fa-angle-down"></i></a>
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalLederAscending"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
-                Antal lodseddeler pr.gruppe
+                Lodseddeler pr.gruppe
                 <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeAscending"><i class="fa fa-angle-up"></i></a>
             </th>
             <th>
-                Antal solgte lodseddeler pr. gruppe
+                Solgte lodseddeler pr. gruppe
                 <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalSolgtePrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalSolgtePrGruppeAscending"><i class="fa fa-angle-up"></i></a>
             </th>
@@ -117,11 +119,15 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Børnegrupper/DeleteBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Slet børnegruppen  </a>
+                            <a asp-page="/Børnegrupper/DeleteBørngruppe" asp-route-id="@item.Børnegruppe_ID">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                     <td>
-                            <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID"> Ret børnegruppen  </a>
+                        <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
                     </td>
                     
                 </tr>

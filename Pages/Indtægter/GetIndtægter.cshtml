@@ -6,7 +6,9 @@
 
 <h1>Liste over alle indtægter</h1>
 <p>
-    <a asp-page="/Indtægter/Create">Opret ny indtægt</a>
+    <a asp-page="/Indtægter/Create">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
 </p>
 @* <form method="post" class="form-inline">
     <div class="input-group mb-3">
@@ -24,16 +26,16 @@
                 <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IndtægtIDASC"><i class="fa fa-angle-up"></i></a> 
             </th>
             <th>
-                Salg_ID
+                Salg ID
             </th>
             <th>
                 Dato
             </th>
             <th>
-                Børn_ID
+                Børn ID
             </th>
             <th>
-                Børnegruppe_ID
+                Børnegruppe ID
             </th>
             <th>
                 Gruppenavn
@@ -106,12 +108,16 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID"> Slet denne indtægt  </a>
+                            <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID"> Ret denne indtægt  </a>
+                            <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
                         </p>
                     </td>
                 </tr>

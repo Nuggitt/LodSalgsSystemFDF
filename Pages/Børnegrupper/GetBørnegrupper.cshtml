@@ -7,7 +7,7 @@
 
 <h1>Liste over alle børnegrupper</h1>
 @{
-    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
     {
         <p>
             <a asp-page="/Børnegrupper/CreateBørngruppe">Opret ny børnegruppe</a>
@@ -34,7 +34,7 @@
     <thead>
         <tr>@{
 
-                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
                 {
                     <th>
                         Børnegruppe_ID
@@ -136,7 +136,7 @@
         {
             @foreach (var item in Model.Børnegrupper)
             {
-                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
                 {
                     <tr>
                         <td>

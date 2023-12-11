@@ -8,7 +8,7 @@
 
 <h1>Liste over alle Børn</h1>
 @{
-    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
     {
         <p>
             <a asp-page="/Børns/Create">Opret nyt Barn</a>
@@ -29,7 +29,7 @@
     <thead>
         <tr>
             @{
-                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
                 {
                     <th>
                         Børn_ID <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IDDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IDAscending"><i class="fa fa-angle-up"></i></a>
@@ -98,7 +98,7 @@
         {
             @foreach (var item in Model.Børns)
             {
-                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
                 {
                     <tr>
                         <td>

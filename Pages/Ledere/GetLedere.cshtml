@@ -6,9 +6,11 @@
 
 <h1>Liste over ledere</h1>
 <p>
-    <a asp-page="/Ledere/CreateLeder">
-        <i class="fa fa-plus" aria-hidden="true"></i>
+    <div class="mb-3">
+    <a asp-page="/Ledere/CreateLeder" class="btn btn-primary">
+        <i class="fa fa-plus" aria-hidden="true"></i> Tilføj ny leder
     </a>
+    </div>
 </p>
 <form method="post" class="form-inline">
     <div class="input-group mb-3">
@@ -79,12 +81,12 @@
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-trash" aria-hidden="true"></i>  </a>
+                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-trash" aria-hidden="true"></i> Slet  </a>
                         </p>
                     </td>
                     <td>
                         <p>
-                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i>  </a>
+                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér  </a>
                         </p>
                     </td>
                 </tr>

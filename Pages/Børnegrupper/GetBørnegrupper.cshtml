@@ -26,6 +26,7 @@
     <head>
         <title>Search Bar Example</title>
     </head>
+    
     <body>
 
         <form method="post" class="form-inline">
@@ -37,7 +38,7 @@
 
     </body>
 
-    @* <h4 style="color:red"> List of Børnegrupper</h4> *@
+     <h4 style="color:red"> List of Børnegrupper</h4>
     @* <style>
     th {
     display: flex;
@@ -189,9 +190,12 @@
                                     </a>
                                 </p>
                             </td>
-                            <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
-                            </a>
+                            <td>
+                                <a asp-page="/Børnegrupper/UpdateBørngruppe" asp-route-id="@item.Børnegruppe_ID">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                </a>
+                            </td>
+                            
                             <td>
 
                                 <a asp-page="/Børns/GetBørn" asp-page-handler="BørnInBørnegruppe" asp-route-id=" @item.Børnegruppe_ID"> Se Børn i specifikke gruppe  </a>
@@ -241,18 +245,5 @@
             }
         </tbody>
     </table>
-
 </div>
 
-
-
-
-<div class="container-fluid" style="margin-top:80px">
-
-    <h1>Liste over alle børnegrupper </h1>
-
-
-    
-
-    
-</div>

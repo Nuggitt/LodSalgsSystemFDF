@@ -26,6 +26,18 @@
     <head>
         <title>Search Bar Example</title>
     </head>
+    @* Ombyrder teksten i forskellige colonner i table *@
+        <style>
+            th {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+                th a {
+                    margin-left: 5px;
+                }
+        </style>
     
     <body>
 
@@ -48,7 +60,8 @@
     margin-left: 100px; /* Adjust the margin as needed for spacing */
     }
     </style> *@
-    <table class="table table-striped table-bordered table-responsive">
+    <div class="table-responsive">
+    <table class="table table-striped table-bordered table-responsive table-sm">
         <thead>
 
             <tr>
@@ -56,12 +69,12 @@
 
                     if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
                     {
-                        <th style="column-width:800px">
+                        <th>
                             Børnegruppe ID
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="BørnegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="BørngruppeIDAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th>
                             Gruppenavn
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllGruppeNavnDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllGruppeNavnAscending"><i class="fa fa-angle-up"></i></a>
@@ -70,22 +83,22 @@
                             Lokale
 
                         </th>
-                        <th style="column-width:800px">
+                        <th>
                             Antal Børn
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalBørnDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalBørnAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th>
                             Leder ID
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalLederDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalLederAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th>
                             Lodseddeler pr.gruppe
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th>
                             Solgte lodseddeler pr. gruppe
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalSolgtePrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalSolgtePrGruppeAscending"><i class="fa fa-angle-up"></i></a>
@@ -105,12 +118,12 @@
                     }
                     if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
                     {
-                        <th style="column-width:800px">
+                        <th>
                             Børnegruppe ID
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="BørnegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="BørngruppeIDAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th>
                             Gruppenavn
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllGruppeNavnDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllGruppeNavnAscending"><i class="fa fa-angle-up"></i></a>
@@ -119,22 +132,22 @@
                             Lokale
 
                         </th>
-                        <th style="column-width:800px">
+                        <th  >
                             Antal Børn
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalBørnDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalBørnAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th  >
                             Leder ID
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalLederDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalLederAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th  >
                             Lodseddeler pr.gruppe
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
-                        <th style="column-width:800px">
+                        <th  >
                             Solgte lodseddeler pr. gruppe
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalSolgtePrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalSolgtePrGruppeAscending"><i class="fa fa-angle-up"></i></a>
@@ -246,5 +259,6 @@
             }
         </tbody>
     </table>
+    </div>
 </div>
 </div>

@@ -28,81 +28,81 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        @{
+                            @{
 
-                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/Børns/GetBørn">Børn</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegruppe</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
-                                </li>
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Børns/GetBørn">Børn</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegruppe</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
+                                        </li>
 
+                                }
+
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
+                                {
+
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
+                                        </li>
+                                }
+
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                                {
+
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                        </li>
+
+                                }
                             }
-
-                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
-                            {
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                </li>
-                            }
-
-                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
-                            {
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                </li>
-                                
-                            }
-                        }
 
                     </ul>
                     <ul class="navbar-nav">
-                        @{
-                            if (LogInPageModel.LoggedInBruger == null)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogInPage">Login</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item nav-link text-white me-3">
-                                    User: @LogInPageModel.LoggedInBruger.BrugerNavn
-                                </li>
+                            @{
+                                if (LogInPageModel.LoggedInBruger == null)
+                                {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogInPage">Login</a>
+                                        </li>
+                                }
+                                else
+                                {
+                                        <li class="nav-item nav-link text-white me-3">
+                                            User: @LogInPageModel.LoggedInBruger.BrugerNavn
+                                        </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a>
-                                </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a>
+                                        </li>
+                                }
                             }
-                        }
                     </ul>
                 </div>
             </div>
@@ -114,11 +114,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - LodSalgsSystemFDF - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -54,6 +54,10 @@ namespace LodSalgsSystemFDF.Pages.LogIn
                         if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
                         if (BrugerNavn == "leder") claims.Add(new Claim(ClaimTypes.Role, "leder"));
                         if (BrugerNavn == "lotteribestyrer") claims.Add(new Claim(ClaimTypes.Role, "lotteribestyrer"));
+                        if (BrugerNavn == "bestyrer") claims.Add(new Claim(ClaimTypes.Role, "bestyrer"));
+                        
+                            
+                        
 
 
 

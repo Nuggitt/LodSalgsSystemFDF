@@ -66,12 +66,18 @@
                     <th>
                         Solgte Lodsedeler for gruppen
                     </th>
-                    <th>
-                        Slet indtægt
-                    </th>
-                    <th>
-                        Ret indtægt
-                    </th>
+                    @{
+                        if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                        {
+                            <th>
+                                Slet indtægt
+                            </th>
+                            <th>
+                                Ret indtægt
+                            </th>
+                        }
+                    }
+
                 </tr>
             </thead>
             <tbody>
@@ -115,23 +121,40 @@
                             <td>
                                 @item.Børnegruppe.AntalSolgteLodseddeler
                             </td>
-                            <td>
-                                <p>
-                                    <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID">
-                                        <i class="fa fa-trash" aria-hidden="true"></i> Slet
-                                    </a>
-                                </p>
-                            </td>
-                            <td>
-                                <p>
-                                    <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
-                                    </a>
-                                </p>
-                            </td>
+                            @{
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                {
+                                    <td>
+                                        <p>
+                                            <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID">
+                                                <i class="fa fa-trash" aria-hidden="true"></i> Slet
+                                            </a>
+                                        </p>
+                                    </td>
+
+                                }
+                            
+
+
+                            
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                {
+                                    <td>
+                                        <p>
+                                            <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                            </a>
+                                        </p>
+                                    </td>
+
+                                }
+
+                            }
+
+
                         </tr>
                     }
                 }
             </tbody>
-            
+
 </div>

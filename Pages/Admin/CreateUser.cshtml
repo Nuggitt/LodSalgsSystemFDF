@@ -2,10 +2,23 @@
 @model LodSalgsSystemFDF.Pages.Admin.CreateUserModel
 @{
 }
-<h1>Create a new User</h1>
+<style>
+    .form-contrainer {
+        margin-top: 100px;
+    }
 
-<div class="row">
+    .center-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<div class="form-contrainer center-container">
     <div class="col-md-4">
+        <h1>
+            Create a new User
+        </h1>
         <form method="post">
             <div class="form-group">
                 <label asp-for="@Model.BrugerNavn" class="control-lable"></label>
@@ -23,6 +36,6 @@
         </form>
     </div>
 </div>
-<div>
+<div class="center-container">
     <a asp-page="/Index">Back to Home</a>
 </div>

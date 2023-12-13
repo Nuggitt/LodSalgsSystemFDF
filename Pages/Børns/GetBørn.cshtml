@@ -4,8 +4,8 @@
 @{
     ViewData["Title"] = "Få Børn";
 }
-<div class="container mt-5" style="background-color:white">
-<h1 style="margin-top:80px">Liste over alle Børn</h1>
+<div class="content-container">
+    <h1 style="margin-top:80px">Liste over alle Børn</h1>
 
 @if (LogInPageModel.LoggedInBruger != null && (LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer"))
 {

@@ -18,5 +18,11 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 0px;
+    background-color: rgb(137, 207, 240);
+    /*background-blend-mode: hard-light;*/
+    /*background-image: url(../Billeder/FDF-lejr-apr-22-1.jpg);*/
+    /*background-size: cover;
+    background-position: center;*/
+    /*color: darkblue;*/
 }

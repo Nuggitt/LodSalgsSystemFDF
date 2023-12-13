@@ -2,14 +2,31 @@
 @model LodSalgsSystemFDF.Pages.LogIn.LogInPageModel
 @{
 }
-<div class="container">
-     <style>
-        /* Add top margin equal to the height of the fixed navbar */
-        body {
-            margin-top: 100px; /* Adjust the value based on the actual height of your navbar */
-        }
-    </style> 
-    <div>
+
+<style>
+
+    body {
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-contrainer {
+        margin-top: 100px;
+    }
+
+    .center-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+ 
+</style>
+
+<div class="form-contrainer">
+    <div class="form-contrainer">
         @Model.Message
     </div>
     <form method="post">

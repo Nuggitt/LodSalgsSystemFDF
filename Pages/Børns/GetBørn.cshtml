@@ -7,6 +7,19 @@
 <div class="content-container">
     <h1 style="margin-top:80px">Liste over alle Børn</h1>
 
+    @* Ombyrder teksten i forskellige colonner i table *@
+    <style>
+        th {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+            th a {
+                margin-left: 5px;
+            }
+    </style>
+
 @if (LogInPageModel.LoggedInBruger != null && (LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer"))
 {
     <div class="mb-3">

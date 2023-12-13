@@ -21,6 +21,6 @@ namespace LodSalgsSystemFDF.Models
         [Required]
         public int AntalLodSeddelerPrGruppe { get; set; }
         [Required]
-        public int AntalSolgteLodseddeler {  get; set; }
+        public int AntalSolgteLodseddelerPrGruppe {  get; set; }
     }
 }

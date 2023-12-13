@@ -103,7 +103,7 @@
                                 @item.AntalLodSeddelerPrGruppe
                             </td>
                             <td>
-                                @item.AntalSolgteLodseddeler
+                                @item.AntalSolgteLodseddelerPrGruppe
                             </td>
                             <td>
                                 <p>
@@ -119,7 +119,9 @@
 
                             </td>
                             <td>
-                                <a class="btn" type="button" asp-page="TildelLodsedlerBørnegruppe" asp-route-id="@item.Børnegruppe_ID"><i class="fa fa-plus-square"></i></a>
+                                <a asp-page="TildelLodsedlerBørnegruppe" asp-route-id="@item.Børnegruppe_ID">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                </a>
                             </td>
 
                         </tr>
@@ -145,7 +147,7 @@
                                 <p><b>Leder ID:</b>@Model.Børnegruppe.Leder_ID</p>
                                 <p><b>Antal Børn:</b>@Model.Børnegruppe.Antalbørn</p>
                                 <p><b>Antal Lodsedler for gruppen:</b>@Model.Børnegruppe.AntalLodSeddelerPrGruppe</p>
-                                <p><b>Antal Solgte Lodsedler for gruppen:</b>@Model.Børnegruppe.AntalSolgteLodseddeler</p>
+                                <p><b>Antal Solgte Lodsedler for gruppen:</b>@Model.Børnegruppe.AntalSolgteLodseddelerPrGruppe</p>
                             </div>
                             <div class="modal-footer">
                                 <form method="post">

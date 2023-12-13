@@ -35,7 +35,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
 
                         lstbørnegruppe.Add(børnegruppe);
                     }
@@ -73,7 +73,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(reader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(reader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(reader["AntalSolgteLodSeddelerPrGruppe"]);
                         børnegruppeList.Add(børnegruppe);
                         
                     }
@@ -84,7 +84,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe )
         {
-            if(børnegruppe.Børnegruppe_ID <=0 || børnegruppe.Antalbørn < 0 || børnegruppe.AntalLodSeddelerPrGruppe < 0 || børnegruppe.AntalSolgteLodseddeler < 0 || børnegruppe.Leder_ID <= 0)
+            if(børnegruppe.Børnegruppe_ID <=0 || børnegruppe.Antalbørn < 0 || børnegruppe.AntalLodSeddelerPrGruppe < 0 || børnegruppe.AntalSolgteLodseddelerPrGruppe < 0 || børnegruppe.Leder_ID <= 0)
             {
                 throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
             }
@@ -120,7 +120,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
                     command.Parameters.AddWithValue("@Leder_ID", børnegruppe.Leder_ID);
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
-                    command.Parameters.AddWithValue("@AntalSolgteLodSeddeler", børnegruppe.AntalSolgteLodseddeler);
+                    command.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrGruppe", børnegruppe.AntalSolgteLodseddelerPrGruppe);
 
                     //foreach (Børnegruppe duplicatekey in børnegruppelist)
                     //{
@@ -189,7 +189,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
                     command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
-                    command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børnegruppe.AntalSolgteLodseddeler);
+                    command.Parameters.AddWithValue("@AntalSolgteLodseddelerPrGruppe", børnegruppe.AntalSolgteLodseddelerPrGruppe);
 
                     int numberOfRowsAffected = command.ExecuteNonQuery();
                 }
@@ -216,7 +216,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(reader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(reader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(reader["AntalSolgteLodSeddelerPrGruppe"]);
                         lstbørnegruppe.Add(børnegruppe);
                     }
                 }
@@ -246,7 +246,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
                         
 
                         lstbørne.Add(børnegruppe);
@@ -278,7 +278,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
        
 
                         lstbørne.Add(børnegruppe);
@@ -310,7 +310,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -342,7 +342,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -374,7 +374,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -406,7 +406,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -438,7 +438,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -470,7 +470,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -501,7 +501,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                           børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                           børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                           børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                          børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                          børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                           lstbørne.Add(børnegruppe);
@@ -533,7 +533,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -548,7 +548,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         public List<Børnegruppe> SortAllAntalSolgtePrGruppeDescending()
         {
             List<Børnegruppe> lstbørne = new List<Børnegruppe>();
-            string sql = "SELECT * FROM Børnegruppe ORDER BY AntalSolgteLodSeddeler DESC";
+            string sql = "SELECT * FROM Børnegruppe ORDER BY AntalSolgteLodSeddelerPrGruppe DESC";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -566,7 +566,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);
@@ -580,7 +580,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         public List<Børnegruppe> SortAllAntalSolgtePrGruppeAscending()
         {
             List<Børnegruppe> lstbørne = new List<Børnegruppe>();
-            string sql = "SELECT * FROM Børnegruppe ORDER BY AntalSolgteLodSeddeler ASC";
+            string sql = "SELECT * FROM Børnegruppe ORDER BY AntalSolgteLodSeddelerPrGruppe ASC";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -598,7 +598,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                         børnegruppe.Antalbørn = Convert.ToInt32(dataReader["AntalBørn"]);
                         børnegruppe.Leder_ID = Convert.ToInt32(dataReader["Leder_ID"]);
                         børnegruppe.AntalLodSeddelerPrGruppe = Convert.ToInt32(dataReader["AntalLodSeddelerPrGruppe"]);
-                        børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodSeddeler"]);
+                        børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodSeddelerPrGruppe"]);
 
 
                         lstbørne.Add(børnegruppe);

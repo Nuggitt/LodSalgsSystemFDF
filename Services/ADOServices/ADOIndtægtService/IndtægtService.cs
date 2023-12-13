@@ -58,5 +58,15 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             return _indtægtService.GetAntalSolgteLodseddelerASC();
         }
 
+        public IEnumerable<Indtægt> GetAntalSolgteLodseddelerForGruppenASC()
+        {
+            return _indtægtService.GetAntalSolgteLodseddelerForGruppenASC();
+        }
+
+        public IEnumerable<Indtægt> GetAntalSolgteLodseddelerForGruppenDESC()
+        {
+            return _indtægtService.GetAntalSolgteLodseddelerForGruppenDESC();
+        }
+
     }
 }

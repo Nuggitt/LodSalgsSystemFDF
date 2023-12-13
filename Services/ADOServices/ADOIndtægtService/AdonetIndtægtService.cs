@@ -51,7 +51,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn, Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddeler FROM Indtægt\r\nJOIN Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID";
+                string sql = "SELECT Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn, Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddelerPrGruppe FROM Indtægt\r\nJOIN Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID";
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -76,7 +76,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                         indtægt.Børn.Adresse = Convert.ToString(reader["Adresse"]);
                         indtægt.Børn.Telefon = Convert.ToString(reader["Telefon"]);
                         indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodSeddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(reader["AntalSolgteLodSeddelerPrGruppe"]);
 
                         indtægtList.Add(indtægt);
                     }
@@ -173,7 +173,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public List<Indtægt> GetIndtægtIDDESC()
         {
             List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "Select Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn,  Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddeler  FROM Indtægt\r\njoin Salg on Indtægt.Salg_ID = Salg.Salg_ID\r\njoin Børn on Salg.Salg_ID = Børn.Børn_ID\r\njoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY indtægt.Indtægt_ID ASC";
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n indtægt.Indtægt_ID ASC";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -202,6 +202,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                         indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
                         indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
 
                         indtægtlist.Add(indtægt);
                     }
@@ -214,7 +215,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public List<Indtægt> GetIndtægtIDASC()
         {
             List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "Select Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn,  Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddeler  FROM Indtægt\r\njoin Salg on Indtægt.Salg_ID = Salg.Salg_ID\r\njoin Børn on Salg.Salg_ID = Børn.Børn_ID\r\njoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY indtægt.Indtægt_ID DESC";
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n indtægt.Indtægt_ID DESC";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -243,6 +244,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                         indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
                         indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
 
                         indtægtlist.Add(indtægt);
                     }
@@ -257,7 +259,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public List<Indtægt> GetAntalSolgteLodseddelerDESC()
         {
             List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddeler\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler DESC;";
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler DESC;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -286,6 +288,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                         indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
                         indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
 
                         indtægtlist.Add(indtægt);
                     }
@@ -300,7 +303,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
         public List<Indtægt> GetAntalSolgteLodseddelerASC()
         {
             List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddeler\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler ASC;";
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler ASC;";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -329,12 +332,94 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
                         indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
                         indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
                         indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
+
 
                         indtægtlist.Add(indtægt);
                     }
                 }
             }
 
+            return indtægtlist;
+        }
+
+        public List<Indtægt> GetAntalSolgteLodseddelerForGruppenASC()
+        {
+            List<Indtægt> indtægtlist = new List<Indtægt>();
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe ASC;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Indtægt indtægt = new Indtægt();
+                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
+                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
+
+
+                        indtægt.Salg = new Salg();
+                        indtægt.Børn = new Børn();
+                        indtægt.Børnegruppe = new Børnegruppe();
+
+
+                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
+                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
+                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
+
+                        indtægtlist.Add(indtægt);
+                    }
+                }
+            }
+            return indtægtlist;
+        }
+
+        public List<Indtægt> GetAntalSolgteLodseddelerForGruppenDESC()
+        {
+            List<Indtægt> indtægtlist = new List<Indtægt>();
+            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe DESC;\r\n";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Indtægt indtægt = new Indtægt();
+                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
+                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
+
+
+                        indtægt.Salg = new Salg();
+                        indtægt.Børn = new Børn();
+                        indtægt.Børnegruppe = new Børnegruppe();
+
+
+                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
+                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
+                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
+
+                        indtægtlist.Add(indtægt);
+                    }
+                }
+            }
             return indtægtlist;
         }
 

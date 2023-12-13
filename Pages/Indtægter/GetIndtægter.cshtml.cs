@@ -47,6 +47,18 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
             Indtægter = _indtægtService.GetAntalSolgteLodseddelerASC();
         }
 
+        public void OnGetAntalSolgteLodseddlerForGruppenASC()
+        {
+            Indtægter = _indtægtService.GetAntalSolgteLodseddelerForGruppenASC();
+        }
+
+        public void OnGetAntalSolgteLodseddlerForGruppenDESC()
+        {
+            Indtægter = _indtægtService.GetAntalSolgteLodseddelerForGruppenDESC();
+        }
+
+
+
 
     }
 }

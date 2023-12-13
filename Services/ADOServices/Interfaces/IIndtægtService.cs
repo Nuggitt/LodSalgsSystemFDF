@@ -22,6 +22,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
 
         IEnumerable<Indtægt> GetAntalSolgteLodseddelerASC();
 
+        IEnumerable<Indtægt> GetAntalSolgteLodseddelerForGruppenASC();
+
+        IEnumerable<Indtægt> GetAntalSolgteLodseddelerForGruppenDESC();
+
 
     }
 }

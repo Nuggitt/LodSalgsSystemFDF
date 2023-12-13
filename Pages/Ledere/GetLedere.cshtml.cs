@@ -26,7 +26,11 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         }
         public IActionResult OnPostLederByName()
         {
-            Ledere = _lederService.GetLederByName(LederSearch);
+            if (LederSearch != null)
+            {
+                Ledere = _lederService.GetLederByName(LederSearch);
+                return Page();
+            }
             return Page();
         }
         public void OnGetLederNavnDescending()

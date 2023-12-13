@@ -28,7 +28,11 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         }
         public IActionResult OnPostBørnegruppeByName() 
         {
-            Børnegrupper = _IB.GetBørnegruppeByName(NameSearch);
+            if (NameSearch != null)
+            {
+                Børnegrupper = _IB.GetBørnegruppeByName(NameSearch);
+                return Page();
+            }
             return Page();
         }
         public void OnGetBørngruppeIDAscending()

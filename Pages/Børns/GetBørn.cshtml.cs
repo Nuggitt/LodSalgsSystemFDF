@@ -75,7 +75,12 @@ namespace LodSalgsSystemFDF.Pages.Børns
 
         public IActionResult OnPostBørnByName()
         {
-            Børns = _børnService.GetBørnByName(NameSearch);
+            if (NameSearch != null)
+            {
+                Børns = _børnService.GetBørnByName(NameSearch);
+                return Page();
+            }
+            
             return Page();
         }
         public void OnGetGivetLodsedlerDescending()

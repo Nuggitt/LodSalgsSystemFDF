@@ -32,10 +32,12 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         }
         public IActionResult OnPostBørnegruppeByID()
         {
+            if (IDSearch != 0)
             {
                 Salgs = _salgService.GetBørnegruppeByID(IDSearch);
                 return Page();
             }
+            return Page();
 
         }
         public IActionResult OnpostPriceFilter()

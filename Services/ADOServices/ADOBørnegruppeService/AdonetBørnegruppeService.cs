@@ -95,7 +95,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             }
 
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
-            string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddeler) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddeler)";
+            string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddelerPrGruppe) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddelerPrGruppe)";
            
             
             //virker ikke lige NU
@@ -176,7 +176,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)
         {
-            string sql = "UPDATE dbo.Børnegruppe SET Gruppenavn = @Gruppenavn, Lokale = @Lokale, AntalBørn = @AntalBørn, AntalLodSeddelerPrGruppe = @AntalLodSeddelerPrGruppe, AntalSolgteLodseddeler = @AntalSolgteLodseddeler WHERE Børnegruppe_ID = @Børnegruppe_ID";
+            string sql = "UPDATE dbo.Børnegruppe SET Gruppenavn = @Gruppenavn, Lokale = @Lokale, AntalBørn = @AntalBørn, AntalLodSeddelerPrGruppe = @AntalLodSeddelerPrGruppe, AntalSolgteLodseddelerPrGruppe = @AntalSolgteLodseddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

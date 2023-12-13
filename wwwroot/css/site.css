@@ -27,9 +27,9 @@ body {
     color: darkblue;
 }
 .content-container {
-    /* Set the white background for your HTML content */
+    
     background-color: white;
-    padding: 20px; /* Adjust padding as needed */
-    margin: 50px auto; /* Adjust margin as needed */
-    max-width: 1500px; /* Set a max-width for better readability */
+    padding: 20px; 
+    margin: 50px auto; 
+    max-width: 1500px;
 }

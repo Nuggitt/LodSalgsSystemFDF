@@ -7,161 +7,165 @@
 
 
 <div class="content-container">
-    <h1 style="margin-top:80px"></h1>
-    <h1>Liste over alle indtægter</h1>
-    @{
-        if ((LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin"))
-        {
-            <p>
-                <div class="mb-3">
-                    <a asp-page="/Indtægter/Create" class="btn btn-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>Tilføj ny indtægt
-                    </a>
-                </div>
-            </p>
+    <div class="container-fluid" style="margin-top:80px">
+        <h1 style="margin-top:80px"></h1>
+        <h1>Liste over alle indtægter</h1>
+        @{
+            if ((LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin"))
+            {
+                <p>
+                    <div class="mb-3">
+                        <a asp-page="/Indtægter/Create" class="btn btn-primary">
+                            <i class="fa fa-plus" aria-hidden="true"></i>Tilføj ny indtægt
+                        </a>
+                    </div>
+                </p>
+            }
         }
-    }
 
-    @* <form method="post" class="form-inline">
-    <div class="input-group mb-3">
-    <input asp-for="NameSearch" class="form-control mr-1" placeholder="Enter search term" />
-    <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
-    </div>
-    </form> *@
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th style="column-width:800px">
-                    Indtægt_ID
-                    <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IndtægtIDDESC"><i class="fa fa-angle-down"></i></a>
-                    <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IndtægtIDASC"><i class="fa fa-angle-up"></i></a>
-                </th>
-                <th>
-                    Salg ID
-                </th>
-                <th>
-                    Dato
-                </th>
-                <th>
-                    Børn ID
-                </th>
-                <th>
-                    Børnegruppe ID
-                </th>
-                <th>
-                    Gruppenavn
-                </th>
-                <th>
-                    Navn
-                </th>
-                <th>
-                    Adresse
-                </th>
-                <th>
-                    Telefon
-                </th>
-                <th style="column-width:800px">
-                    Antal Solgte Lodsedeler
-                    <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDESC"><i class="fa fa-angle-down"></i></a>
-                    <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerASC"><i class="fa fa-angle-up"></i></a>
-                </th>
-                <th style="column-width:800px">
-                    Solgte Lodsedeler for gruppen
-                    <a data-toggle="tooltip" title="Sorter lodsedler for gruppen faldene" asp-page-handler="AntalSolgteLodseddlerForGruppenDESC"><i class="fa fa-angle-down"></i></a>
-                    <a data-toggle="tooltip" title="Sorter lodsedler for gruppen rejsende" asp-page-handler="AntalSolgteLodseddlerForGruppenASC"><i class="fa fa-angle-up"></i></a>
-                </th>
-                @{
-                    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+        @* <form method="post" class="form-inline">
+        <div class="input-group mb-3">
+        <input asp-for="NameSearch" class="form-control mr-1" placeholder="Enter search term" />
+        <input type="submit" asp-page-handler="BørnegruppeByName" value="Search" class="btn btn-primary" />
+        </div>
+        </form> *@
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="column-width:800px">
+                        Indtægt_ID
+                        <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IndtægtIDDESC"><i class="fa fa-angle-down"></i></a>
+                        <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="IndtægtIDASC"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th>
+                        Salg ID
+                    </th>
+                    <th>
+                        Dato
+                    </th>
+                    <th>
+                        Børn ID
+                    </th>
+                    <th>
+                        Børnegruppe ID
+                    </th>
+                    <th>
+                        Gruppenavn
+                    </th>
+                    <th>
+                        Navn
+                    </th>
+                    <th>
+                        Adresse
+                    </th>
+                    <th>
+                        Telefon
+                    </th>
+                    <th style="column-width:800px">
+                        Antal Solgte Lodsedeler
+                        <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDESC"><i class="fa fa-angle-down"></i></a>
+                        <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerASC"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    <th style="column-width:800px">
+                        Solgte Lodsedeler for gruppen
+                        <a data-toggle="tooltip" title="Sorter lodsedler for gruppen faldene" asp-page-handler="AntalSolgteLodseddlerForGruppenDESC"><i class="fa fa-angle-down"></i></a>
+                        <a data-toggle="tooltip" title="Sorter lodsedler for gruppen rejsende" asp-page-handler="AntalSolgteLodseddlerForGruppenASC"><i class="fa fa-angle-up"></i></a>
+                    </th>
+                    @{
+                        if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                        {
+                            <th>
+                                Slet indtægt
+                            </th>
+                            <th>
+                                Ret indtægt
+                            </th>
+                        }
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model != null)
+                {
+                    @foreach (var item in Model.Indtægter)
                     {
-                        <th>
-                            Slet indtægt
-                        </th>
-                        <th>
-                            Ret indtægt
-                        </th>
+                        <tr>
+                            <td>
+                                @item.Indtægt_ID
+                            </td>
+
+                            <td>
+                                @item.Salg_ID
+                            </td>
+                            <td>
+                                @item.Salg.Dato
+                            </td>
+                            <td>
+                                @item.Børn.Børn_ID
+                            </td>
+                            <td>
+                                @item.Børnegruppe.Børnegruppe_ID
+                            </td>
+                            <td>
+                                @item.Børnegruppe.Gruppenavn
+                            </td>
+                            <td>
+                                @item.Børn.Navn
+                            </td>
+                            <td>
+                                @item.Børn.Adresse
+                            </td>
+                            <td>
+                                @item.Børn.Telefon
+                            </td>
+                            <td>
+                                @item.Børn.AntalSolgteLodseddeler
+                            </td>
+                            <td>
+                                @item.Børnegruppe.AntalSolgteLodseddelerPrGruppe
+                            </td>
+                            @{
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                {
+                                    <td>
+                                        <p>
+                                            <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID">
+                                                <i class="fa fa-trash" aria-hidden="true"></i> Slet
+                                            </a>
+                                        </p>
+                                    </td>
+
+                                }
+
+
+
+
+                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                {
+                                    <td>
+                                        <p>
+                                            <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                            </a>
+                                        </p>
+                                    </td>
+
+                                }
+
+                            }
+
+
+                        </tr>
                     }
                 }
 
-            </tr>
-        </thead>
-        <tbody>
-
-            @if (Model != null)
-            {
-                @foreach (var item in Model.Indtægter)
-                {
-                    <tr>
-                        <td>
-                            @item.Indtægt_ID
-                        </td>
-
-                        <td>
-                            @item.Salg_ID
-                        </td>
-                        <td>
-                            @item.Salg.Dato
-                        </td>
-                        <td>
-                            @item.Børn.Børn_ID
-                        </td>
-                        <td>
-                            @item.Børnegruppe.Børnegruppe_ID
-                        </td>
-                        <td>
-                            @item.Børnegruppe.Gruppenavn
-                        </td>
-                        <td>
-                            @item.Børn.Navn
-                        </td>
-                        <td>
-                            @item.Børn.Adresse
-                        </td>
-                        <td>
-                            @item.Børn.Telefon
-                        </td>
-                        <td>
-                            @item.Børn.AntalSolgteLodseddeler
-                        </td>
-                        <td>
-                            @item.Børnegruppe.AntalSolgteLodseddelerPrGruppe
-                        </td>
-                        @{
-                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
-                            {
-                                <td>
-                                    <p>
-                                        <a asp-page="/Indtægter/Delete" asp-route-id="@item.Indtægt_ID">
-                                            <i class="fa fa-trash" aria-hidden="true"></i> Slet
-                                        </a>
-                                    </p>
-                                </td>
-
-                            }
+            </tbody>
+        </table>
+    </div>
 
 
-
-
-                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
-                            {
-                                <td>
-                                    <p>
-                                        <a asp-page="/Indtægter/Update" asp-route-id="@item.Indtægt_ID">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
-                                        </a>
-                                    </p>
-                                </td>
-
-                            }
-
-                        }
-
-
-                    </tr>
-                }
-            }
-
-        </tbody>
-    </table>
 
 
 </div>

@@ -2,59 +2,63 @@
 @model LodSalgsSystemFDF.Pages.Ledere.UpdateLederModel
 @{
 }
-<h1 style="margin-top:80px">
-<h1>Ret lederen</h1>
+<div class="content-container">
+    <h1 style="margin-top:80px">
+        <h1>Ret lederen</h1>
 
-<h3>Er du sikker på du vil rette denne leder?</h3>
-<div>
-    <h4>Leder</h4>
-    <hr />
-    <form method="post">
+        <h3>Er du sikker på du vil rette denne leder?</h3>
+        <div>
+            <h4>Leder</h4>
+            <hr />
+            <form method="post">
 
-        <div class="form-group">
-            <label asp-for="@Model.Leder.Leder_ID" class="control-label"></label>
-            <input asp-for="@Model.Leder.Leder_ID" class="form-control" />
-            <span asp-validation-for="@Model.Leder.Leder_ID" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.Leder.Leder_ID" class="control-label"></label>
+                    <input asp-for="@Model.Leder.Leder_ID" class="form-control" />
+                    <span asp-validation-for="@Model.Leder.Leder_ID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Leder.Navn" class="control-label"></label>
+                    <input asp-for="@Model.Leder.Navn" class="form-control" />
+                    <span asp-validation-for="@Model.Leder.Navn" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Leder.Adresse" class="control-label"></label>
+                    <input asp-for="@Model.Leder.Adresse" class="form-control" />
+                    <span asp-validation-for="@Model.Leder.Adresse" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Leder.Telefon" class="control-label"></label>
+                    <input asp-for="@Model.Leder.Telefon" class="form-control" />
+                    <span asp-validation-for="@Model.Leder.Telefon" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Leder.Email" class="control-label"></label>
+                    <input asp-for="@Model.Leder.Email" class="form-control" />
+                    <span asp-validation-for="@Model.Leder.Email" class="text-danger"></span>
+                </div>
+
+                @* <div class="form-group">
+                <label asp-for="@Model.Leder.ErLotteriBestyrer" class="control-label"></label>
+                <input asp-for="@Model.Leder.ErLotteriBestyrer" class="form-control" />
+                <span asp-validation-for="@Model.Leder.ErLotteriBestyrer" class="text-danger"></span>
+                </div*@
+
+                <div class="form-group">
+                    <label asp-for="@Model.Leder.Børnegruppe_ID" class="control-label"></label>
+                    <input asp-for="@Model.Leder.Børnegruppe_ID" class="form-control" />
+                    <span asp-validation-for="@Model.Leder.Børnegruppe_ID" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" asp-for="Leder.Leder_ID" />
+                <input type="submit" value="Update" class="btn btn-danger" />
+                <a asp-page="/Ledere/GetLedere">Tilbage til listen af ledere</a>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Leder.Navn" class="control-label"></label>
-            <input asp-for="@Model.Leder.Navn" class="form-control" />
-            <span asp-validation-for="@Model.Leder.Navn" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Leder.Adresse" class="control-label"></label>
-            <input asp-for="@Model.Leder.Adresse" class="form-control" />
-            <span asp-validation-for="@Model.Leder.Adresse" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Leder.Telefon" class="control-label"></label>
-            <input asp-for="@Model.Leder.Telefon" class="form-control" />
-            <span asp-validation-for="@Model.Leder.Telefon" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Leder.Email" class="control-label"></label>
-            <input asp-for="@Model.Leder.Email" class="form-control" />
-            <span asp-validation-for="@Model.Leder.Email" class="text-danger"></span>
-        </div>
-
-       @* <div class="form-group">
-            <label asp-for="@Model.Leder.ErLotteriBestyrer" class="control-label"></label>
-            <input asp-for="@Model.Leder.ErLotteriBestyrer" class="form-control" />
-            <span asp-validation-for="@Model.Leder.ErLotteriBestyrer" class="text-danger"></span>
-        </div*@
-
-        <div class="form-group">
-            <label asp-for="@Model.Leder.Børnegruppe_ID" class="control-label"></label>
-            <input asp-for="@Model.Leder.Børnegruppe_ID" class="form-control" />
-            <span asp-validation-for="@Model.Leder.Børnegruppe_ID" class="text-danger"></span>
-        </div>
-
-        <input type="hidden" asp-for="Leder.Leder_ID" />
-        <input type="submit" value="Update" class="btn btn-danger" />
-        <a asp-page="/Ledere/GetLedere">Tilbage til listen af ledere</a>
-    </form>
 </div>
+
+

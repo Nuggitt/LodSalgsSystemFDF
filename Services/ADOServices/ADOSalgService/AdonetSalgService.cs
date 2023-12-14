@@ -191,12 +191,12 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                                 updcommand.ExecuteNonQuery();
                             }
 
-                            string sqlbørnegruppe = "UPDATE dbo.Børnegruppe SET AntalSolgteLodSeddeler = AntalSolgteLodSeddeler + @AntalSolgteLodSeddeler WHERE Børnegruppe_ID = @Børnegruppe_ID";
+                            string sqlbørnegruppe = "UPDATE dbo.Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
                             using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
                             {
                                 updcommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
-                                updcommand.Parameters.AddWithValue("@AntalSolgteLodSeddeler", salg.AntalSolgteLodseddelerPrSalg);
+                                updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", salg.AntalSolgteLodseddelerPrSalg);
 
                                 updcommand.ExecuteNonQuery();
                             }

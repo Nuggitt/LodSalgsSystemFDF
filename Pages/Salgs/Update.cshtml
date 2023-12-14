@@ -3,69 +3,69 @@
 @{
 }
 <div class="content-container">
-<h1 style="margin-top:80px">
-<h1>Ret Salget</h1>
+    <h1 style="margin-top:80px">
+        <h1>Ret Salget</h1>
 
-<h3>Er du sikker på du vil rette dette salg?</h3>
-<div>
-    <h4>Salg</h4>
-    <hr />
-    <form method="post">
+        <<h3 style="color:red">Er du sikker på du vil rette dette salg?</h3>
+        <div>
+            <h4>Salg</h4>
+            <hr />
+            <form method="post">
 
 
-        <div class="form-group">
-            <label asp-for="@Model.Salg.Salg_ID" class="control-label"></label>
-            <input asp-for="@Model.Salg.Salg_ID" class="form-control" />
-            <span asp-validation-for="@Model.Salg.Salg_ID" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.Salg_ID" class="control-label"></label>
+                    <input asp-for="@Model.Salg.Salg_ID" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.Salg_ID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.Børn_ID" class="control-label"></label>
+                    <input asp-for="@Model.Salg.Børn_ID" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.Børn_ID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.Børnegruppe_ID" class="control-label"></label>
+                    <input asp-for="@Model.Salg.Børnegruppe_ID" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.Børnegruppe_ID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.Leder_ID" class="control-label"></label>
+                    <input asp-for="@Model.Salg.Leder_ID" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.Leder_ID" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.Dato" class="control-label"></label>
+                    <input asp-for="@Model.Salg.Dato" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.Dato" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.AntalLodseddelerRetur" class="control-label"></label>
+                    <input asp-for="@Model.Salg.AntalLodseddelerRetur" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.AntalLodseddelerRetur" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="control-label"></label>
+                    <input asp-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Salg.Pris" class="control-label"></label>
+                    <input asp-for="@Model.Salg.Pris" class="form-control" />
+                    <span asp-validation-for="@Model.Salg.Pris" class="text-danger"></span>
+                </div>
+
+
+
+                <input type="hidden" asp-for="Salg.Salg_ID" />
+                <input type="submit" value="Update" class="btn btn-danger" />
+                <a asp-page="/Salgs/GetSalgs">Tilbage til listen af salg</a>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.Børn_ID" class="control-label"></label>
-            <input asp-for="@Model.Salg.Børn_ID" class="form-control" />
-            <span asp-validation-for="@Model.Salg.Børn_ID" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.Børnegruppe_ID" class="control-label"></label>
-            <input asp-for="@Model.Salg.Børnegruppe_ID" class="form-control" />
-            <span asp-validation-for="@Model.Salg.Børnegruppe_ID" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.Leder_ID" class="control-label"></label>
-            <input asp-for="@Model.Salg.Leder_ID" class="form-control" />
-            <span asp-validation-for="@Model.Salg.Leder_ID" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.Dato" class="control-label"></label>
-            <input asp-for="@Model.Salg.Dato" class="form-control" />
-            <span asp-validation-for="@Model.Salg.Dato" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.AntalLodseddelerRetur" class="control-label"></label>
-            <input asp-for="@Model.Salg.AntalLodseddelerRetur" class="form-control" />
-            <span asp-validation-for="@Model.Salg.AntalLodseddelerRetur" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="control-label"></label>
-            <input asp-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="form-control" />
-            <span asp-validation-for="@Model.Salg.AntalSolgteLodseddelerPrSalg" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="@Model.Salg.Pris" class="control-label"></label>
-            <input asp-for="@Model.Salg.Pris" class="form-control" />
-            <span asp-validation-for="@Model.Salg.Pris" class="text-danger"></span>
-        </div>
-
-
-
-        <input type="hidden" asp-for="Salg.Salg_ID" />
-        <input type="submit" value="Update" class="btn btn-danger" />
-        <a asp-page="/Salgs/GetSalgs">Tilbage til listen af salg</a>
-    </form>
-</div>
 </div>

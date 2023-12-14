@@ -78,57 +78,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             return salg;
         }
 
-        //public Salg CreateSalg(Salg salg)
-        //{
-        //    List<Salg> salgsList = new List<Salg>();
-        //    string sql = "INSERT INTO dbo.Salg (Salg_ID, Børn_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodSeddelerPrSalg,  Pris) VALUES(@Salg_ID, @Børn_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodSeddelerPrSalg,  @Pris)";
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        using (SqlCommand command = new SqlCommand(sql, connection))
-        //        {
-        //            connection.Open();
-
-        //            command.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
-        //            command.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
-        //            command.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
-        //            command.Parameters.AddWithValue("@Dato", salg.Dato);
-        //            command.Parameters.AddWithValue("@AntalLodseddelerRetur", salg.AntalLodseddelerRetur);
-        //            command.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrSalg", salg.AntalSolgteLodSeddelerPrSalg);
-        //            command.Parameters.AddWithValue("@Pris", salg.Pris);
-        //            salgsList.Add(salg);
-
-        //            int numberOfRowsAffected = command.ExecuteNonQuery();
-        //        }
-        //    }
-        //    if (salg.AntalSolgteLodSeddelerPrSalg != null)
-        //    {
-        //        List<Børn> børnList = new List<Børn>();
-        //        Børn barn = new Børn();
-        //        barn.AntalSolgteLodsedler = salg.AntalSolgteLodSeddelerPrSalg;
-        //        barn.Børn_ID = salg.Salg_ID;
-        //        string sql2 = "UPDATE dbo.Børn SET AntalSolgteLodseddeler = @AntalSolgteLodseddeler WHERE Børn_ID = @Børn_ID";
-        //        using (SqlConnection con = new SqlConnection(connectionString))
-        //        {
-        //            using (SqlCommand cmd = new SqlCommand(sql2, con))
-        //            {
-        //                con.Open();
-
-
-        //                cmd.Parameters.AddWithValue("@Børn_ID", barn.Børn_ID);
-        //                cmd.Parameters.AddWithValue("@AntalSolgteLodseddeler", barn.AntalSolgteLodsedler);
-        //                børnList.Add(barn);
-
-        //                int numberOfRowAffected2 = cmd.ExecuteNonQuery();
-
-
-        //            }
-        //        }
-        //    }
-
-        //    return salg;
-        //}
-
         public Salg CreateSalg(Salg salg)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -154,7 +103,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                             insertCommand.ExecuteNonQuery();
                         }
 
-                        if (salg.AntalLodseddelerRetur != null)
+                        if (salg.AntalLodseddelerRetur > 0)
                         {
                             string sqlbørnegruppe = "Update dbo.Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
@@ -191,12 +140,12 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                                 updcommand.ExecuteNonQuery();
                             }
 
-                            string sqlbørnegruppe = "UPDATE dbo.Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+                            string sqlbørnegruppe = "UPDATE dbo.Børnegruppe SET AntalSolgteLodSeddelerPrGruppe = AntalSolgteLodSeddelerPrGruppe + @AntalSolgteLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
                             using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
                             {
                                 updcommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
-                                updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", salg.AntalSolgteLodseddelerPrSalg);
+                                updcommand.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrGruppe", salg.AntalSolgteLodseddelerPrSalg);
 
                                 updcommand.ExecuteNonQuery();
                             }

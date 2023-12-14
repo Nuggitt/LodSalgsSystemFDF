@@ -26,18 +26,6 @@
     <head>
         <title>Search Bar Example</title>
     </head>
-    @* Ombyrder teksten i forskellige colonner i table *@
-        <style>
-            th {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-
-                th a {
-                    margin-left: 5px;
-                }
-        </style>
     
     <body>
 
@@ -70,12 +58,12 @@
                     if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
                     {
                         <th>
-                            Børnegruppe ID
+                            ID
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="BørnegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="BørngruppeIDAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
                         <th>
-                            Gruppenavn
+                            Gruppe navn
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllGruppeNavnDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllGruppeNavnAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
@@ -84,7 +72,7 @@
 
                         </th>
                         <th>
-                            Antal Børn
+                            Børn
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAntalBørnDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalBørnAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
@@ -94,7 +82,7 @@
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAntalLederAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
                         <th>
-                            Lodseddeler pr.gruppe
+                            Tildelte Lodsedler
                             <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeDescending"><i class="fa fa-angle-down"></i></a>
                             <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllAntalLodSeddelerPrGruppeAscending"><i class="fa fa-angle-up"></i></a>
                         </th>
@@ -110,10 +98,10 @@
                             Opdater børnegruppe
                         </th>
                         <th>
-                            Se Børn i Børnegruppe
+                            Se Børn i børnegruppe
                         </th>
                         <th>
-                            Tildel Lodsedler til Børnegruppe
+                            Tildel Lod til gruppe
                         </th>
                     }
                     if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")

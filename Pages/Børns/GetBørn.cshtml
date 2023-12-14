@@ -10,14 +10,18 @@
     @* Ombyrder teksten i forskellige colonner i table *@
     <style>
         th {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
+            background-color: #f2f2f2; /* Add background color to the header for better visibility */
+            font-size: 12px; /* Adjust the font size of the header */
         }
 
-            th a {
-                margin-left: 5px;
-            }
+        td {
+            font-size: 12px; /* Adjust the font size of the cells */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%; /* Set the width of the table as needed */
+        }
     </style>
 
 @if (LogInPageModel.LoggedInBruger != null && (LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer"))
@@ -45,7 +49,7 @@
                 @if (LogInPageModel.LoggedInBruger != null && (LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer"))
                 {
                     <th>
-                        Børn ID
+                        ID
                         <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IDDescending"><i class="fa fa-angle-down"></i></a>
                         <a data-toggle="tooltip" title="Sorter ID stigende" asp-page-handler="IDAscending"><i class="fa fa-angle-up"></i></a>
                     </th>
@@ -61,7 +65,7 @@
                         Telefon
                     </th>
                     <th>
-                        Givne Lodsedler
+                        Tildelte Lodsedler
                         <a data-toggle="tooltip" title="Sorter antal givne lodsedler faldende" asp-page-handler="GivetLodsedlerDescending"><i class="fa fa-angle-down"></i></a>
                         <a data-toggle="tooltip" title="Sorter antal givne lodsedler stigende" asp-page-handler="GivetLodsedlerAscending"><i class="fa fa-angle-up"></i></a>
                     </th>

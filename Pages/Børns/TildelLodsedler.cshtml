@@ -2,12 +2,16 @@
 @model LodSalgsSystemFDF.Pages.Børns.TildelLodsedlerModel
 @{
 }
+
+
 <div class="content-container">
     <div class="container-fluid" style="margin-top:80px">
         <h1>Liste over alle Børn</h1>
-        <p>
-            <a asp-page="/Børns/Create">Opret nyt Barn</a>
-        </p>
+        <div class="mb-3">
+            <a asp-page="/Børns/Create" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Tilføj Nyt Barn
+            </a>
+        </div>
         <form method="post" class="form-inline">
             <div class="input-group mb-3">
                 <input asp-for="NameSearch" class="form-control mr-1" placeholder="Søg efter navn" />

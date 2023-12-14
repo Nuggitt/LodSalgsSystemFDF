@@ -107,12 +107,12 @@
                             if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
                             {
                                 <th>
-                                    Børnegruppe ID
+                                    ID
                                     <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="BørnegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
                                     <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="BørngruppeIDAscending"><i class="fa fa-angle-up"></i></a>
                                 </th>
                                 <th>
-                                    Gruppenavn
+                                    Gruppe navn
                                     <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="SortAllGruppeNavnDescending"><i class="fa fa-angle-down"></i></a>
                                     <a data-toggle="tooltip" title="Sorter ID rejsende" asp-page-handler="SortAllGruppeNavnAscending"><i class="fa fa-angle-up"></i></a>
                                 </th>
@@ -237,11 +237,13 @@
                                     </td>
                                     <td>
 
-                                        <a asp-page="/Børns/GetBørn" asp-page-handler="BørnInBørnegruppe" asp-route-id=" @item.Børnegruppe_ID"> Se Børn i specifikke gruppe  </a>
+                                        <a asp-page="/Børns/GetBørn" asp-page-handler="BørnInBørnegruppe" asp-route-id=" @item.Børnegruppe_ID"> Se Børn i gruppe  </a>
 
                                     </td>
                                     <td>
-                                        <a class="btn" type="button" asp-page="TildelLodsedlerBørnegruppe" asp-route-id="@item.Børnegruppe_ID"><i class="fa fa-plus-square"></i></a>
+                                        <a asp-page="TildelLodsedlerBørnegruppe" asp-route-id="@item.Børnegruppe_ID">
+                                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             }

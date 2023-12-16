@@ -44,7 +44,7 @@ namespace LodSalgsSystemFDF.Pages.LogIn
                 {
                     var passwordHasher = new PasswordHasher<string>();
 
-                    if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Success)
+                    if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Failed)
                     {
                         LoggedInBruger = bruger;
 

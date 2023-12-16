@@ -44,7 +44,7 @@ namespace LodSalgsSystemFDF.Pages.LogIn
                 {
                     var passwordHasher = new PasswordHasher<string>();
 
-                    if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Failed)
+                    if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Success)
                     {
                         LoggedInBruger = bruger;
 
@@ -70,7 +70,7 @@ namespace LodSalgsSystemFDF.Pages.LogIn
 
             }
 
-            Message = "Invalid attempt";
+            Message = "Ugyldigt Login";
             return Page();
         }
     }

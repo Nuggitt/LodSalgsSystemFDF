@@ -58,7 +58,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
                     string hashedPassword = passwordHasher.HashPassword(null, bruger.Password);
                     
                     command.Parameters.AddWithValue("@BrugerNavn", bruger.BrugerNavn);
-                    command.Parameters.AddWithValue("@Password", hashedPassword);
+                    command.Parameters.AddWithValue("@Password", bruger.Password);
                     brugerList.Add(bruger);
 
                     int numberOfRowsAffected = command.ExecuteNonQuery();

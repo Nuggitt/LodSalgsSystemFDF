@@ -18,13 +18,13 @@ namespace LodSalgsSystemFDF.Models
         public Bruger(string brugerNavn, string password)
         {
             BrugerNavn = brugerNavn;
-            Password = passwordHasher.HashPassword(null, password);
+            Password = password;
         }
 
         public Bruger()
         {
             BrugerNavn = "";
-            Password = passwordHasher.HashPassword(null, "");
+            Password = "";
         }
 
     }

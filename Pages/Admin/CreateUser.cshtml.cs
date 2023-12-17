@@ -34,7 +34,7 @@ namespace LodSalgsSystemFDF.Pages.Admin
                 return Page();
             }
             _brugerService.AddBruger(new Bruger(BrugerNavn, passwordHasher.HashPassword(null, Password)));
-            return RedirectToPage("/Børns/GetBørn");
+            return RedirectToPage("/Admin/CreateUser");
         }
     }
 }

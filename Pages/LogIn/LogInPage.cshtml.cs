@@ -43,34 +43,36 @@ namespace LodSalgsSystemFDF.Pages.LogIn
                 if (BrugerNavn == bruger.BrugerNavn)
                 {
                     var passwordHasher = new PasswordHasher<string>();
-
-                    if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Failed)
+                    if (Password != null)
                     {
-                        LoggedInBruger = bruger;
+                        if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Success)
+                        {
+                            LoggedInBruger = bruger;
 
-                        var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
-                        
-                        
-                        if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
-                        if (BrugerNavn == "leder") claims.Add(new Claim(ClaimTypes.Role, "leder"));
-                        if (BrugerNavn == "lotteribestyrer") claims.Add(new Claim(ClaimTypes.Role, "lotteribestyrer"));
-                        if (BrugerNavn == "bestyrer") claims.Add(new Claim(ClaimTypes.Role, "bestyrer"));
-                        
-                            
-                        
+                            var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
 
 
+                            if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
+                            if (BrugerNavn == "leder") claims.Add(new Claim(ClaimTypes.Role, "leder"));
+                            if (BrugerNavn == "lotteribestyrer") claims.Add(new Claim(ClaimTypes.Role, "lotteribestyrer"));
+                            if (BrugerNavn == "bestyrer") claims.Add(new Claim(ClaimTypes.Role, "bestyrer"));
 
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                        return RedirectToPage("/Index");
+
+
+
+
+
+                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                            return RedirectToPage("/Index");
+                        }
                     }
 
                 }
 
             }
 
-            Message = "Invalid attempt";
+            Message = "Ugyldigt Login";
             return Page();
         }
     }

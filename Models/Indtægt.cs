@@ -13,12 +13,12 @@ namespace LodSalgsSystemFDF.Models
         [ForeignKey("Salg_ID")]
         public int Salg_ID { get; set; }
 
-        // Navigation property
+        // Navigation property til at lave joins.
         public virtual Salg Salg { get; set; }
         public virtual Børn Børn { get; set; }
         public virtual Børnegruppe Børnegruppe { get; set; }
 
 
-        // Other properties...
+        
     }
 }

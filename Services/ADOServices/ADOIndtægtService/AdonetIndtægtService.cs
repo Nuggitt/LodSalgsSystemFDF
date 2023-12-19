@@ -16,34 +16,6 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
             connectionString = configuration.GetConnectionString("Datacraft.dk");
         }
 
-        //public List<Indtægt> GetAllIndtægter()
-        //{
-        //    List<Indtægt> indtægtList = new List<Indtægt>();
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-        //        string sql = "SELECT * FROM [dbo].[Indtægt]";
-        //        SqlCommand command = new SqlCommand(sql, connection);
-        //        using (SqlDataReader reader = command.ExecuteReader())
-        //        {
-        //            while (reader.Read())
-        //            {
-        //                Indtægt indtægt = new Indtægt();
-        //                indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
-        //                indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
-
-
-
-        //                indtægtList.Add(indtægt);
-
-
-        //            }
-        //        }
-        //    }
-        //    return indtægtList;
-        //}
-
-
 
         public List<Indtægt> GetAllIndtægter()
         {

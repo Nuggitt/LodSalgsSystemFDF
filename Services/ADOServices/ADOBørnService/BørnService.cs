@@ -7,12 +7,12 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 {
     public class BørnService : IBørnService
     {
-            private AdonetBørnService _børnService;
+        private AdonetBørnService _børnService;
 
-            public BørnService(AdonetBørnService børnservice)
-            {
-                _børnService = børnservice;
-            }
+        public BørnService(AdonetBørnService børnservice)
+        {
+            _børnService = børnservice;
+        }
 
         public async Task<IEnumerable<Børn>> GetBørn()
         {

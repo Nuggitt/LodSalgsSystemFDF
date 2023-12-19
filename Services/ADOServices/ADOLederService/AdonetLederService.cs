@@ -83,7 +83,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                             }
                             catch (Exception ex)
                             {
-                                // Handle exceptions, log the error, or perform any necessary cleanup.
+                                
                                 transaction.Rollback();
                                 throw;
                             }

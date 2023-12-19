@@ -17,18 +17,7 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
         {
             _børnegruppeservice = børnegruppeService;
         }
-        //Exception
-        //public class DuplicatedBørnegruppeIdException : Exception
-        //{
-        //    public DuplicatedBørnegruppeIdException()
-        //    {
-        //    }
-
-        //    public DuplicatedBørnegruppeIdException(string message)
-        //        : base(message)
-        //    {
-        //    }
-        //}
+        
 
         public IActionResult OnPost()
         {

@@ -103,20 +103,20 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                             insertCommand.ExecuteNonQuery();
                         }
 
-                        if (salg.AntalLodseddelerRetur > 0)
-                        {
-                            string sqlbørnegruppe = "Update dbo.Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
+                        //if (salg.AntalLodseddelerRetur > 0)
+                        //{
+                        //    string sqlbørnegruppe = "Update dbo.Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe + @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
-                            using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
-                            {
-                                updcommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
-                                updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", salg.AntalLodseddelerRetur);
+                        //    using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
+                        //    {
+                        //        updcommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
+                        //        updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", salg.AntalLodseddelerRetur);
 
-                                updcommand.ExecuteNonQuery();
-                            }
+                        //        updcommand.ExecuteNonQuery();
+                        //    }
 
 
-                        }
+                        //}
 
                         if (salg.AntalSolgteLodseddelerPrSalg != null)
                         {

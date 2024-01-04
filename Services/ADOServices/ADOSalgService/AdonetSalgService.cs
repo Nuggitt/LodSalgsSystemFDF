@@ -87,11 +87,12 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                 {
                     try
                     {
-                        string insertSql = "INSERT INTO dbo.Salg (Salg_ID, Børn_ID, Børnegruppe_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodseddelerPrSalg,  Pris) VALUES(@Salg_ID, @Børn_ID, @Børnegruppe_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodSeddelerPrSalg,  @Pris)";
+                        string insertSql = "INSERT INTO dbo.Salg (Børn_ID, Børnegruppe_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodseddelerPrSalg,  Pris) VALUES(@Børn_ID, @Børnegruppe_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodSeddelerPrSalg,  @Pris);" +
+                         "SELECT SCOPE_IDENTITY();";
 
                         using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
                         {
-                            insertCommand.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
+                            
                             insertCommand.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
                             insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
                             insertCommand.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
@@ -100,7 +101,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                             insertCommand.Parameters.AddWithValue("@AntalSolgteLodseddelerPrSalg", salg.AntalSolgteLodseddelerPrSalg);
                             insertCommand.Parameters.AddWithValue("@Pris", salg.Pris);
 
-                            insertCommand.ExecuteNonQuery();
+                            //insertCommand.ExecuteNonQuery();
+                            salg.Salg_ID = Convert.ToInt32(insertCommand.ExecuteScalar());
+
                         }
 
                         //if (salg.AntalLodseddelerRetur > 0)

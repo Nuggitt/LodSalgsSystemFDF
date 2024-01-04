@@ -23,5 +23,7 @@ namespace LodSalgsSystemFDF.Models
         public int AntalLodSeddelerPrGruppe { get; set; }
         [Required]
         public int AntalSolgteLodseddelerPrGruppe {  get; set; }
+
+        public virtual Leder Leder { get; set; }
     }
 }

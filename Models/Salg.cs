@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
     public class Salg
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public int Salg_ID { get; set; }
         [Required]

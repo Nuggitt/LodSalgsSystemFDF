@@ -614,7 +614,38 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             return børngruppe;
         }
 
+        public List<Leder> GetLederOptions()
+        {
+            List<Leder> lederOptions = new List<Leder>();
 
-        
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string sql = "SELECT Leder_ID,Navn FROM Leder ORDER BY Navn";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Leder leder = new Leder
+                            {
+                                Leder_ID = reader.GetInt32(0),
+                                Navn = reader.GetString(1)
+                            };
+
+                            lederOptions.Add(leder);
+                        }
+                    }
+                }
+            }
+
+            return lederOptions;
+        }
+
+
+
     }
 }

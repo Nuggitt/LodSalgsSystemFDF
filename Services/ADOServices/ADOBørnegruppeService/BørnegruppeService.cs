@@ -101,5 +101,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
         {
             return børnegruppeService.TildelLodsedlerBørnegruppe(børnegruppe,amount);
         }
-    }
+
+        public IEnumerable<Leder> GetLederOptions()
+        {
+           return børnegruppeService.GetLederOptions();
+        }
+
+}
 }

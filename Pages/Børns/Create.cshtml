@@ -4,63 +4,63 @@
     ViewData["Title"] = "Create";
 }
 <div class="content-container">
-<h1 style="margin-top:80px">
-<h1>Opret Barn</h1>
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="  ModelOnly  " class="text-danger">
-            </div>
+    <h1 style="margin-top:80px"></h1>
+        <h1>Opret Barn</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    <div asp-validation-summary="  ModelOnly  " class="text-danger">
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.Børn_ID" class="control-label"></label>
-                <input asp-for="@Model.Børns.Børn_ID" class="form-control" />
-                <span asp-validation-for="@Model.Børns.Børn_ID" class="text-danger"></span>
-            </div>
+                    @* <div class="form-group">
+                    <label asp-for="@Model.Børns.Børn_ID" class="control-label"></label>
+                    <input asp-for="@Model.Børns.Børn_ID" class="form-control" readonly />
+                    <span asp-validation-for="@Model.Børns.Børn_ID" class="text-danger"></span>
+                    </div> *@
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.Navn" class="control-label"></label>
-                <input asp-for="@Model.Børns.Navn" class="form-control" />
-                <span asp-validation-for="@Model.Børns.Navn" class="text-danger"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Børns.Navn" class="control-label"></label>
+                        <input asp-for="@Model.Børns.Navn" class="form-control" />
+                        <span asp-validation-for="@Model.Børns.Navn" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.Adresse" class="control-label"></label>
-                <input asp-for="@Model.Børns.Adresse" class="form-control" />
-                <span asp-validation-for="@Model.Børns.Adresse" class="text-danger"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Børns.Adresse" class="control-label"></label>
+                        <input asp-for="@Model.Børns.Adresse" class="form-control" />
+                        <span asp-validation-for="@Model.Børns.Adresse" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.Telefon" class="control-label"></label>
-                <input asp-for="@Model.Børns.Telefon" class="form-control" />
-                <span asp-validation-for="@Model.Børns.Telefon" class="text-danger"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Børns.Telefon" class="control-label"></label>
+                        <input asp-for="@Model.Børns.Telefon" class="form-control" />
+                        <span asp-validation-for="@Model.Børns.Telefon" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.GivetLodsedler" class="control-label"></label>
-                <input asp-for="@Model.Børns.GivetLodsedler" class="form-control" />
-                <span asp-validation-for="@Model.Børns.GivetLodsedler" class="text-danger"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Børns.GivetLodsedler" class="control-label"></label>
+                        <input asp-for="@Model.Børns.GivetLodsedler" class="form-control" />
+                        <span asp-validation-for="@Model.Børns.GivetLodsedler" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.AntalSolgteLodseddeler" class="control-label"></label>
-                <input asp-for="@Model.Børns.AntalSolgteLodseddeler" class="form-control" />
-                <span asp-validation-for="@Model.Børns.AntalSolgteLodseddeler" class="text-danger"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Børns.AntalSolgteLodseddeler" class="control-label"></label>
+                        <input asp-for="@Model.Børns.AntalSolgteLodseddeler" class="form-control" />
+                        <span asp-validation-for="@Model.Børns.AntalSolgteLodseddeler" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="@Model.Børns.Børnegruppe_ID" class="control-label"></label>
-                <input asp-for="@Model.Børns.Børnegruppe_ID" class="form-control" />
-                <span asp-validation-for="@Model.Børns.Børnegruppe_ID" class="text-danger"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Børns.Børnegruppe_ID" class="control-label"></label>
+                        <input asp-for="@Model.Børns.Børnegruppe_ID" class="form-control" />
+                        <span asp-validation-for="@Model.Børns.Børnegruppe_ID" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
                 <div class="center-container">
                     <a asp-page="/Børns/GetBørn">Tilbage til Børn</a>
                 </div>
-    </div>
-</div>
+            </div>
+        </div>
 </div>

@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
     public class Børn
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Børn_ID { get; set; }
         [Required]
         [StringLength(30)]

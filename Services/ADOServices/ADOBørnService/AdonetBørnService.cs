@@ -93,7 +93,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
         public Børn CreateBørn(Børn børn)
         {
-            if (børn.Børn_ID <= 0 || børn.AntalSolgteLodseddeler < 0 || børn.Børnegruppe_ID <= 0)
+            if (børn.AntalSolgteLodseddeler < 0 || børn.Børnegruppe_ID <= 0)
             {
                 throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
             }
@@ -103,30 +103,32 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                 throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
             }
 
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, GivetLodsedler, AntalSolgteLodseddeler, Børnegruppe_ID) VALUES(@Børn_ID, @Navn, @Adresse, @Telefon, @GivetLodsedler, @AntalSolgteLodseddeler, @Børnegruppe_ID)";
+            string sql = "INSERT INTO [dbo].[Børn] (Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) " +
+                         "VALUES (@Navn, @Adresse, @Telefon, @Børnegruppe_ID, @GivetLodsedler, @AntalSolgteLodseddeler); " +
+                         "SELECT SCOPE_IDENTITY();";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                connection.Open();
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    connection.Open();
-
-                    command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+                    // Exclude Børn_ID from the parameters since it's an identity column and should be automatically generated
                     command.Parameters.AddWithValue("@Navn", børn.Navn);
                     command.Parameters.AddWithValue("@Adresse", børn.Adresse);
                     command.Parameters.AddWithValue("@Telefon", børn.Telefon);
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
                     command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
                     command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
-                    command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
 
-                    listbørn.Add(børn);
-
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                    // ExecuteScalar is used since SCOPE_IDENTITY() is expected to return a single value
+                    børn.Børn_ID = Convert.ToInt32(command.ExecuteScalar());
                 }
             }
+
             return børn;
         }
+
 
         public bool TjekIdEksisterer(string børnId)
         {

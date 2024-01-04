@@ -28,6 +28,8 @@ namespace LodSalgsSystemFDF.Models
         [Required]
 
         public int Børnegruppe_ID { get; set; }
+
+        public virtual Børnegruppe Børnegruppe { get; set; }
         
     }
 }

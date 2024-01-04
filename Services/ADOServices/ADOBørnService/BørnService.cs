@@ -109,5 +109,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.GetBørnInBørnegruppe(id);
         }
 
+        public IEnumerable<Børnegruppe> GetBørnegruppeOptions()
+        {
+            return _børnService.GetBørnegruppeOptions();
+        }
+
     }
 }

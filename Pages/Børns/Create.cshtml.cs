@@ -15,9 +15,18 @@ namespace LodSalgsSystemFDF.Pages.Børns
         [BindProperty]
         public Børn Børns { get; set; }
 
+        public IEnumerable<Børnegruppe> BørnegruppeOptions { get; set; }
+
         public CreateModel(IBørnService børnService)
         {
             _børnService=børnService;
+        }
+
+        public IActionResult OnGet()
+        {
+            // Load BørnegruppeOptions from your service or repository
+            BørnegruppeOptions = (List<Børnegruppe>)_børnService.GetBørnegruppeOptions(); // Replace with your actual method to get Børnegruppe options
+            return Page();
         }
 
         //public IActionResult OnPost()
@@ -36,6 +45,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
             {
                 if (!ModelState.IsValid)
                 {
+                    BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
                     return Page();
                 }
 
@@ -45,12 +55,14 @@ namespace LodSalgsSystemFDF.Pages.Børns
             catch (NegativeAmountExceptioncs ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+                BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
                 return Page();
             }
 
             catch (DuplicateKeyException ex)
             {
                 ModelState.AddModelError("Børns.Børn_ID", ex.Message);
+                BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
                 return Page();
 
             }

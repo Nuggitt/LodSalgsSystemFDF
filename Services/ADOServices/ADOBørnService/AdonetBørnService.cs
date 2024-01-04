@@ -619,6 +619,37 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return listbørn;
         }
 
+        public List<Børnegruppe> GetBørnegruppeOptions()
+        {
+            List<Børnegruppe> børnegruppeOptions = new List<Børnegruppe>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string sql = "SELECT Børnegruppe_ID, Gruppenavn FROM Børnegruppe ORDER BY Gruppenavn";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Børnegruppe børnegruppe = new Børnegruppe
+                            {
+                                Børnegruppe_ID = reader.GetInt32(0),
+                                Gruppenavn = reader.GetString(1)
+                            };
+
+                            børnegruppeOptions.Add(børnegruppe);
+                        }
+                    }
+                }
+            }
+
+            return børnegruppeOptions;
+        }
+
 
         //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
         //{

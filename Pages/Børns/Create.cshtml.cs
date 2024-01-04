@@ -46,7 +46,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
                 if (!ModelState.IsValid)
                 {
                     BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
-                    return Page();
+                    
                 }
 
                 Børns = _børnService.CreateBørn(Børns);

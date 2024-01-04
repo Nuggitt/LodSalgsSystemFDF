@@ -59,8 +59,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 //    throw new DuplicateKeyException("ID eksisterer allerede");
                 //}
                 string sql = "INSERT INTO [dbo].[Leder] (Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID)" +
-                        "VALUES (@Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer, @Børnegruppe_ID);" +
-                        "SELECT SCOPE_IDENTITY();";
+             "VALUES (@Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer, @Børnegruppe_ID);" +
+             "SELECT SCOPE_IDENTITY();";
+
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -75,7 +76,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                             {
                                 //insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
                                 insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
-                                insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
+                                insertCommand.Parameters.AddWithValue("@Adresse", leder.Adresse);
                                 insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
                                 insertCommand.Parameters.AddWithValue("@Email", leder.Email);
                                 insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);

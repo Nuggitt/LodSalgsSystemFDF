@@ -36,7 +36,7 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
                 if (!ModelState.IsValid)
                 {
                     LederOptions = _børnegruppeservice.GetLederOptions();
-                    return Page();
+        
                 }
 
                 Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);

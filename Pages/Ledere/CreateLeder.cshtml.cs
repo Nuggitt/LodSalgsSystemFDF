@@ -19,7 +19,7 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         }
         public IActionResult OnGet()
         {
-            BørneIDOptions = (List<Børnegruppe>)_lederService.GetBørneIDOptions();
+            BørneIDOptions = _lederService.GetBørneIDOptions();
             return Page();
         }
 
@@ -29,7 +29,8 @@ namespace LodSalgsSystemFDF.Pages.Ledere
             {
                 if (!ModelState.IsValid)
                 {
-                    return Page();
+                   BørneIDOptions =  _lederService.GetBørneIDOptions();
+                    
                 }
                 Leder = _lederService.CreateLeder(Leder);
                 return RedirectToPage("GetLedere");

@@ -23,5 +23,6 @@ namespace LodSalgsSystemFDF.Models
             public bool ErLotteriBestyrer { get; set; }
             [Required]
             public int Børnegruppe_ID { get; set; }
+            public virtual Børnegruppe Børnegruppe { get; set; }
     }
 }

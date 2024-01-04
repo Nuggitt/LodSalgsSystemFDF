@@ -1,6 +1,8 @@
 ﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
+using System.Reflection.Metadata.Ecma335;
+
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
 {
     public class AdonetLederService
@@ -266,6 +268,35 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                 }
             }
             return listlederasc;
+        }
+        public List<Børnegruppe> GetBørneIDOptions()
+        {
+            List<Børnegruppe> børneIDOptions = new List<Børnegruppe>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string sql = "SELECT Børnegruppe_ID, Gruppenavn FROM Børnegruppe ORDER BY Gruppenavn";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Børnegruppe børnegruppe = new Børnegruppe
+                            {
+                                Børnegruppe_ID = reader.GetInt32(0),
+                                Gruppenavn = reader.GetString(1)
+                            };
+
+                            børneIDOptions.Add(børnegruppe);
+                        }
+                    }
+                }
+            }
+            return børneIDOptions;
         }
     }
 }

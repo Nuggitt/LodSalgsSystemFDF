@@ -25,5 +25,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
 
         Børnegruppe TildelLodsedlerBørnegruppe(Børnegruppe børnegruppe, int amount);
 
+        IEnumerable<Leder>GetLederOptions();
+
     }
 }

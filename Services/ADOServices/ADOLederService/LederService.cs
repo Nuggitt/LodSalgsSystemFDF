@@ -45,5 +45,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         {
             return _lederService.GetAllLederNavnAscending();
         }
+        public IEnumerable<Børnegruppe> GetBørneIDOptions()
+        {
+            return _lederService.GetBørneIDOptions();
+        }
     }
 }

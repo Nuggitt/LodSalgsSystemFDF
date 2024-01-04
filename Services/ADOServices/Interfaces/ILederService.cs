@@ -12,6 +12,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         IEnumerable<Leder> GetLederByName(string Navn);
         IEnumerable<Leder> GetAllLederNavnDescending();
         IEnumerable<Leder> GetAllLederNavnAscending();
+        IEnumerable<Børnegruppe> GetBørneIDOptions();
 
     }
 }

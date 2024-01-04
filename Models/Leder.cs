@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
         public partial class Leder
         {
             [Key]
+            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
             [Required]
             public int Leder_ID { get; set; }
             [Required]

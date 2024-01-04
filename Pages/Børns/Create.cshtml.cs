@@ -25,7 +25,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
         public IActionResult OnGet()
         {
             // Load BørnegruppeOptions from your service or repository
-            BørnegruppeOptions = (List<Børnegruppe>)_børnService.GetBørnegruppeOptions(); // Replace with your actual method to get Børnegruppe options
+            BørnegruppeOptions = _børnService.GetBørnegruppeOptions(); // Replace with your actual method to get Børnegruppe options
             return Page();
         }
 

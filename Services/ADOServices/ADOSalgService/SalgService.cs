@@ -1,6 +1,7 @@
 ﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
 {
@@ -45,6 +46,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         public IEnumerable<Salg> PriceFilter(float maxPrice, float minPrice)
         {
             return _salgService.PriceFilters(maxPrice, minPrice);
+        }
+
+        public IEnumerable<Salg> GetBørnById(int id, int bid)
+        {
+            return _salgService.GetBørnById(id, bid);
         }
     }
 }

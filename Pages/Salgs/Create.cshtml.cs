@@ -12,9 +12,21 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         [BindProperty]
         public Salg Salg { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int Id { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int Bid { get; set; }
+
         public CreateModel(ISalgService salgService)
         {
             _salgService = salgService;
+        }
+
+        public void OnGet(int id, int bid)
+        {
+            _salgService.GetBørnById(Id, Bid);
+            
         }
 
         public IActionResult OnPost()

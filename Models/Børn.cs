@@ -30,6 +30,8 @@ namespace LodSalgsSystemFDF.Models
         public int Børnegruppe_ID { get; set; }
 
         public virtual Børnegruppe Børnegruppe { get; set; }
+
+        public virtual Leder Leder { get; set; }
         
     }
 }

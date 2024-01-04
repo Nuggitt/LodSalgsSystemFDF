@@ -17,6 +17,7 @@ namespace LodSalgsSystemFDF.Pages.Admin
         [BindProperty,DataType(DataType.Password)]
         public string Password { get; set; }
         private PasswordHasher<string> passwordHasher;
+        public string Message { get; set; }
 
         public CreateUserModel(BrugerService brugerService)
         {
@@ -34,7 +35,8 @@ namespace LodSalgsSystemFDF.Pages.Admin
                 return Page();
             }
             _brugerService.AddBruger(new Bruger(BrugerNavn, passwordHasher.HashPassword(null, Password)));
-            return RedirectToPage("/Admin/CreateUser");
+            Message = $"Brugeren: {BrugerNavn} er oprettet";
+            return Page();
         }
     }
 }

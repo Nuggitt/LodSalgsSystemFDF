@@ -15,7 +15,7 @@
 
         <div class="form-group">
             <label asp-for="@Model.Børnegruppe.Børnegruppe_ID" class="control-label"></label>
-            <input asp-for="@Model.Børnegruppe.Børnegruppe_ID" class="form-control" />
+            <input asp-for="@Model.Børnegruppe.Børnegruppe_ID" class="form-control"/>
             <span asp-validation-for="@Model.Børnegruppe.Børnegruppe_ID" class="text-danger"></span>
         </div>
 
@@ -58,7 +58,7 @@
 
         <input type="hidden" asp-for="Børnegruppe.Børnegruppe_ID" />
         <input type="submit" value="Update" class="btn btn-danger" />
-        <a asp-page="/Børnegrupper/GetBørnegrupper">Tilbage til listen af Indtægter</a>
+        <a asp-page="/Børnegrupper/GetBørnegrupper">Tilbage til listen af Børnegrupper</a>
     </form>
 
 </div>

@@ -84,37 +84,28 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe CreateBørnegruppe(Børnegruppe børnegruppe )
         {
-            if(børnegruppe.Børnegruppe_ID <=0 || børnegruppe.Antalbørn < 0 || børnegruppe.AntalLodSeddelerPrGruppe < 0 || børnegruppe.AntalSolgteLodseddelerPrGruppe < 0 || børnegruppe.Leder_ID <= 0)
+            if(/*børnegruppe.Børnegruppe_ID <=0  || børnegruppe.Leder_ID <= 0 ||*/ børnegruppe.AntalLodSeddelerPrGruppe < 0 || børnegruppe.Antalbørn < 0 || børnegruppe.AntalSolgteLodseddelerPrGruppe < 0 )
             {
                 throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
             }
 
-            if (TjekIdEksisterer(børnegruppe.Børnegruppe_ID.ToString()))
-            {
-                throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
-            }
+            //if (TjekIdEksisterer(børnegruppe.Børnegruppe_ID.ToString()))
+            //{
+            //    throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
+            //}
 
             List<Børnegruppe> børnegruppelist = new List<Børnegruppe>();
-            string sql = "INSERT INTO dbo.Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddelerPrGruppe) VALUES(@Børnegruppe_ID, @Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddelerPrGruppe)";
+            string sql = "INSERT INTO dbo.Børnegruppe (Gruppenavn, Lokale, AntalBørn, Leder_ID, AntalLodseddelerPrGruppe, AntalSolgteLodseddelerPrGruppe)" +
+                         " VALUES(@Gruppenavn, @Lokale, @AntalBørn, @Leder_ID, @AntalLodseddelerPrGruppe, @AntalSolgteLodseddelerPrGruppe)" +
+                         "SELECT SCOPE_IDENTITY();";
            
-            
-            //virker ikke lige NU
-            //foreach (Børnegruppe duplicatekey in børnegruppelist)
-            //{
-            //    if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
-            //    {
-            //        throw new DuplicateKeyException(" ID Eksiterer allerede");
-            //    }
-            //}
-                
-
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
                     
-                    command.Parameters.AddWithValue("@Børnegruppe_ID",børnegruppe.Børnegruppe_ID );
+                    //command.Parameters.AddWithValue("@Børnegruppe_ID",børnegruppe.Børnegruppe_ID );
                     command.Parameters.AddWithValue("@Gruppenavn", børnegruppe.Gruppenavn); 
                     command.Parameters.AddWithValue("@Lokale", børnegruppe.Lokale);
                     command.Parameters.AddWithValue("@AntalBørn", børnegruppe.Antalbørn);
@@ -122,16 +113,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
                     command.Parameters.AddWithValue("@AntalLodseddelerPrGruppe", børnegruppe.AntalLodSeddelerPrGruppe);
                     command.Parameters.AddWithValue("@AntalSolgteLodSeddelerPrGruppe", børnegruppe.AntalSolgteLodseddelerPrGruppe);
 
-                    //foreach (Børnegruppe duplicatekey in børnegruppelist)
-                    //{
-                    //    if (duplicatekey.Børnegruppe_ID == børnegruppe.Børnegruppe_ID)
-                    //    {
-                    //        throw new DuplicateKeyException(" ID Eksiterer allerede");
-                    //    }
-                    //}
-                    børnegruppelist.Add(børnegruppe);
+                    //børnegruppelist.Add(børnegruppe);
+                    børnegruppe.Børnegruppe_ID = Convert.ToInt32(command.ExecuteScalar());
 
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                    //int numberOfRowsAffected = command.ExecuteNonQuery();
                 }
             }
             return børnegruppe;

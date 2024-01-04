@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
     public partial class Børnegruppe
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Børnegruppe_ID { get; set; }
         [Required]
         [StringLength(50)]

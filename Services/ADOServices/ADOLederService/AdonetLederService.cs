@@ -48,45 +48,48 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         public Leder CreateLeder(Leder leder)
         {
             {
-            if(leder.Leder_ID <= 0)
-                {
-                    throw new NegativeAmountExceptioncs("Værdi må ikke være negativ");
-                }
-            if (LederIdEksisterer(leder.Leder_ID.ToString()))
-                {
-                    throw new DuplicateKeyException("ID eksisterer allerede");
-                }
+                //if (leder.Leder_ID <= 0)
+                //{
+                //    throw new NegativeAmountExceptioncs("Værdi må ikke være negativ");
+                //}
+                //if (LederIdEksisterer(leder.Leder_ID.ToString()))
+                //{
+                //    throw new DuplicateKeyException("ID eksisterer allerede");
+                //}
+                string sql = "INSERT INTO [dbo].[Leder] (Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID)" +
+                        "VALUES (@Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer, @Børnegruppe_ID);" +
+                        "SELECT SCOPE_IDENTITY();";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                using (SqlTransaction transaction = connection.BeginTransaction())
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                            try
+                    connection.Open();
+                    using (SqlTransaction transaction = connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            //string insertSql = "INSERT INTO dbo.Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer,  Børnegruppe_ID) VALUES(@Leder_ID, @Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer,  @Børnegruppe_ID)";
+
+                            using (SqlCommand insertCommand = new SqlCommand(sql, connection, transaction))
                             {
-                                string insertSql = "INSERT INTO dbo.Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer,  Børnegruppe_ID) VALUES(@Leder_ID, @Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer,  @Børnegruppe_ID)";
+                                //insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
+                                insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
+                                insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
+                                insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
+                                insertCommand.Parameters.AddWithValue("@Email", leder.Email);
+                                insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
+                                insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
 
-                                using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
-                                {
-                                    insertCommand.Parameters.AddWithValue("@Leder_ID", leder.Leder_ID);
-                                    insertCommand.Parameters.AddWithValue("@Navn", leder.Navn);
-                                    insertCommand.Parameters.AddWithValue("@Adresse", leder.Leder_ID);
-                                    insertCommand.Parameters.AddWithValue("@Telefon", leder.Telefon);
-                                    insertCommand.Parameters.AddWithValue("@Email", leder.Email);
-                                    insertCommand.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer);
-                                    insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
-
-                                    insertCommand.ExecuteNonQuery();
-                                }
-
-                                transaction.Commit();
+                                leder.Leder_ID = Convert.ToInt32(insertCommand.ExecuteScalar());
+                                //insertCommand.ExecuteNonQuery();
                             }
-                            catch (Exception ex)
-                            {
-                                
-                                transaction.Rollback();
-                                throw;
-                            }
+
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
                     }
                 }
             }

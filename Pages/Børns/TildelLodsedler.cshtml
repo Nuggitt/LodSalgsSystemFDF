@@ -52,6 +52,9 @@
                     <th>
                         Tildel Lodsedler
                     </th>
+                    <th>
+                        Opret Salg
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -98,6 +101,11 @@
                             </td>
                             <td>
                                 <a asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-page="/Salgs/Create" asp-route-id="@item.Børn_ID" asp-route-bid="@item.Børnegruppe_ID">
                                     <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                 </a>
                             </td>

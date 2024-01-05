@@ -52,5 +52,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         {
             return _salgService.GetBørnById(id, bid);
         }
+
+        public IEnumerable<Leder> GetLederOptions()
+        {
+            return _salgService.GetLederOptions();
+        }
     }
 }

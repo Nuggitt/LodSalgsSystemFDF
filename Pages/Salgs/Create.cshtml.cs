@@ -18,14 +18,18 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         [BindProperty(SupportsGet = true)]
         public int Bid { get; set; }
 
+        public IEnumerable<Leder> LederOptions { get; set; }
+
         public CreateModel(ISalgService salgService)
         {
             _salgService = salgService;
         }
 
-        public void OnGet(int id, int bid)
+        public IActionResult OnGet()
         {
             _salgService.GetBørnById(Id, Bid);
+            LederOptions = _salgService.GetLederOptions();
+            return Page();
             
         }
 
@@ -33,8 +37,11 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                LederOptions = _salgService.GetLederOptions();
+                
             }
+            Salg.Børn_ID = Id;
+            Salg.Børnegruppe_ID = Bid;
             Salg = _salgService.CreateSalg(Salg);
             return RedirectToPage("GetSalgs");
         }

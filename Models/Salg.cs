@@ -25,6 +25,8 @@ namespace LodSalgsSystemFDF.Models
 
         public double Pris { get; set; }
 
+        public virtual Leder Leder { get; set; }
+
 
     }
 }

@@ -18,5 +18,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         IEnumerable<Salg> PriceFilter(float maxPrice, float minPrice);
 
         IEnumerable<Salg> GetBørnById(int id, int bid);
+
+        IEnumerable<Leder> GetLederOptions();
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page
+@using LodSalgsSystemFDF.Pages.LogIn
 @model LodSalgsSystemFDF.Pages.Salgs.GetSalgsModel
 @{
     ViewData["Title"] = "GetSalgs";
@@ -9,13 +10,25 @@
 <div class="content-container">
     <h1 style="margin-top:80px">
         <h1>Liste over alle salg</h1>
-        <p>
+        @{
+            if ((LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin"))
+            {
+                <p>
+                    <div class="mb-3">
+                        <a asp-page="/Salgs/Create" class="btn btn-primary">
+                            <i class="fa fa-plus" aria-hidden="true"></i>Tilføj ny Salg
+                        </a>
+                    </div>
+                </p>
+            }
+        }
+        @* <p>
             <div class="mb-3">
                 <a asp-page="/Salgs/Create" class="btn btn-primary">
                     <i class="fa fa-plus" aria-hidden="true"></i> Tilføj nyt salg
                 </a>
             </div>
-        </p>
+        </p> *@
         <p>
             Søg efter Børnegruppe ID
         </p>
@@ -71,12 +84,23 @@
                         <th>
                             Pris
                         </th>
-                        <th>
+                        @* <th>
                             Slet Salg
                         </th>
                         <th>
                             Ret Salg
-                        </th>
+                        </th> *@
+                        @{
+                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                            {
+                                <th>
+                                    Slet Salg
+                                </th>
+                                <th>
+                                    Ret Salg
+                                </th>
+                            }
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +134,7 @@
                                 <td>
                                     @item.Pris
                                 </td>
-                                <td>
+                                @* <td>
                                     <p>
                                         <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID">
                                             <i class="fa fa-trash" aria-hidden="true"></i> Slet
@@ -123,7 +147,33 @@
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
                                         </a>
                                     </p>
-                                </td>
+                                </td> *@
+                                @{
+                                    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                    {
+                                        <td>
+                                            <p>
+                                                <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Slet
+                                                </a>
+                                            </p>
+                                        </td>
+
+                                    }
+
+                                    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
+                                    {
+                                        <td>
+                                            <p>
+                                                <a asp-page="/Salgs/Update" asp-route-id="@item.Salg_ID">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                                </a>
+                                            </p>
+                                        </td>
+
+                                    }
+
+                                }
                             </tr>
                         }
                     }

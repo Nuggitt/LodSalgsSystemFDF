@@ -65,9 +65,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                        </li>
+                                        // <li class="nav-item">
+                                        //     <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
+                                        // </li>
                                 }
 
                                 if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
@@ -83,9 +83,12 @@
                                 }
                                 if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "bestyrer")
                                 {
-                                        <li class="nav-item">
-                                              <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                        </li>
+                                        // <li class="nav-item">
+                                        //       <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
+                                        // </li>
+                                           <li class="nav-item">
+                                                 <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
+                                           </li>
                                 }
 
                             }

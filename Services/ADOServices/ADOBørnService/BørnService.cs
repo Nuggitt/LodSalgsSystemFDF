@@ -114,5 +114,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return _børnService.GetBørnegruppeOptions();
         }
 
+        public Task<IEnumerable<Børn>> GetBørnInBørnegruppeByID(int id)
+        {
+            return _børnService.GetBørnInBørnegruppeByID(id);
+        }
+
     }
 }

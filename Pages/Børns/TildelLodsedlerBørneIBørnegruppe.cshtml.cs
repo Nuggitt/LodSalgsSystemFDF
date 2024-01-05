@@ -1,5 +1,4 @@
 using LodSalgsSystemFDF.Models;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LodSalgsSystemFDF.Pages.Børns
 {
-    public class TildelLodsedlerModel : PageModel
+    public class TildelLodsedlerBørneIBørnegruppeModel : PageModel
     {
         [BindProperty]
         public Børn Børn { get; set; }
@@ -19,31 +18,23 @@ namespace LodSalgsSystemFDF.Pages.Børns
         [BindProperty]
         public string NameSearch { get; set; }
 
-        public TildelLodsedlerModel(IBørnService børneService)
+        public TildelLodsedlerBørneIBørnegruppeModel(IBørnService børneService)
         {
             _børneService = børneService;
         }
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, int bid)
         {
 
             Børn = await _børneService.GetBørn(id);
-            Børns = await _børneService.GetBørn();
+            Børns = await _børneService.GetBørnInBørnegruppe(bid);
 
         }
-
-        public async Task OnGetBørnInBørnegruppe(int id)
-        {
-            Børn = await _børneService.GetBørn(id); //Henter modal
-            Børns = await _børneService.GetBørnInBørnegruppe(id);
-          
-        }
-
 
         public IActionResult OnPost()
         {
-            
+
             Børn = _børneService.TildelLodsedler(Børn, Amount);
-            return RedirectToPage("GetBørn");
+            return RedirectToPage("BørnIBørnegrupper");
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿@page
-@model LodSalgsSystemFDF.Pages.Børns.TildelLodsedlerModel
+@model LodSalgsSystemFDF.Pages.Børns.BørnIBørnegrupperModel
 @{
 }
-
 
 <div class="content-container">
     <div class="container-fluid" style="margin-top:80px">
@@ -52,6 +51,9 @@
                     <th>
                         Tildel Lodsedler
                     </th>
+                    <th>
+                        Opret Salg
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -97,7 +99,12 @@
                                 </p>
                             </td>
                             <td>
-                                <a asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID">
+                                <a asp-page="TildelLodsedlerBørneIBørnegruppe" asp-route-id="@item.Børn_ID" asp-route-bid="@item.Børnegruppe_ID">
+                                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-page="/Salgs/Create" asp-route-id="@item.Børn_ID" asp-route-bid="@item.Børnegruppe_ID">
                                     <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -105,65 +112,4 @@
                     }
                 }
             </tbody>
-        </table> 
-
-        <ul>
-            @foreach (var børn in @Model.Børns)
-            {
-
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"><small class="text-muted">(@Model.Børn.Børn_ID)</small>@Model.Børn.Navn</h5>
-                                <a type="button" class="close" asp-page="GetBørn">&times;</a>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>Navn:</b>@Model.Børn.Navn</p>
-                                <p><b>Adresse:</b>@Model.Børn.Adresse</p>
-                                <p><b>Telefon:</b>@Model.Børn.Telefon</p>
-                                <p><b>Givet Lodsedler:</b>@Model.Børn.GivetLodsedler</p>
-                                <p><b>Solgte Lodsedler:</b>@Model.Børn.AntalSolgteLodseddeler</p>
-                                <p><b>Børnegruppe_ID:</b>@Model.Børn.Børnegruppe_ID</p>
-                            </div>
-                            <div class="modal-footer">
-                                <form method="post">
-                                    <div class="form-row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="GivLodsedler">Giv Lodsedler</label>
-                                                <input asp-for="@Model.Amount" class="form-control" />
-                                                <span asp-validation-for="@Model.Børn.GivetLodsedler" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <input type="submit" value="Tildel" class="btn btn-primary" />
-                                                <a type="button" class="btn btn-danger" asp-page="GetBørn">Luk</a>
-                                                <input type="hidden" asp-for="Børn.Børn_ID" />
-                                                <input type="hidden" asp-for="Børn.Børnegruppe_ID" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            }
-        </ul>
-
-        @section Scripts
-            {
-            @*jquery - javascript der sikre at modalen kun kan lukkes ved klik i modalen og at den er åben når siden vises.*@
-            <script>
-                $(document).ready(function () {
-                    $("#myModal").modal({ backdrop: "static" });
-                    $("#myModal").modal('show');
-                });
-            </script>
-        }
-        
-    </div>
-</div>
+        </table>

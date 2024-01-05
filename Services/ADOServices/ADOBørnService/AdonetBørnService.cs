@@ -619,6 +619,41 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             return listbørn;
         }
 
+        public async Task<IEnumerable<Børn>> GetBørnInBørnegruppeByID(int id)
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "Select * from Børn WHERE Børn_ID = @Børn_ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Børn_ID", id);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (await dataReader.ReadAsync())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+
+
+                    }
+
+                }
+
+            }
+
+            return listbørn;
+        }
+
         public List<Børnegruppe> GetBørnegruppeOptions()
         {
             List<Børnegruppe> børnegruppeOptions = new List<Børnegruppe>();

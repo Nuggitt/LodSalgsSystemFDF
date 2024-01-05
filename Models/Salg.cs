@@ -27,6 +27,9 @@ namespace LodSalgsSystemFDF.Models
 
         public virtual Leder Leder { get; set; }
 
+        public virtual Børn Børn { get; set; }
+        public virtual Børnegruppe Børnegruppe { get; set; }
+
 
     }
 }

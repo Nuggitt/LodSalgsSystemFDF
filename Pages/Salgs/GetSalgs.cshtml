@@ -67,19 +67,28 @@
                             Børn ID
                         </th>
                         <th>
-                            Børnegruppe ID
+                            Barnets navn
                         </th>
                         <th>
-                            Leder ID
+                            Barnets Telefon
+                        </th>
+                        <th>
+                            Gruppens navn
+                        </th>
+                        <th>
+                            Leder navn
                         </th>
                         <th>
                             Dato
                         </th>
                         <th>
-                            Antal Lodseddeler Retur
+                            Antal Lodsedler Retur
                         </th>
                         <th>
-                            Antal Soglte Lodseddeler
+                            Antal Solgte Lod Pr Salg
+                        </th>
+                        <th>
+                            Super Sælger
                         </th>
                         <th>
                             Pris
@@ -117,10 +126,16 @@
                                     @item.Børn_ID
                                 </td>
                                 <td>
-                                    @item.Børnegruppe_ID
+                                    @item.Børn.Navn
                                 </td>
                                 <td>
-                                    @item.Leder_ID
+                                    @item.Børn.Telefon
+                                </td>
+                                <td>
+                                    @item.Børnegruppe.Gruppenavn
+                                </td>
+                                <td>
+                                    @item.Leder.Navn
                                 </td>
                                 <td>
                                     @item.Dato
@@ -130,6 +145,9 @@
                                 </td>
                                 <td>
                                     @item.AntalSolgteLodseddelerPrSalg
+                                </td>
+                                <td>
+                                    @item.Børn.AntalSolgteLodseddeler
                                 </td>
                                 <td>
                                     @item.Pris

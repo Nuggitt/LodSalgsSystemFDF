@@ -23,22 +23,28 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT * FROM Salg";
+                string sql = "SELECT Salg_ID, Børn.Børn_ID, Børn.Navn, Børn.Telefon, Børnegruppe.Gruppenavn, Leder.Navn, Salg.Dato, Salg.AntalLodseddelerRetur, Salg.AntalSolgteLodseddelerPrSalg, Børn.AntalSolgteLodseddeler, Salg.Pris\r\nFROM dbo.Salg\r\nJoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Salg.Børnegruppe_ID\r\nJoin Børn on Børn.Børn_ID = Salg.Børn_ID\r\nJoin Leder on Leder.Leder_ID = Salg.Leder_ID";
                 SqlCommand command = new SqlCommand(sql, connection);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         Salg salg = new Salg();
+                        salg.Leder = new Leder();
+                        salg.Børn = new Børn();
+                        salg.Børnegruppe = new Børnegruppe();
+
                         salg.Salg_ID = reader.GetInt32(0);
                         salg.Børn_ID = reader.GetInt32(1);
-                        salg.Børnegruppe_ID = reader.GetInt32(2);
-                        salg.Leder_ID = reader.GetInt32(3);
-                        salg.Dato = reader.GetDateTime(4);
-                        salg.AntalLodseddelerRetur = reader.GetInt32(5);
-                        salg.AntalSolgteLodseddelerPrSalg = reader.GetInt32(6);
-                        salg.Pris = reader.GetDouble(7);
-
+                        salg.Børn.Navn = reader.GetString(2);
+                        salg.Børn.Telefon = reader.GetString(3);
+                        salg.Børnegruppe.Gruppenavn = reader.GetString(4);
+                        salg.Leder.Navn = reader.GetString(5);
+                        salg.Dato = reader.GetDateTime(6);
+                        salg.AntalLodseddelerRetur = reader.GetInt32(7);
+                        salg.AntalSolgteLodseddelerPrSalg = reader.GetInt32(8);
+                        salg.Børn.AntalSolgteLodseddeler = reader.GetInt32(9);
+                        salg.Pris = reader.GetDouble(10);
                         salgList.Add(salg);
 
 

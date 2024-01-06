@@ -1,6 +1,7 @@
 ﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
 {
@@ -98,7 +99,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
 
                         using (SqlCommand insertCommand = new SqlCommand(insertSql, connection, transaction))
                         {
-                            
+
                             insertCommand.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
                             insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
                             insertCommand.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
@@ -164,7 +165,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                     }
                     catch (Exception ex)
                     {
-                        
+
                         transaction.Rollback();
                         throw;
                     }
@@ -231,7 +232,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                 {
                     while (reader.Read())
                     {
-                       
+
                         salg.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
                         salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
                         salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
@@ -251,12 +252,12 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
 
         public IEnumerable<Salg> PriceFilters(float maxPrice, float minPrice)
         {
-            if (minPrice < 0 || maxPrice < 0 )
+            if (minPrice < 0 || maxPrice < 0)
             {
                 throw new NegativeAmountExceptioncs("MinPrice and MaxPrice cannot be negative values.");
             }
             List<Salg> filterList = new List<Salg>();
-            
+
             string sql = "SELECT * FROM Salg WHERE (@MinPrice = 0 OR Pris >= @MinPrice) AND (@MaxPrice = 0 OR Pris <= @MaxPrice)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -286,7 +287,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                     return filterList;
                 }
             }
-                                               
+
         }
 
         public IEnumerable<Salg> GetBørnById(int id, int bid)
@@ -304,10 +305,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                 {
                     while (reader.Read())
                     {
-                        
+
                         salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
                         salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
-                        
+
                         listsalg.Add(salg);
 
                     }
@@ -346,6 +347,80 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             }
 
             return lederOptions;
+        }
+
+        public List<Salg> GetAntalSolgteLodseddelerDESC()
+        {
+            List<Salg> salgList = new List<Salg>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT Salg_ID, Børn.Børn_ID, Børn.Navn, Børn.Telefon, Børnegruppe.Gruppenavn, Leder.Navn, Salg.Dato, Salg.AntalLodseddelerRetur, Salg.AntalSolgteLodseddelerPrSalg, Børn.AntalSolgteLodseddeler, Salg.Pris\r\nFROM dbo.Salg\r\nJoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Salg.Børnegruppe_ID\r\nJoin Børn on Børn.Børn_ID = Salg.Børn_ID\r\nJoin Leder on Leder.Leder_ID = Salg.Leder_ID ORDER BY Børn.AntalSolgteLodseddeler DESC";
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Salg salg = new Salg();
+                        salg.Leder = new Leder();
+                        salg.Børn = new Børn();
+                        salg.Børnegruppe = new Børnegruppe();
+
+                        salg.Salg_ID = reader.GetInt32(0);
+                        salg.Børn_ID = reader.GetInt32(1);
+                        salg.Børn.Navn = reader.GetString(2);
+                        salg.Børn.Telefon = reader.GetString(3);
+                        salg.Børnegruppe.Gruppenavn = reader.GetString(4);
+                        salg.Leder.Navn = reader.GetString(5);
+                        salg.Dato = reader.GetDateTime(6);
+                        salg.AntalLodseddelerRetur = reader.GetInt32(7);
+                        salg.AntalSolgteLodseddelerPrSalg = reader.GetInt32(8);
+                        salg.Børn.AntalSolgteLodseddeler = reader.GetInt32(9);
+                        salg.Pris = reader.GetDouble(10);
+                        salgList.Add(salg);
+
+
+                    }
+                }
+            }
+            return salgList;
+        }
+
+        public List<Salg> GetAntalSolgteLodseddelerASC()
+        {
+            List<Salg> salgList = new List<Salg>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT Salg_ID, Børn.Børn_ID, Børn.Navn, Børn.Telefon, Børnegruppe.Gruppenavn, Leder.Navn, Salg.Dato, Salg.AntalLodseddelerRetur, Salg.AntalSolgteLodseddelerPrSalg, Børn.AntalSolgteLodseddeler, Salg.Pris\r\nFROM dbo.Salg\r\nJoin Børnegruppe on Børnegruppe.Børnegruppe_ID = Salg.Børnegruppe_ID\r\nJoin Børn on Børn.Børn_ID = Salg.Børn_ID\r\nJoin Leder on Leder.Leder_ID = Salg.Leder_ID ORDER BY Børn.AntalSolgteLodseddeler ASC";
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Salg salg = new Salg();
+                        salg.Leder = new Leder();
+                        salg.Børn = new Børn();
+                        salg.Børnegruppe = new Børnegruppe();
+
+                        salg.Salg_ID = reader.GetInt32(0);
+                        salg.Børn_ID = reader.GetInt32(1);
+                        salg.Børn.Navn = reader.GetString(2);
+                        salg.Børn.Telefon = reader.GetString(3);
+                        salg.Børnegruppe.Gruppenavn = reader.GetString(4);
+                        salg.Leder.Navn = reader.GetString(5);
+                        salg.Dato = reader.GetDateTime(6);
+                        salg.AntalLodseddelerRetur = reader.GetInt32(7);
+                        salg.AntalSolgteLodseddelerPrSalg = reader.GetInt32(8);
+                        salg.Børn.AntalSolgteLodseddeler = reader.GetInt32(9);
+                        salg.Pris = reader.GetDouble(10);
+                        salgList.Add(salg);
+
+
+                    }
+                }
+            }
+            return salgList;
         }
     }
 }

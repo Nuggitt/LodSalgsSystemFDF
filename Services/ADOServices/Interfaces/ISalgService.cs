@@ -20,5 +20,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         IEnumerable<Salg> GetBørnById(int id, int bid);
 
         IEnumerable<Leder> GetLederOptions();
+
+        IEnumerable<Salg> GetAntalSolgteLodseddelerDESC();
+
+        IEnumerable<Salg> GetAntalSolgteLodseddelerASC();
     }
 }

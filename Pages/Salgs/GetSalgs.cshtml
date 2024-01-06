@@ -2,14 +2,27 @@
 @using LodSalgsSystemFDF.Pages.LogIn
 @model LodSalgsSystemFDF.Pages.Salgs.GetSalgsModel
 @{
-    ViewData["Title"] = "GetSalgs";
+    ViewData["Title"] = "GetSalgs";    
+
+    // Sort the items by AntalSolgteLodseddeler in descending order
+    var sortedSalgs = Model?.Salgs.OrderByDescending(item => item.Børn.AntalSolgteLodseddeler).ToList();
+
+    // Get the item with the highest AntalSolgteLodseddeler
+    var highestValueItem = sortedSalgs?.FirstOrDefault();
 }
-
-
 
 <div class="content-container">
     <h1 style="margin-top:80px">
         <h1>Liste over alle salg</h1>
+        @if (highestValueItem != null)
+        {
+            <div style="text-align:center; margin-top: -40px;">
+                <h3>SUPERSÆLGER:</h3>
+                <p>ID: @highestValueItem.Børn_ID</p>
+                <p>Navn: @highestValueItem.Børn.Navn</p>
+                <p>SolgteLodsedler: @highestValueItem.Børn.AntalSolgteLodseddeler</p>
+            </div>
+        }
         @{
             if ((LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "leder"))
             {
@@ -22,6 +35,7 @@
                 </p>
             }
         }
+        
         @* <p>
             <div class="mb-3">
                 <a asp-page="/Salgs/Create" class="btn btn-primary">
@@ -87,8 +101,10 @@
                         <th>
                             Antal Solgte Lod Pr Salg
                         </th>
-                        <th>
-                            Super Sælger
+                        <th style="column-width:800px">
+                            SuperSælger
+                            <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDESC"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerASC"><i class="fa fa-angle-up"></i></a>
                         </th>
                         <th>
                             Pris

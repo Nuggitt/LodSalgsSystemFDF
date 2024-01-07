@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
         public partial class Leder
         {
             [Key]
+            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
             [Required]
             public int Leder_ID { get; set; }
             [Required]
@@ -22,5 +23,6 @@ namespace LodSalgsSystemFDF.Models
             public bool ErLotteriBestyrer { get; set; }
             [Required]
             public int Børnegruppe_ID { get; set; }
+            public virtual Børnegruppe Børnegruppe { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,20 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
 
         [BindProperty]
         public Børnegruppe Børnegrupper { get; set; }
+
+        public IEnumerable<Leder> LederOptions { get; set; }
+
         public CreateBørngruppeModel(IBørnegruppeService børnegruppeService)
         {
             _børnegruppeservice = børnegruppeService;
         }
-        
+
+        public IActionResult OnGet()
+        {
+            LederOptions = _børnegruppeservice.GetLederOptions();
+            return Page();
+        }
+
 
         public IActionResult OnPost()
         {
@@ -25,7 +35,8 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
             {
                 if (!ModelState.IsValid)
                 {
-                    return Page();
+                    LederOptions = _børnegruppeservice.GetLederOptions();
+        
                 }
 
                 Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
@@ -34,12 +45,14 @@ namespace LodSalgsSystemFDF.Pages.Børnegrupper
             catch (NegativeAmountExceptioncs ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
+                LederOptions = _børnegruppeservice.GetLederOptions();
                 return Page();
             }
 
             catch (DuplicateKeyException ex)
             {
                 ModelState.AddModelError("Børnegrupper.Børnegruppe_ID", ex.Message);
+                LederOptions = _børnegruppeservice.GetLederOptions();
                 return Page();
 
                 //ModelState.AddModelError(string.Empty, ex.Message);

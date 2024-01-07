@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
     public class Salg
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public int Salg_ID { get; set; }
         [Required]
@@ -23,6 +24,11 @@ namespace LodSalgsSystemFDF.Models
         public int AntalSolgteLodseddelerPrSalg { get; set; }
 
         public double Pris { get; set; }
+
+        public virtual Leder Leder { get; set; }
+
+        public virtual Børn Børn { get; set; }
+        public virtual Børnegruppe Børnegruppe { get; set; }
 
 
     }

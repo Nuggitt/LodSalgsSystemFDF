@@ -1,21 +1,48 @@
 ﻿@page
+@using LodSalgsSystemFDF.Pages.LogIn
 @model LodSalgsSystemFDF.Pages.Salgs.GetSalgsModel
 @{
-    ViewData["Title"] = "GetSalgs";
+    ViewData["Title"] = "GetSalgs";    
+
+    // Sort the items by AntalSolgteLodseddeler in descending order
+    var sortedSalgs = Model?.Salgs.OrderByDescending(item => item.Børn.AntalSolgteLodseddeler).ToList();
+
+    // Get the item with the highest AntalSolgteLodseddeler
+    var highestValueItem = sortedSalgs?.FirstOrDefault();
 }
-
-
 
 <div class="content-container">
     <h1 style="margin-top:80px">
         <h1>Liste over alle salg</h1>
-        <p>
+        @if (highestValueItem != null)
+        {
+            <div style="text-align:center; margin-top: -40px;">
+                <h3>SUPERSÆLGER:</h3>
+                <p>ID: @highestValueItem.Børn_ID</p>
+                <p>Navn: @highestValueItem.Børn.Navn</p>
+                <p>SolgteLodsedler: @highestValueItem.Børn.AntalSolgteLodseddeler</p>
+            </div>
+        }
+        @{
+            if ((LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "leder"))
+            {
+                <p>
+                    <div class="mb-3">
+                        <a asp-page="/Salgs/Create" class="btn btn-primary">
+                            <i class="fa fa-plus" aria-hidden="true"></i>Tilføj ny Salg
+                        </a>
+                    </div>
+                </p>
+            }
+        }
+        
+        @* <p>
             <div class="mb-3">
                 <a asp-page="/Salgs/Create" class="btn btn-primary">
                     <i class="fa fa-plus" aria-hidden="true"></i> Tilføj nyt salg
                 </a>
             </div>
-        </p>
+        </p> *@
         <p>
             Søg efter Børnegruppe ID
         </p>
@@ -54,29 +81,51 @@
                             Børn ID
                         </th>
                         <th>
-                            Børnegruppe ID
+                            Barnets navn
                         </th>
                         <th>
-                            Leder ID
+                            Barnets Telefon
+                        </th>
+                        <th>
+                            Gruppens navn
+                        </th>
+                        <th>
+                            Leder navn
                         </th>
                         <th>
                             Dato
                         </th>
                         <th>
-                            Antal Lodseddeler Retur
+                            Antal Lodsedler Retur
                         </th>
                         <th>
-                            Antal Soglte Lodseddeler
+                            Antal Solgte Lod Pr Salg
+                        </th>
+                        <th style="column-width:800px">
+                            SuperSælger
+                            <a data-toggle="tooltip" title="Sorter lodsedler faldende" asp-page-handler="AntalSolgteLodseddelerDESC"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter lodsedler rejsende" asp-page-handler="AntalSolgteLodseddelerASC"><i class="fa fa-angle-up"></i></a>
                         </th>
                         <th>
                             Pris
                         </th>
-                        <th>
+                        @* <th>
                             Slet Salg
                         </th>
                         <th>
                             Ret Salg
-                        </th>
+                        </th> *@
+                        @{
+                            if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                            {
+                                <th>
+                                    Slet Salg
+                                </th>
+                                <th>
+                                    Ret Salg
+                                </th>
+                            }
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -93,10 +142,16 @@
                                     @item.Børn_ID
                                 </td>
                                 <td>
-                                    @item.Børnegruppe_ID
+                                    @item.Børn.Navn
                                 </td>
                                 <td>
-                                    @item.Leder_ID
+                                    @item.Børn.Telefon
+                                </td>
+                                <td>
+                                    @item.Børnegruppe.Gruppenavn
+                                </td>
+                                <td>
+                                    @item.Leder.Navn
                                 </td>
                                 <td>
                                     @item.Dato
@@ -108,9 +163,12 @@
                                     @item.AntalSolgteLodseddelerPrSalg
                                 </td>
                                 <td>
-                                    @item.Pris
+                                    @item.Børn.AntalSolgteLodseddeler
                                 </td>
                                 <td>
+                                    @item.Pris
+                                </td>
+                                @* <td>
                                     <p>
                                         <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID">
                                             <i class="fa fa-trash" aria-hidden="true"></i> Slet
@@ -123,7 +181,33 @@
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
                                         </a>
                                     </p>
-                                </td>
+                                </td> *@
+                                @{
+                                    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                                    {
+                                        <td>
+                                            <p>
+                                                <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i> Slet
+                                                </a>
+                                            </p>
+                                        </td>
+
+                                    }
+
+                                    if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer" || LogInPageModel.LoggedInBruger.BrugerNavn == "admin" || LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
+                                    {
+                                        <td>
+                                            <p>
+                                                <a asp-page="/Salgs/Update" asp-route-id="@item.Salg_ID">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                                </a>
+                                            </p>
+                                        </td>
+
+                                    }
+
+                                }
                             </tr>
                         }
                     }

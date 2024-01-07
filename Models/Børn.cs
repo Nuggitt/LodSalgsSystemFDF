@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
     public class Børn
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Børn_ID { get; set; }
         [Required]
         [StringLength(30)]
@@ -27,6 +28,10 @@ namespace LodSalgsSystemFDF.Models
         [Required]
 
         public int Børnegruppe_ID { get; set; }
+
+        public virtual Børnegruppe Børnegruppe { get; set; }
+
+        public virtual Leder Leder { get; set; }
         
     }
 }

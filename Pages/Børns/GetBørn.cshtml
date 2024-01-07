@@ -6,7 +6,7 @@
 }
 <div class="content-container">
     <div class="container-fluid" style="margin-top:80px">
-        <h1 style="margin-top:80px">Liste over alle børn</h1>
+        <h1 style="margin-top:80px">Liste over alle Børn</h1>
 
 
 
@@ -74,6 +74,9 @@
                             <th>
                                 Tildel Lodsedler
                             </th>
+                            <th>
+                                Opret Salg
+                            </th>
 
                         }
 
@@ -113,6 +116,9 @@
                             <th>
                                 Tildel Lodsedler
                             </th>
+                            <th>
+                                Opret Salg
+                            </th>
                         }
                     </tr>
                 </thead>
@@ -146,7 +152,12 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <a asp-page-handler="BørnInBørnegruppe" asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID">
+                                        <a asp-page="TildelLodsedler" asp-route-id="@item.Børn_ID">
+                                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a asp-page="/Salgs/Create" asp-route-id="@item.Børn_ID" asp-route-bid="@item.Børnegruppe_ID">
                                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                         </a>
                                     </td>
@@ -183,6 +194,11 @@
                                             <i class="fa fa-plus-square-o" aria-hidden="true"></i>
                                         </a>
                                     </td>
+                                    <td>
+                                        <a asp-page="/Salgs/Create" asp-route-id="@item.Børn_ID" asp-route-bid="@item.Børnegruppe_ID">
+                                            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             }
                         }
@@ -192,7 +208,7 @@
         </div>
     </div>
 
-    
+
 
 
 

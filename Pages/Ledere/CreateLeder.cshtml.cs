@@ -12,10 +12,15 @@ namespace LodSalgsSystemFDF.Pages.Ledere
 
         [BindProperty]
         public Leder Leder { get; set; }
-
+        public IEnumerable<Børnegruppe> BørneIDOptions { get; set; }
         public CreateLederModel(ILederService lederService)
         {
             _lederService = lederService;
+        }
+        public IActionResult OnGet()
+        {
+            BørneIDOptions = _lederService.GetBørneIDOptions();
+            return Page();
         }
 
         public IActionResult OnPost()
@@ -24,7 +29,8 @@ namespace LodSalgsSystemFDF.Pages.Ledere
             {
                 if (!ModelState.IsValid)
                 {
-                    return Page();
+                   BørneIDOptions =  _lederService.GetBørneIDOptions();
+                    
                 }
                 Leder = _lederService.CreateLeder(Leder);
                 return RedirectToPage("GetLedere");

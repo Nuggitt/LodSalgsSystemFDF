@@ -93,7 +93,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
         public Børn CreateBørn(Børn børn)
         {
-            if (børn.Børn_ID <= 0 || børn.AntalSolgteLodseddeler < 0 || børn.Børnegruppe_ID <= 0)
+            if (børn.AntalSolgteLodseddeler < 0 || børn.Børnegruppe_ID <= 0)
             {
                 throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
             }
@@ -103,30 +103,32 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                 throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
             }
 
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, GivetLodsedler, AntalSolgteLodseddeler, Børnegruppe_ID) VALUES(@Børn_ID, @Navn, @Adresse, @Telefon, @GivetLodsedler, @AntalSolgteLodseddeler, @Børnegruppe_ID)";
+            string sql = "INSERT INTO [dbo].[Børn] (Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) " +
+                         "VALUES (@Navn, @Adresse, @Telefon, @Børnegruppe_ID, @GivetLodsedler, @AntalSolgteLodseddeler); " +
+                         "SELECT SCOPE_IDENTITY();";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                connection.Open();
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    connection.Open();
-
-                    command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+                    // Exclude Børn_ID from the parameters since it's an identity column and should be automatically generated
                     command.Parameters.AddWithValue("@Navn", børn.Navn);
                     command.Parameters.AddWithValue("@Adresse", børn.Adresse);
                     command.Parameters.AddWithValue("@Telefon", børn.Telefon);
+                    command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
                     command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
                     command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
-                    command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
 
-                    listbørn.Add(børn);
-
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
+                    // ExecuteScalar is used since SCOPE_IDENTITY() is expected to return a single value
+                    børn.Børn_ID = Convert.ToInt32(command.ExecuteScalar());
                 }
             }
+
             return børn;
         }
+
 
         public bool TjekIdEksisterer(string børnId)
         {
@@ -615,6 +617,72 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
             }
 
             return listbørn;
+        }
+
+        public async Task<IEnumerable<Børn>> GetBørnInBørnegruppeByID(int id)
+        {
+            List<Børn> listbørn = new List<Børn>();
+            string sql = "Select * from Børn WHERE Børn_ID = @Børn_ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Børn_ID", id);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (await dataReader.ReadAsync())
+                    {
+                        Børn børn = new Børn();
+                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
+                        børn.Navn = Convert.ToString(dataReader["Navn"]);
+                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
+                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
+                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
+                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
+                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+
+                        listbørn.Add(børn);
+
+
+                    }
+
+                }
+
+            }
+
+            return listbørn;
+        }
+
+        public List<Børnegruppe> GetBørnegruppeOptions()
+        {
+            List<Børnegruppe> børnegruppeOptions = new List<Børnegruppe>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string sql = "SELECT Børnegruppe_ID, Gruppenavn FROM Børnegruppe ORDER BY Gruppenavn";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Børnegruppe børnegruppe = new Børnegruppe
+                            {
+                                Børnegruppe_ID = reader.GetInt32(0),
+                                Gruppenavn = reader.GetString(1)
+                            };
+
+                            børnegruppeOptions.Add(børnegruppe);
+                        }
+                    }
+                }
+            }
+
+            return børnegruppeOptions;
         }
 
 

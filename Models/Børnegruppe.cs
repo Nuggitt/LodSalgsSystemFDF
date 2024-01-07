@@ -7,6 +7,7 @@ namespace LodSalgsSystemFDF.Models
     public partial class Børnegruppe
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Børnegruppe_ID { get; set; }
         [Required]
         [StringLength(50)]
@@ -22,5 +23,7 @@ namespace LodSalgsSystemFDF.Models
         public int AntalLodSeddelerPrGruppe { get; set; }
         [Required]
         public int AntalSolgteLodseddelerPrGruppe {  get; set; }
+
+        public virtual Leder Leder { get; set; }
     }
 }

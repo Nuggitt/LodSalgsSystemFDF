@@ -32,5 +32,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
 
         Task<IEnumerable<Børn>> GetBørnInBørnegruppe(int id);
 
+        Task<IEnumerable<Børn>> GetBørnInBørnegruppeByID(int id);
+
+        IEnumerable<Børnegruppe> GetBørnegruppeOptions();
+
     }
 }

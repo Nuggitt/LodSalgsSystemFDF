@@ -28,11 +28,11 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
             return børnegruppeService.DeleteBørnegruppe(børnegruppe);
         }
 
-         public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)
+        public Børnegruppe UpdateBørnegruppe(Børnegruppe børnegruppe)
         {
             return børnegruppeService.UpdateBørnegruppe(børnegruppe);
         }
-         public IEnumerable<Børnegruppe> GetBørnegruppeByName(string Name)
+        public IEnumerable<Børnegruppe> GetBørnegruppeByName(string Name)
         {
             return børnegruppeService.GetBørnegruppeByName(Name);
         }
@@ -99,7 +99,14 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService
 
         public Børnegruppe TildelLodsedlerBørnegruppe(Børnegruppe børnegruppe, int amount)
         {
-            return børnegruppeService.TildelLodsedlerBørnegruppe(børnegruppe,amount);
+            return børnegruppeService.TildelLodsedlerBørnegruppe(børnegruppe, amount);
         }
+
+        public IEnumerable<Leder> GetLederOptions()
+        {
+            return børnegruppeService.GetLederOptions();
+        }
+
+        
     }
 }

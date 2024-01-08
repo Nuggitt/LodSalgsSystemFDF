@@ -9,12 +9,15 @@ using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using LodSalgsSystemFDF.Repository;
+using LodSalgsSystemFDF.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddRazorPages();
+//ADONET
 builder.Services.AddTransient<AdonetIndtægtService>();
 builder.Services.AddTransient<IIndtægtService, IndtægtService>();
 builder.Services.AddTransient<AdonetBørnegruppeService>();
@@ -27,6 +30,12 @@ builder.Services.AddTransient<AdonetBørnService>();
 builder.Services.AddTransient<IBørnService, BørnService>();
 builder.Services.AddTransient<AdonetBrugerService>();
 builder.Services.AddTransient<BrugerService, BrugerService>();
+//GENERIC
+builder.Services.AddTransient<GenericRepository<Salg>>();
+builder.Services.AddTransient<IGenericRepository<Salg>, GenericRepository<Salg>>();
+builder.Services.AddTransient<GenericRepository<Børn>>();
+builder.Services.AddTransient<IGenericRepository<Børn>, GenericRepository<Børn>>();
+builder.Services.AddTransient<BørnRepository>();
 builder.Services.Configure<CookiePolicyOptions>(options => {
     // This lambda determines whether user consent for non-essential cookies is needed for a given request. options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;

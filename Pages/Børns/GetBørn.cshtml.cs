@@ -1,4 +1,5 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Repository;
 using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -12,19 +13,31 @@ namespace LodSalgsSystemFDF.Pages.Børns
     public class GetBørnModel : PageModel
     {
         private IBørnService _børnService;
+        private IGenericRepository<Børn> _genericRepository;
+        BørnRepository _børnRepository;   
 
         [BindProperty]
         public string NameSearch { get; set; }
-        public GetBørnModel(IBørnService børnService)
+        public GetBørnModel(IBørnService børnService, IGenericRepository<Børn> genericRepository, BørnRepository børnRepository)
         {
             _børnService = børnService;
+            _genericRepository = genericRepository;
+            _børnRepository = børnRepository;
         }
         [BindProperty]
         public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
-        public async Task OnGet()
-        {
+        //public async Task OnGet() //Async almindelig
+        //{
 
-            Børns = await _børnService.GetBørn();
+        //    Børns = await _børnService.GetBørn();
+            
+        //}
+
+        public IActionResult OnGet() //Generic
+        {
+            //Børns = _børnRepository.GetAll();
+            Børns = _genericRepository.GetAll();
+            return Page();
         }
 
         public async Task OnGetBørnInBørnegruppe(int id)

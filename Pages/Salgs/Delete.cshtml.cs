@@ -1,4 +1,5 @@
 using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Repository;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

@@ -1,5 +1,6 @@
 using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
+using LodSalgsSystemFDF.Repository;
 using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
@@ -13,16 +14,18 @@ namespace LodSalgsSystemFDF.Pages.Salgs
     public class GetSalgsModel : PageModel
     {
         private ISalgService _salgService;
-        private IBørnegruppeService _IB;
+        IGenericRepository<Salg> _genericRepository;
+
         [BindProperty]
         public int IDSearch { get; set; }
         [BindProperty]
         public float MinPrice { get; set; }
         [BindProperty]
         public float MaxPrice { get; set; }
-        public GetSalgsModel(ISalgService salgService)
+        public GetSalgsModel(ISalgService salgService, IGenericRepository<Salg> genericRepository)
         {
             _salgService = salgService;
+            _genericRepository = genericRepository;
         }
         [BindProperty]
         public IEnumerable<Salg> Salgs { get; set; } = new List<Salg>();
@@ -30,6 +33,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
         public void OnGet()
         {
             Salgs = _salgService.GetSalgs();
+            //Salgs = _genericRepository.GetAll();
         }
 
         public void OnGetAntalSolgteLodseddelerDESC()

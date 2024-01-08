@@ -20,57 +20,58 @@ namespace LodSalgsSystemFDF.Pages.Børns
             _børnService = børnService;
             _genericRepository = genericRepository;
         }
-        //public async Task OnGet(int id) //Almindelig
+
+        public async Task OnGet(int id) //Almindelig
+        {
+            Børn = await _børnService.GetBørn(id);
+
+        }
+
+        //public IActionResult OnGet(int id) //Generic
         //{
-        //    Børn = await _børnService.GetBørn(id);
-            
+        //    Børn = _genericRepository.GetById(id);
+        //    return Page();
         //}
 
-        public IActionResult OnGet(int id) //Generic
+        public IActionResult OnPost() // Almindelig
         {
-            Børn = _genericRepository.GetById(id);
-            return Page();
+
+            Børn = _børnService.UpdateBørn(Børn);
+            return RedirectToPage("GetBørn");
         }
 
         //public IActionResult OnPost()
         //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            // Assuming repository is an instance of your data access logic
+        //            bool updateResult = _genericRepository.Update(Børn);
 
-        //    Børn = _børnService.UpdateBørn(Børn);
-        //    return RedirectToPage("GetBørn");
+        //            if (updateResult)
+        //            {
+        //                // Update successful
+        //                return RedirectToPage("GetBørn"); // Redirect to a success page
+        //            }
+        //            else
+        //            {
+        //                // Update failed
+        //                ModelState.AddModelError(string.Empty, "Update failed. Please try again.");
+        //                return Page();
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Handle exception, log it, etc.
+        //            ModelState.AddModelError(string.Empty, "An error occurred during the update. Please try again.");
+        //            return Page();
+        //        }
+        //    }
+
+        //    // Model state is not valid, return to the same page with validation errors
+        //    return Page();
         //}
-
-        public IActionResult OnPost()
-        {
-            if (!ModelState.IsValid)
-            {
-                try
-                {
-                    // Assuming repository is an instance of your data access logic
-                    bool updateResult = _genericRepository.Update(Børn);
-
-                    if (updateResult)
-                    {
-                        // Update successful
-                        return RedirectToPage("GetBørn"); // Redirect to a success page
-                    }
-                    else
-                    {
-                        // Update failed
-                        ModelState.AddModelError(string.Empty, "Update failed. Please try again.");
-                        return Page();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle exception, log it, etc.
-                    ModelState.AddModelError(string.Empty, "An error occurred during the update. Please try again.");
-                    return Page();
-                }
-            }
-
-            // Model state is not valid, return to the same page with validation errors
-            return Page();
-        }
 
 
     }

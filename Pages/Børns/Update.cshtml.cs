@@ -46,30 +46,30 @@ namespace LodSalgsSystemFDF.Pages.Børns
         //    {
         //        try
         //        {
-        //            // Assuming repository is an instance of your data access logic
+        //            
         //            bool updateResult = _genericRepository.Update(Børn);
 
         //            if (updateResult)
         //            {
-        //                // Update successful
+        //                
         //                return RedirectToPage("GetBørn"); // Redirect to a success page
         //            }
         //            else
         //            {
-        //                // Update failed
+        //                
         //                ModelState.AddModelError(string.Empty, "Update failed. Please try again.");
         //                return Page();
         //            }
         //        }
         //        catch (Exception ex)
         //        {
-        //            // Handle exception, log it, etc.
+        //            
         //            ModelState.AddModelError(string.Empty, "An error occurred during the update. Please try again.");
         //            return Page();
         //        }
         //    }
 
-        //    // Model state is not valid, return to the same page with validation errors
+        //    
         //    return Page();
         //}
 

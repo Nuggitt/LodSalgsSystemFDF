@@ -4,10 +4,10 @@
 @{
     ViewData["Title"] = "GetSalgs";    
 
-    // Sort the items by AntalSolgteLodseddeler in descending order
+    
     var sortedSalgs = Model?.Salgs.OrderByDescending(item => item.Børn.AntalSolgteLodseddeler).ToList();
 
-    // Get the item with the highest AntalSolgteLodseddeler
+    
     var highestValueItem = sortedSalgs?.FirstOrDefault();
 }
 

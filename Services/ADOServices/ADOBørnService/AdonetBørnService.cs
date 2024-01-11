@@ -113,7 +113,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    // Exclude Børn_ID from the parameters since it's an identity column and should be automatically generated
+                    
                     command.Parameters.AddWithValue("@Navn", børn.Navn);
                     command.Parameters.AddWithValue("@Adresse", børn.Adresse);
                     command.Parameters.AddWithValue("@Telefon", børn.Telefon);
@@ -121,7 +121,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
                     command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
                     command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
 
-                    // ExecuteScalar is used since SCOPE_IDENTITY() is expected to return a single value
+                    
                     børn.Børn_ID = Convert.ToInt32(command.ExecuteScalar());
                 }
             }

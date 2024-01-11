@@ -7,9 +7,10 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
 {
     public class BørnService : IBørnService
     {
-        private AdonetBørnService _børnService;
+        private AdonetBørnService _børnService; //Instans felt
 
-        public BørnService(AdonetBørnService børnservice)
+
+        public BørnService(AdonetBørnService børnservice) //Konstruktør
         {
             _børnService = børnservice;
         }

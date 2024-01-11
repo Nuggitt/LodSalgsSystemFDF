@@ -108,7 +108,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
                             insertCommand.Parameters.AddWithValue("@AntalSolgteLodseddelerPrSalg", salg.AntalSolgteLodseddelerPrSalg);
                             insertCommand.Parameters.AddWithValue("@Pris", salg.Pris);
 
-                            //insertCommand.ExecuteNonQuery();
+                            
                             salg.Salg_ID = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                         }

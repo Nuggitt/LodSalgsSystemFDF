@@ -1,38 +1,39 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.Børnegrupper
+namespace LodSalgsSystemFDF.Pages.BÃ¸rnegrupper
 {
-    public class TildelLodsedlerBørnegruppeModel : PageModel
+    public class TildelLodsedlerBÃ¸rnegruppeModel : PageModel
     {
         [BindProperty]
-        public Børnegruppe Børnegruppe { get; set; }
+        public BÃ¸rnegruppe BÃ¸rnegruppe { get; set; }
         [BindProperty]
         public int Amount { get; set; }
-        public IEnumerable<Børnegruppe> Børnegrupper { get; set; } = new List<Børnegruppe>();
-        private IBørnegruppeService _børnegruppeService { get; set; }
+        public IEnumerable<BÃ¸rnegruppe> BÃ¸rnegrupper { get; set; } = new List<BÃ¸rnegruppe>();
+        private IBÃ¸rnegruppeService _bÃ¸rnegruppeService { get; set; }
 
         [BindProperty]
         public string NameSearch { get; set; }
 
-        public TildelLodsedlerBørnegruppeModel(IBørnegruppeService børnegruppeService)
+        public TildelLodsedlerBÃ¸rnegruppeModel(IBÃ¸rnegruppeService bÃ¸rnegruppeService)
         {
-            _børnegruppeService = børnegruppeService;
+            _bÃ¸rnegruppeService = bÃ¸rnegruppeService;
         }
         public async Task OnGet(int id)
         {
-            Børnegruppe = await _børnegruppeService.GetBørnegruppeIdAsync(id);
-            Børnegrupper = await _børnegruppeService.GetBørnegruppeAsync();
+            BÃ¸rnegruppe = await _bÃ¸rnegruppeService.GetBÃ¸rnegruppeIdAsync(id);
+            BÃ¸rnegrupper = await _bÃ¸rnegruppeService.GetBÃ¸rnegruppeAsync();
 
         }
 
         public IActionResult OnPost()
         {
 
-            Børnegruppe = _børnegruppeService.TildelLodsedlerBørnegruppe(Børnegruppe, Amount);
-            return RedirectToPage("GetBørnegrupper");
+            BÃ¸rnegruppe = _bÃ¸rnegruppeService.TildelLodsedlerBÃ¸rnegruppe(BÃ¸rnegruppe, Amount);
+            return RedirectToPage("GetBÃ¸rnegrupper");
         }
     }
 }
+

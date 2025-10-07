@@ -1,4 +1,4 @@
-/*!
+﻿/*!
   * Bootstrap v5.1.0 (https://getbootstrap.com/)
   * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
@@ -3018,7 +3018,7 @@
     }
 
     if (makeFallbackChecks) {
-      // `2` may be desired in some cases – research later
+      // `2` may be desired in some cases â€“ research later
       var numberOfChecks = flipVariations ? 3 : 1;
 
       var _loop = function _loop(_i) {
@@ -3519,7 +3519,7 @@
           runModifierEffects();
           return instance.update();
         },
-        // Sync update – it will always be executed, even if not necessary. This
+        // Sync update â€“ it will always be executed, even if not necessary. This
         // is useful for low frequency updates where sync behavior simplifies the
         // logic.
         // For high frequency updates (e.g. `resize` and `scroll` events), always
@@ -3583,7 +3583,7 @@
             }
           }
         },
-        // Async and optimistically optimized update – it will not be executed if
+        // Async and optimistically optimized update â€“ it will not be executed if
         // not necessary (debounced to run at most once-per-tick)
         update: debounce(function () {
           return new Promise(function (resolve) {
@@ -6778,3 +6778,4 @@
 
 })));
 //# sourceMappingURL=bootstrap.bundle.js.map
+

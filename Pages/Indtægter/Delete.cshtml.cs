@@ -1,32 +1,33 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.Indtægter
+namespace LodSalgsSystemFDF.Pages.IndtÃ¦gter
 {
     public class DeleteModel : PageModel
     {
-        private IIndtægtService _indtægtService;
+        private IIndtÃ¦gtService _indtÃ¦gtService;
 
         [BindProperty]
-        public Indtægt Indtægt { get; set; }
+        public IndtÃ¦gt IndtÃ¦gt { get; set; }
 
 
-        public DeleteModel(IIndtægtService indtægtService)
+        public DeleteModel(IIndtÃ¦gtService indtÃ¦gtService)
         {
-            _indtægtService = indtægtService;
+            _indtÃ¦gtService = indtÃ¦gtService;
         }
 
         public void OnGet(int id)
         {
-            Indtægt = _indtægtService.GetIndtægtById(id);
+            IndtÃ¦gt = _indtÃ¦gtService.GetIndtÃ¦gtById(id);
         }
 
         public IActionResult OnPost()
         {
-            Indtægt = _indtægtService.DeleteIndtægt(Indtægt);
-            return RedirectToPage("GetIndtægter");
+            IndtÃ¦gt = _indtÃ¦gtService.DeleteIndtÃ¦gt(IndtÃ¦gt);
+            return RedirectToPage("GetIndtÃ¦gter");
         }
     }
 }
+

@@ -1,60 +1,60 @@
-using LodSalgsSystemFDF.Models;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
+﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.Indtægter
+namespace LodSalgsSystemFDF.Pages.IndtÃ¦gter
 {
     [AllowAnonymous]
-    public class GetIndtægterModel : PageModel
+    public class GetIndtÃ¦gterModel : PageModel
     {
-        private IIndtægtService _indtægtService;
-        private IBørnegruppeService _IB;
+        private IIndtÃ¦gtService _indtÃ¦gtService;
+        private IBÃ¸rnegruppeService _IB;
 
         [BindProperty]
         public string NameSearch { get; set; }
-        public GetIndtægterModel(IIndtægtService indtægtService)
+        public GetIndtÃ¦gterModel(IIndtÃ¦gtService indtÃ¦gtService)
         {
-            _indtægtService = indtægtService;
+            _indtÃ¦gtService = indtÃ¦gtService;
         }
         [BindProperty]
-        public IEnumerable<Indtægt> Indtægter { get; set; } = new List<Indtægt>();
+        public IEnumerable<IndtÃ¦gt> IndtÃ¦gter { get; set; } = new List<IndtÃ¦gt>();
 
         public void OnGet()
         {
-            Indtægter = _indtægtService.GetIndtægter();
+            IndtÃ¦gter = _indtÃ¦gtService.GetIndtÃ¦gter();
         }
 
-        public void OnGetIndtægtIDDESC()
+        public void OnGetIndtÃ¦gtIDDESC()
         {
-            Indtægter = _indtægtService.GetIndtægtIDDESC();
+            IndtÃ¦gter = _indtÃ¦gtService.GetIndtÃ¦gtIDDESC();
         }
 
-        public void OnGetIndtægtIDASC()
+        public void OnGetIndtÃ¦gtIDASC()
         {
-            Indtægter = _indtægtService.GetIndtægtIDASC();
+            IndtÃ¦gter = _indtÃ¦gtService.GetIndtÃ¦gtIDASC();
         }
 
         public void OnGetAntalSolgteLodseddelerDESC()
         {
-            Indtægter = _indtægtService.GetAntalSolgteLodseddelerDESC();
+            IndtÃ¦gter = _indtÃ¦gtService.GetAntalSolgteLodseddelerDESC();
         }
 
         public void OnGetAntalSolgteLodseddelerASC()
         {
-            Indtægter = _indtægtService.GetAntalSolgteLodseddelerASC();
+            IndtÃ¦gter = _indtÃ¦gtService.GetAntalSolgteLodseddelerASC();
         }
 
         public void OnGetAntalSolgteLodseddlerForGruppenASC()
         {
-            Indtægter = _indtægtService.GetAntalSolgteLodseddelerForGruppenASC();
+            IndtÃ¦gter = _indtÃ¦gtService.GetAntalSolgteLodseddelerForGruppenASC();
         }
 
         public void OnGetAntalSolgteLodseddlerForGruppenDESC()
         {
-            Indtægter = _indtægtService.GetAntalSolgteLodseddelerForGruppenDESC();
+            IndtÃ¦gter = _indtÃ¦gtService.GetAntalSolgteLodseddelerForGruppenDESC();
         }
 
 
@@ -62,3 +62,4 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
 
     }
 }
+

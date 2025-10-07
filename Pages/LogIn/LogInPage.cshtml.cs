@@ -1,4 +1,4 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -76,3 +76,4 @@ namespace LodSalgsSystemFDF.Pages.LogIn
         }
     }
 }
+

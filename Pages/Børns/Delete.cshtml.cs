@@ -1,38 +1,38 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Repository;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.Børns
+namespace LodSalgsSystemFDF.Pages.BÃ¸rns
 {
     public class DeleteModel : PageModel
     {
-        private IBørnService _børnService;
-        IGenericRepository<Børn> _genericRepository;
-        BørnRepository _børnRepository;
+        private IBÃ¸rnService _bÃ¸rnService;
+        IGenericRepository<BÃ¸rn> _genericRepository;
+        BÃ¸rnRepository _bÃ¸rnRepository;
 
         [BindProperty]
-        public Børn Børn { get; set; }
+        public BÃ¸rn BÃ¸rn { get; set; }
 
-        public DeleteModel(IBørnService børnService, IGenericRepository<Børn> genericRepository, BørnRepository børnRepository)
+        public DeleteModel(IBÃ¸rnService bÃ¸rnService, IGenericRepository<BÃ¸rn> genericRepository, BÃ¸rnRepository bÃ¸rnRepository)
         {
-            _børnService = børnService;
+            _bÃ¸rnService = bÃ¸rnService;
             _genericRepository = genericRepository;
-            _børnRepository = børnRepository;
+            _bÃ¸rnRepository = bÃ¸rnRepository;
         }
 
         public async Task OnGet(int id) //Async Almindelig
         {
-            Børn = await _børnService.GetBørn(id);
+            BÃ¸rn = await _bÃ¸rnService.GetBÃ¸rn(id);
         }
 
         //--------------------------------------------------------------
 
         //public IActionResult OnGet(int id) // GENERIC
         //{
-        //    Børn = _børnRepository.GetById(id);
-        //    Børn = _genericRepository.GetById(id);
+        //    BÃ¸rn = _bÃ¸rnRepository.GetById(id);
+        //    BÃ¸rn = _genericRepository.GetById(id);
         //    return Page();
         //}
 
@@ -40,13 +40,13 @@ namespace LodSalgsSystemFDF.Pages.Børns
 
         public IActionResult OnPost() //Almindelig
         {
-            Børn = _børnService.DeleteBørn(Børn);
-            return RedirectToPage("GetBørn");
+            BÃ¸rn = _bÃ¸rnService.DeleteBÃ¸rn(BÃ¸rn);
+            return RedirectToPage("GetBÃ¸rn");
         }
 
         //public IActionResult OnPost(int id) //Generic!!!
         //{
-        //    Børn entityToDelete = _genericRepository.GetById(id);
+        //    BÃ¸rn entityToDelete = _genericRepository.GetById(id);
 
         //    if (entityToDelete == null)
         //    {
@@ -60,7 +60,7 @@ namespace LodSalgsSystemFDF.Pages.Børns
         //    {
 
 
-        //        return RedirectToPage("GetBørn");
+        //        return RedirectToPage("GetBÃ¸rn");
         //    }
         //    else
         //    {
@@ -70,3 +70,4 @@ namespace LodSalgsSystemFDF.Pages.Børns
         //}
     }
 }
+

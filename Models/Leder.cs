@@ -26,3 +26,4 @@ namespace LodSalgsSystemFDF.Models
             public virtual Børnegruppe Børnegruppe { get; set; }
     }
 }
+

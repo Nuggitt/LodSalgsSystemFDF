@@ -1,20 +1,20 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.Indtægter
+namespace LodSalgsSystemFDF.Pages.IndtÃ¦gter
 {
     public class CreateModel : PageModel
     {
-        private IIndtægtService _indtægtService;
+        private IIndtÃ¦gtService _indtÃ¦gtService;
 
         [BindProperty]
-        public Indtægt Indtægt { get; set; }
+        public IndtÃ¦gt IndtÃ¦gt { get; set; }
 
-        public CreateModel(IIndtægtService indtægtService)
+        public CreateModel(IIndtÃ¦gtService indtÃ¦gtService)
         {
-            _indtægtService = indtægtService;
+            _indtÃ¦gtService = indtÃ¦gtService;
         }
 
         public IActionResult OnPost()
@@ -23,9 +23,10 @@ namespace LodSalgsSystemFDF.Pages.Indtægter
             //{
             //    return Page();
             //}
-            Indtægt = _indtægtService.CreateIndtægt(Indtægt);
-            return RedirectToPage("GetIndtægter");
+            IndtÃ¦gt = _indtÃ¦gtService.CreateIndtÃ¦gt(IndtÃ¦gt);
+            return RedirectToPage("GetIndtÃ¦gter");
         }
     }
 }
+
 

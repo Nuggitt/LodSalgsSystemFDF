@@ -1,29 +1,30 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.Børnegrupper
+namespace LodSalgsSystemFDF.Pages.BÃ¸rnegrupper
 {
-    public class UpdateBørngruppeModel : PageModel
+    public class UpdateBÃ¸rngruppeModel : PageModel
     {
-        private IBørnegruppeService IBS;
+        private IBÃ¸rnegruppeService IBS;
         [BindProperty]
-        public Børnegruppe Børnegruppe { get; set; }
+        public BÃ¸rnegruppe BÃ¸rnegruppe { get; set; }
 
-        public UpdateBørngruppeModel(IBørnegruppeService børnegruppeService)
+        public UpdateBÃ¸rngruppeModel(IBÃ¸rnegruppeService bÃ¸rnegruppeService)
         {
-            IBS = børnegruppeService;
+            IBS = bÃ¸rnegruppeService;
         }  
         public async Task OnGetAsync(int id)
         {
-            Børnegruppe = await IBS.GetBørnegruppeIdAsync(id);
+            BÃ¸rnegruppe = await IBS.GetBÃ¸rnegruppeIdAsync(id);
         }
 
         public IActionResult Onpost()
         {
-            Børnegruppe = IBS.UpdateBørnegruppe(Børnegruppe);
-            return RedirectToPage("GetBørnegrupper");
+            BÃ¸rnegruppe = IBS.UpdateBÃ¸rnegruppe(BÃ¸rnegruppe);
+            return RedirectToPage("GetBÃ¸rnegrupper");
         }
     }
 }
+

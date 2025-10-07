@@ -1,96 +1,96 @@
-using LodSalgsSystemFDF.Models;
+﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Repository;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 
-namespace LodSalgsSystemFDF.Pages.Børns
+namespace LodSalgsSystemFDF.Pages.BÃ¸rns
 {
     [AllowAnonymous]
-    public class GetBørnModel : PageModel
+    public class GetBÃ¸rnModel : PageModel
     {
-        private IBørnService _børnService;
-        private IGenericRepository<Børn> _genericRepository;
-        BørnRepository _børnRepository;   
+        private IBÃ¸rnService _bÃ¸rnService;
+        private IGenericRepository<BÃ¸rn> _genericRepository;
+        BÃ¸rnRepository _bÃ¸rnRepository;   
 
         [BindProperty]
         public string NameSearch { get; set; }
-        public GetBørnModel(IBørnService børnService, IGenericRepository<Børn> genericRepository, BørnRepository børnRepository)
+        public GetBÃ¸rnModel(IBÃ¸rnService bÃ¸rnService, IGenericRepository<BÃ¸rn> genericRepository, BÃ¸rnRepository bÃ¸rnRepository)
         {
-            _børnService = børnService;
+            _bÃ¸rnService = bÃ¸rnService;
             _genericRepository = genericRepository;
-            _børnRepository = børnRepository;
+            _bÃ¸rnRepository = bÃ¸rnRepository;
         }
         [BindProperty]
-        public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
+        public IEnumerable<BÃ¸rn> BÃ¸rns { get; set; } = new List<BÃ¸rn>();
         public async Task OnGet() //Async almindelig
         {
 
-            Børns = await _børnService.GetBørn();
+            BÃ¸rns = await _bÃ¸rnService.GetBÃ¸rn();
 
         }
 
         //public IActionResult OnGet() //Generic
         //{
-        //    //Børns = _børnRepository.GetAll();
-        //    Børns = _genericRepository.GetAll();
+        //    //BÃ¸rns = _bÃ¸rnRepository.GetAll();
+        //    BÃ¸rns = _genericRepository.GetAll();
         //    return Page();
         //}
 
-        public async Task OnGetBørnInBørnegruppe(int id)
+        public async Task OnGetBÃ¸rnInBÃ¸rnegruppe(int id)
         {
-            Børns = await _børnService.GetBørnInBørnegruppe(id);
+            BÃ¸rns = await _bÃ¸rnService.GetBÃ¸rnInBÃ¸rnegruppe(id);
 
         }
 
         public void OnGetNavnDescending()
         {
-            Børns = _børnService.GetAllBørnNavnDescending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnNavnDescending();
         }
 
         public void OnGetIDDescending()
         {
-            Børns = _børnService.GetAllBørnIDDescending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnIDDescending();
         }
 
         public void OnGetAntalSolgteLodseddelerDescending()
         {
-            Børns = _børnService.GetAllBørnAntalSolgteLodseddelerDescending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnAntalSolgteLodseddelerDescending();
         }
 
         public void OnGetGruppeIDDescending()
         {
-            Børns = _børnService.GetAllBørnGruppeIDDescending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnGruppeIDDescending();
         }
 
         public void OnGetNavnAscending()
         {
-            Børns = _børnService.GetAllBørnNavnAscending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnNavnAscending();
         }
 
         public void OnGetIDAscending()
         {
-            Børns = _børnService.GetAllBørnIDAscending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnIDAscending();
         }
 
         public void OnGetAntalSolgteLodseddelerAscending()
         {
-            Børns = _børnService.GetAllBørnAntalSolgteLodseddelerAscending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnAntalSolgteLodseddelerAscending();
         }
 
         public void OnGetGruppeIDAscending()
         {
-            Børns = _børnService.GetAllBørnGruppeIDAscending();
+            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnGruppeIDAscending();
         }
 
-        public IActionResult OnPostBørnByName()
+        public IActionResult OnPostBÃ¸rnByName()
         {
             if (NameSearch != null)
             {
-                Børns = _børnService.GetBørnByName(NameSearch);
+                BÃ¸rns = _bÃ¸rnService.GetBÃ¸rnByName(NameSearch);
                 return Page();
             }
             
@@ -98,21 +98,22 @@ namespace LodSalgsSystemFDF.Pages.Børns
         }
         public void OnGetGivetLodsedlerDescending()
         {
-            Børns = _børnService.GetGivetLodsedlerDescending();
+            BÃ¸rns = _bÃ¸rnService.GetGivetLodsedlerDescending();
         }
 
         public void OnGetGivetLodsedlerAscending()
         {
-            Børns = _børnService.GetGivetLodsedlerAscending();
+            BÃ¸rns = _bÃ¸rnService.GetGivetLodsedlerAscending();
         }
 
 
 
 
-        //public void OnGetAllBørnItems(string Børn, string Navn)
+        //public void OnGetAllBÃ¸rnItems(string BÃ¸rn, string Navn)
         //{
-        //    Børns = _børnService.GetAllBørnItems(Børn, Navn);
+        //    BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnItems(BÃ¸rn, Navn);
         //}
 
     }
 }
+

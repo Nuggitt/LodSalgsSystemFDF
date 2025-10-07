@@ -1,8 +1,8 @@
-using LodSalgsSystemFDF.Models;
+ï»¿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Repository;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
-using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOIndtÃ¦gtService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOSalgService;
 using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
-// Vælg sti til SQLite-db. På Render bruger vi en disk mountet på /var/data.
+// VÃ¦lg sti til SQLite-db. PÃ¥ Render bruger vi en disk mountet pÃ¥ /var/data.
 var dbPath = Environment.GetEnvironmentVariable("DB_PATH");
 if (string.IsNullOrWhiteSpace(dbPath))
 {
@@ -22,11 +22,11 @@ if (string.IsNullOrWhiteSpace(dbPath))
     dbPath = Path.Combine(appData, "LodSalgsSystemDB.db");
 }
 
-// Overstyr conn string, så alt bruger samme sti
+// Overstyr conn string, sÃ¥ alt bruger samme sti
 builder.Configuration["ConnectionStrings:DefaultConnection"] = $"Data Source={dbPath}";
 
 
-// --- Kør SQLite init (opretter DB, tabeller og dine data hvis tom) ---
+// --- KÃ¸r SQLite init (opretter DB, tabeller og dine data hvis tom) ---
 var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 await EnsureSqliteInitializedAsync(cs);
 
@@ -36,7 +36,7 @@ await EnsureSqliteInitializedAsync(cs);
 // ---------- Services ----------
 builder.Services.AddRazorPages(options =>
 {
-    // Gør hele sitet offentligt som default
+    // GÃ¸r hele sitet offentligt som default
     options.Conventions.AllowAnonymousToFolder("/");
 });
 
@@ -46,28 +46,28 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         cookieOptions.LoginPath = "/Login/LogInPage"; // kun relevant hvis man rammer en BESKYTTET side
     });
-builder.Services.AddAuthorization(); // <- nødvendig når du kalder app.UseAuthorization()
+builder.Services.AddAuthorization(); // <- nÃ¸dvendig nÃ¥r du kalder app.UseAuthorization()
 
 // ADONET
-builder.Services.AddTransient<AdonetIndtægtService>();
-builder.Services.AddTransient<IIndtægtService, IndtægtService>();
-builder.Services.AddTransient<AdonetBørnegruppeService>();
-builder.Services.AddTransient<IBørnegruppeService, BørnegruppeService>();
+builder.Services.AddTransient<AdonetIndtÃ¦gtService>();
+builder.Services.AddTransient<IIndtÃ¦gtService, IndtÃ¦gtService>();
+builder.Services.AddTransient<AdonetBÃ¸rnegruppeService>();
+builder.Services.AddTransient<IBÃ¸rnegruppeService, BÃ¸rnegruppeService>();
 builder.Services.AddTransient<AdonetSalgService>();
 builder.Services.AddTransient<ISalgService, SalgService>();
 builder.Services.AddTransient<AdonetLederService>();
 builder.Services.AddTransient<ILederService, LederService>();
-builder.Services.AddTransient<AdonetBørnService>();
-builder.Services.AddTransient<IBørnService, BørnService>();
+builder.Services.AddTransient<AdonetBÃ¸rnService>();
+builder.Services.AddTransient<IBÃ¸rnService, BÃ¸rnService>();
 builder.Services.AddScoped<AdonetBrugerService>();
 builder.Services.AddScoped<BrugerService>();
 
 // GENERIC
 builder.Services.AddTransient<GenericRepository<Salg>>();
 builder.Services.AddTransient<IGenericRepository<Salg>, GenericRepository<Salg>>();
-builder.Services.AddTransient<GenericRepository<Børn>>();
-builder.Services.AddTransient<IGenericRepository<Børn>, GenericRepository<Børn>>();
-builder.Services.AddTransient<BørnRepository>();
+builder.Services.AddTransient<GenericRepository<BÃ¸rn>>();
+builder.Services.AddTransient<IGenericRepository<BÃ¸rn>, GenericRepository<BÃ¸rn>>();
+builder.Services.AddTransient<BÃ¸rnRepository>();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
@@ -87,7 +87,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();   // før UseAuthorization
+app.UseAuthentication();   // fÃ¸r UseAuthorization
 app.UseAuthorization();
 
 app.MapRazorPages();
@@ -95,7 +95,7 @@ app.MapRazorPages();
 app.Run();
 
 
-// --- SQLite INIT: skaber DB + dine tabeller + seed værdier, hvis tom ---
+// --- SQLite INIT: skaber DB + dine tabeller + seed vÃ¦rdier, hvis tom ---
 static async Task EnsureSqliteInitializedAsync(string cs)
 {
     using var conn = new SqliteConnection(cs);
@@ -110,28 +110,28 @@ CREATE TABLE IF NOT EXISTS Bruger (
 CREATE UNIQUE INDEX IF NOT EXISTS IX_Bruger_BrugerNavn_CI
 ON Bruger(lower(BrugerNavn)
 );
-DROP TABLE IF EXISTS Børnegruppe;
-CREATE TABLE IF NOT EXISTS Børnegruppe (
-  Børnegruppe_ID   INTEGER PRIMARY KEY AUTOINCREMENT,
+DROP TABLE IF EXISTS BÃ¸rnegruppe;
+CREATE TABLE IF NOT EXISTS BÃ¸rnegruppe (
+  BÃ¸rnegruppe_ID   INTEGER PRIMARY KEY AUTOINCREMENT,
   Gruppenavn       VARCHAR(50)  NOT NULL,
   Lokale           VARCHAR(50)  NOT NULL,
-  Antalbørn        INT          NOT NULL,
+  AntalbÃ¸rn        INT          NOT NULL,
   Leder_ID         INT          NOT NULL,
   AntalLodSeddelerPrGruppe       INT NOT NULL DEFAULT 0,
   AntalSolgteLodSeddelerPrGruppe INT NOT NULL DEFAULT 0
 );
-DROP TABLE IF EXISTS Børn;
-CREATE TABLE IF NOT EXISTS Børn (
-  Børn_ID                INTEGER PRIMARY KEY AUTOINCREMENT,
+DROP TABLE IF EXISTS BÃ¸rn;
+CREATE TABLE IF NOT EXISTS BÃ¸rn (
+  BÃ¸rn_ID                INTEGER PRIMARY KEY AUTOINCREMENT,
   Navn                   VARCHAR(50)  NOT NULL,
   Adresse                VARCHAR(50)  NOT NULL,
   Telefon                VARCHAR(50)  NOT NULL,
-  Børnegruppe_ID         INTEGER      NOT NULL,
+  BÃ¸rnegruppe_ID         INTEGER      NOT NULL,
   GivetLodsedler         INTEGER      NOT NULL DEFAULT 0,
   AntalSolgteLodseddeler INTEGER      NOT NULL DEFAULT 0
 );
-CREATE TABLE IF NOT EXISTS Indtægt (
-    Indtægt_ID INT NOT NULL,
+CREATE TABLE IF NOT EXISTS IndtÃ¦gt (
+    IndtÃ¦gt_ID INT NOT NULL,
     Salg_ID    INT NOT NULL
 );
 DROP TABLE IF EXISTS Leder;
@@ -142,15 +142,15 @@ CREATE TABLE IF NOT EXISTS Leder (
   Telefon           VARCHAR(50)  NOT NULL,
   Email             VARCHAR(50)  NOT NULL,
   ErLotteriBestyrer BIT          NOT NULL,
-  Børnegruppe_ID    INT          NOT NULL
+  BÃ¸rnegruppe_ID    INT          NOT NULL
 );
 
 DROP TABLE IF EXISTS Salg;
 DROP TABLE IF EXISTS Salg;
 CREATE TABLE IF NOT EXISTS Salg (
   Salg_ID                        INTEGER PRIMARY KEY AUTOINCREMENT,
-  Børn_ID                        INT        NOT NULL,
-  Børnegruppe_ID                 INT        NOT NULL,
+  BÃ¸rn_ID                        INT        NOT NULL,
+  BÃ¸rnegruppe_ID                 INT        NOT NULL,
   Leder_ID                       INT        NOT NULL,
   Dato                           DATETIME   NOT NULL,
   AntalLodseddelerRetur          INT        NOT NULL DEFAULT 0,
@@ -190,14 +190,14 @@ INSERT INTO Bruger (BrugerNavn, Password) VALUES ('testerbruger','AQAAAAIAAYagAA
         await cmd.ExecuteNonQueryAsync();
     }
 
-    if (await CountAsync("Børnegruppe") == 0)
+    if (await CountAsync("BÃ¸rnegruppe") == 0)
     {
         var sql = @"
-INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, Antalbørn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (1,'Puslinger','1E',6,1,0,0);
-INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, Antalbørn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (2,'Rævene','6F',10,2,0,0);
-INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, Antalbørn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (3,'Uglerne','4J',15,3,0,0);
-INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, Antalbørn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (4,'Ulvene','UE69',12,2,0,0);
-INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, Antalbørn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (69,'testergruppe','testerhavn',0,1,85,15);
+INSERT INTO BÃ¸rnegruppe (BÃ¸rnegruppe_ID, Gruppenavn, Lokale, AntalbÃ¸rn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (1,'Puslinger','1E',6,1,0,0);
+INSERT INTO BÃ¸rnegruppe (BÃ¸rnegruppe_ID, Gruppenavn, Lokale, AntalbÃ¸rn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (2,'RÃ¦vene','6F',10,2,0,0);
+INSERT INTO BÃ¸rnegruppe (BÃ¸rnegruppe_ID, Gruppenavn, Lokale, AntalbÃ¸rn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (3,'Uglerne','4J',15,3,0,0);
+INSERT INTO BÃ¸rnegruppe (BÃ¸rnegruppe_ID, Gruppenavn, Lokale, AntalbÃ¸rn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (4,'Ulvene','UE69',12,2,0,0);
+INSERT INTO BÃ¸rnegruppe (BÃ¸rnegruppe_ID, Gruppenavn, Lokale, AntalbÃ¸rn, Leder_ID, AntalLodSeddelerPrGruppe, AntalSolgteLodSeddelerPrGruppe) VALUES (69,'testergruppe','testerhavn',0,1,85,15);
 ";
         using var cmd = conn.CreateCommand();
         cmd.Transaction = (SqliteTransaction)tx;
@@ -205,16 +205,16 @@ INSERT INTO Børnegruppe (Børnegruppe_ID, Gruppenavn, Lokale, Antalbørn, Leder_ID
         await cmd.ExecuteNonQueryAsync();
     }
 
-    if (await CountAsync("Børn") == 0)
+    if (await CountAsync("BÃ¸rn") == 0)
     {
         var sql = @"
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (1,'Eva','Roskildevej 123, 2610 Rødovre','26917212',1,0,0);
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (2,'Adam','Munkeleddet 321, 2720 Vanløse','27917291',2,0,0);
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (3,'Peter','Stenbjerg 49, 2600 Albertslund','46271917',3,0,0);
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (4,'Tom','Tårnvej 21 2500 Valby','66559876',4,0,0);
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (5,'Benedicte','Frederiksberg Allé 21 2000 Frederiksberg','84332561',4,0,0);
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (69,'BøgeTess','testerhavn','69696969',69,5,15);
-INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (70,'Bøgetester','testerhavn','70707070',69,0,0);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (1,'Eva','Roskildevej 123, 2610 RÃ¸dovre','26917212',1,0,0);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (2,'Adam','Munkeleddet 321, 2720 VanlÃ¸se','27917291',2,0,0);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (3,'Peter','Stenbjerg 49, 2600 Albertslund','46271917',3,0,0);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (4,'Tom','TÃ¥rnvej 21 2500 Valby','66559876',4,0,0);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (5,'Benedicte','Frederiksberg AllÃ© 21 2000 Frederiksberg','84332561',4,0,0);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (69,'BÃ¸geTess','testerhavn','69696969',69,5,15);
+INSERT INTO BÃ¸rn (BÃ¸rn_ID, Navn, Adresse, Telefon, BÃ¸rnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) VALUES (70,'BÃ¸getester','testerhavn','70707070',69,0,0);
 ";
         using var cmd = conn.CreateCommand();
         cmd.Transaction = (SqliteTransaction)tx;
@@ -225,10 +225,10 @@ INSERT INTO Børn (Børn_ID, Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedle
     if (await CountAsync("Leder") == 0)
     {
         var sql = @"
-INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID) VALUES (1,'Kristof','Gadevej 4 2720 Vanløse',' 22338678','mrkristof@gmail.com',0,1);
-INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID) VALUES (2,'Emma','Allevej 9 Hvidovre','23456789','emmadj@gmail.com',0,2);
-INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID) VALUES (3,'Jack','Vejgade 5 Valby','87654321','captainjack@gmail.com',0,3);
-INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID) VALUES (4,'Peter','Stenagervej 21 Glostrup','21232134','Ppeter@gmail.com',0,4);
+INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, BÃ¸rnegruppe_ID) VALUES (1,'Kristof','Gadevej 4 2720 VanlÃ¸se',' 22338678','mrkristof@gmail.com',0,1);
+INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, BÃ¸rnegruppe_ID) VALUES (2,'Emma','Allevej 9 Hvidovre','23456789','emmadj@gmail.com',0,2);
+INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, BÃ¸rnegruppe_ID) VALUES (3,'Jack','Vejgade 5 Valby','87654321','captainjack@gmail.com',0,3);
+INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, BÃ¸rnegruppe_ID) VALUES (4,'Peter','Stenagervej 21 Glostrup','21232134','Ppeter@gmail.com',0,4);
 ";
         using var cmd = conn.CreateCommand();
         cmd.Transaction = (SqliteTransaction)tx;
@@ -239,7 +239,7 @@ INSERT INTO Leder (Leder_ID, Navn, Adresse, Telefon, Email, ErLotteriBestyrer, B
     if (await CountAsync("Salg") == 0)
     {
         var sql = @"
-INSERT INTO Salg (Salg_ID, Børn_ID, Børnegruppe_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodseddelerPrSalg, Pris)
+INSERT INTO Salg (Salg_ID, BÃ¸rn_ID, BÃ¸rnegruppe_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodseddelerPrSalg, Pris)
 VALUES (69, 69, 69, 1, '2023-12-18 15:39:00', 5, 15, 300);
 ";
         using var cmd = conn.CreateCommand();
@@ -248,9 +248,9 @@ VALUES (69, 69, 69, 1, '2023-12-18 15:39:00', 5, 15, 300);
         await cmd.ExecuteNonQueryAsync();
     }
 
-    if (await CountAsync("Indtægt") == 0)
+    if (await CountAsync("IndtÃ¦gt") == 0)
     {
-        var sql = @"INSERT INTO Indtægt (Indtægt_ID, Salg_ID) VALUES (69, 69);";
+        var sql = @"INSERT INTO IndtÃ¦gt (IndtÃ¦gt_ID, Salg_ID) VALUES (69, 69);";
         using var cmd = conn.CreateCommand();
         cmd.Transaction = (SqliteTransaction)tx;
         cmd.CommandText = sql;
@@ -259,3 +259,4 @@ VALUES (69, 69, 69, 1, '2023-12-18 15:39:00', 5, 15, 300);
 
     await tx.CommitAsync();
 }
+

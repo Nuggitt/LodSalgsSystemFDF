@@ -1,4 +1,4 @@
-using LodSalgsSystemFDF.Models;
+ï»¿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -31,13 +31,14 @@ namespace LodSalgsSystemFDF.Pages.Admin
 
             if (string.IsNullOrWhiteSpace(navn) || string.IsNullOrWhiteSpace(raw))
             {
-                ModelState.AddModelError("", "Brugernavn og password er påkrævet.");
+                ModelState.AddModelError("", "Brugernavn og password er pÃ¥krÃ¦vet.");
                 return Page();
             }
 
-            _brugerService.AddBruger(new Bruger { BrugerNavn = navn, Password = raw }); // <-- rå password
+            _brugerService.AddBruger(new Bruger { BrugerNavn = navn, Password = raw }); // <-- rÃ¥ password
             Message = $"Brugeren: {navn} er oprettet.";
             return Page();
         }
     }
 }
+

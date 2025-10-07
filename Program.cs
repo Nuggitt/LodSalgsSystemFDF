@@ -12,32 +12,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
+// Vælg sti til SQLite-db. På Render bruger vi en disk mountet på /var/data.
+var dbPath = Environment.GetEnvironmentVariable("DB_PATH");
+if (string.IsNullOrWhiteSpace(dbPath))
+{
+    // Lokalt / container uden env var: brug App_Data i projektet
+    var appData = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
+    Directory.CreateDirectory(appData);
+    dbPath = Path.Combine(appData, "LodSalgsSystemDB.db");
+}
+
+// Overstyr conn string, så alt bruger samme sti
+builder.Configuration["ConnectionStrings:DefaultConnection"] = $"Data Source={dbPath}";
+
 
 // --- Kør SQLite init (opretter DB, tabeller og dine data hvis tom) ---
 var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 await EnsureSqliteInitializedAsync(cs);
 
-// Sørg for at vores logs kommer i Output (Debug)
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
 
-var logger = LoggerFactory.Create(b => b.AddConsole()).CreateLogger("DBDEBUG");
-
-// Print den fulde sti til .db-filen
-var csb = new SqliteConnectionStringBuilder(cs ?? "");
-logger.LogInformation("SQLite file: {path}", System.IO.Path.GetFullPath(csb.DataSource));
-
-// Print alle brugere (så vi ser hvad login kigger i)
-using (var c = new SqliteConnection(cs))
-{
-    c.Open();
-    using var cmd = c.CreateCommand();
-    cmd.CommandText = "SELECT BrugerNavn FROM Bruger ORDER BY BrugerNavn";
-    using var r = cmd.ExecuteReader();
-
-    logger.LogInformation("== Bruger-tabellen ==");
-    while (r.Read()) logger.LogInformation("{navn}", r.GetString(0));
-}
 
 
 // ---------- Services ----------

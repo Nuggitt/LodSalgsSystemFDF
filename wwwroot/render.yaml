@@ -1,0 +1,22 @@
+﻿services:
+  - type: web
+    name: lod-salgs-system
+    runtime: docker            
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ASPNETCORE_URLS
+        value: http://0.0.0.0:8080
+      - key: DB_PATH
+        value: /var/data/LodSalgsSystemDB.db   
+
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+
+    healthCheckPath: /

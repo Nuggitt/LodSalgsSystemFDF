@@ -35,4 +35,3 @@ namespace LodSalgsSystemFDF.Models
         
     }
 }
-

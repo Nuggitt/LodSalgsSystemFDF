@@ -1,4 +1,4 @@
-﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,4 +43,3 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         }
 }
 }
-

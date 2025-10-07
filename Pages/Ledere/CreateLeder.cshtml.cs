@@ -1,4 +1,4 @@
-ï»¿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +12,14 @@ namespace LodSalgsSystemFDF.Pages.Ledere
 
         [BindProperty]
         public Leder Leder { get; set; }
-        public IEnumerable<BÃ¸rnegruppe> BÃ¸rneIDOptions { get; set; }
+        public IEnumerable<Børnegruppe> BørneIDOptions { get; set; }
         public CreateLederModel(ILederService lederService)
         {
             _lederService = lederService;
         }
         public IActionResult OnGet()
         {
-            BÃ¸rneIDOptions = _lederService.GetBÃ¸rneIDOptions();
+            BørneIDOptions = _lederService.GetBørneIDOptions();
             return Page();
         }
 
@@ -29,7 +29,7 @@ namespace LodSalgsSystemFDF.Pages.Ledere
             {
                 if (!ModelState.IsValid)
                 {
-                   BÃ¸rneIDOptions =  _lederService.GetBÃ¸rneIDOptions();
+                   BørneIDOptions =  _lederService.GetBørneIDOptions();
                     
                 }
                 Leder = _lederService.CreateLeder(Leder);
@@ -48,4 +48,3 @@ namespace LodSalgsSystemFDF.Pages.Ledere
         }
     }
 }
-

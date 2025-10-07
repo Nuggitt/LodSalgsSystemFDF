@@ -1,30 +1,30 @@
-﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnService;
-using LodSalgsSystemFDF.Services.ADOServices.ADOIndtÃ¦gtService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.BÃ¸rnegrupper
+namespace LodSalgsSystemFDF.Pages.Børnegrupper
 {
-    public class CreateBÃ¸rngruppeModel : PageModel
+    public class CreateBørngruppeModel : PageModel
     {
-        private IBÃ¸rnegruppeService _bÃ¸rnegruppeservice;
+        private IBørnegruppeService _børnegruppeservice;
 
         [BindProperty]
-        public BÃ¸rnegruppe BÃ¸rnegrupper { get; set; }
+        public Børnegruppe Børnegrupper { get; set; }
 
         public IEnumerable<Leder> LederOptions { get; set; }
 
-        public CreateBÃ¸rngruppeModel(IBÃ¸rnegruppeService bÃ¸rnegruppeService)
+        public CreateBørngruppeModel(IBørnegruppeService børnegruppeService)
         {
-            _bÃ¸rnegruppeservice = bÃ¸rnegruppeService;
+            _børnegruppeservice = børnegruppeService;
         }
 
         public IActionResult OnGet()
         {
-            LederOptions = _bÃ¸rnegruppeservice.GetLederOptions();
+            LederOptions = _børnegruppeservice.GetLederOptions();
             return Page();
         }
 
@@ -35,24 +35,24 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rnegrupper
             {
                 if (!ModelState.IsValid)
                 {
-                    LederOptions = _bÃ¸rnegruppeservice.GetLederOptions();
+                    LederOptions = _børnegruppeservice.GetLederOptions();
         
                 }
 
-                BÃ¸rnegrupper = _bÃ¸rnegruppeservice.CreateBÃ¸rnegruppe(BÃ¸rnegrupper);
-                return RedirectToPage("GetBÃ¸rnegrupper");
+                Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
+                return RedirectToPage("GetBørnegrupper");
             }
             catch (NegativeAmountExceptioncs ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                LederOptions = _bÃ¸rnegruppeservice.GetLederOptions();
+                LederOptions = _børnegruppeservice.GetLederOptions();
                 return Page();
             }
 
             catch (DuplicateKeyException ex)
             {
-                ModelState.AddModelError("BÃ¸rnegrupper.BÃ¸rnegruppe_ID", ex.Message);
-                LederOptions = _bÃ¸rnegruppeservice.GetLederOptions();
+                ModelState.AddModelError("Børnegrupper.Børnegruppe_ID", ex.Message);
+                LederOptions = _børnegruppeservice.GetLederOptions();
                 return Page();
 
                 //ModelState.AddModelError(string.Empty, ex.Message);
@@ -66,8 +66,8 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rnegrupper
             //{
             //    return Page();
             //}
-            //BÃ¸rnegrupper = _bÃ¸rnegruppeservice.CreateBÃ¸rnegruppe(BÃ¸rnegrupper);
-            //return RedirectToPage("GetBÃ¸rnegrupper");
+            //Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
+            //return RedirectToPage("GetBørnegrupper");
 
         }
         //public IActionResult OnPost()
@@ -79,16 +79,15 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rnegrupper
 
         //    try
         //    {
-        //        // Try to create the BÃ¸rnegruppe
-        //        BÃ¸rnegrupper = _bÃ¸rnegruppeservice.CreateBÃ¸rnegruppe(BÃ¸rnegrupper);
-        //        return RedirectToPage("GetBÃ¸rnegrupper");
+        //        // Try to create the Børnegruppe
+        //        Børnegrupper = _børnegruppeservice.CreateBørnegruppe(Børnegrupper);
+        //        return RedirectToPage("GetBørnegrupper");
         //    }
-        //    catch (DuplicatedBÃ¸rnegruppeIdException ex)
+        //    catch (DuplicatedBørnegruppeIdException ex)
         //    {
-        //        ModelState.AddModelError("BÃ¸rnegrupper.BÃ¸rnegruppe_ID", ex.Message);
+        //        ModelState.AddModelError("Børnegrupper.Børnegruppe_ID", ex.Message);
         //        return Page();
         //    }
         //}
     }
 }
-

@@ -1,34 +1,34 @@
-﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
 using LodSalgsSystemFDF.Repository;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnegruppeService;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.BÃ¸rns
+namespace LodSalgsSystemFDF.Pages.Børns
 {
     public class CreateModel : PageModel
     {
-        private IBÃ¸rnService _bÃ¸rnService;
-        private IGenericRepository<BÃ¸rn> _genericRepository;
+        private IBørnService _børnService;
+        private IGenericRepository<Børn> _genericRepository;
 
         [BindProperty]
-        public BÃ¸rn BÃ¸rns { get; set; }
+        public Børn Børns { get; set; }
 
-        public IEnumerable<BÃ¸rnegruppe> BÃ¸rnegruppeOptions { get; set; }
+        public IEnumerable<Børnegruppe> BørnegruppeOptions { get; set; }
 
-        public CreateModel(IBÃ¸rnService bÃ¸rnService, IGenericRepository<BÃ¸rn> genericRepository)
+        public CreateModel(IBørnService børnService, IGenericRepository<Børn> genericRepository)
         {
-            _bÃ¸rnService = bÃ¸rnService;
+            _børnService = børnService;
             _genericRepository = genericRepository;
         }
 
         public IActionResult OnGet()
         {
 
-            BÃ¸rnegruppeOptions = _bÃ¸rnService.GetBÃ¸rnegruppeOptions();
+            BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
             return Page();
         }
 
@@ -38,8 +38,8 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
         //    {
         //        return Page();
         //    }
-        //    BÃ¸rns = _bÃ¸rnService.CreateBÃ¸rn(BÃ¸rns);
-        //    return RedirectToPage("GetBÃ¸rn");
+        //    Børns = _børnService.CreateBørn(Børns);
+        //    return RedirectToPage("GetBørn");
         //}
 
         public IActionResult OnPost() //Almindelig
@@ -48,24 +48,24 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
             {
                 if (!ModelState.IsValid)
                 {
-                    BÃ¸rnegruppeOptions = _bÃ¸rnService.GetBÃ¸rnegruppeOptions();
+                    BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
 
                 }
 
-                BÃ¸rns = _bÃ¸rnService.CreateBÃ¸rn(BÃ¸rns);
-                return RedirectToPage("GetBÃ¸rn");
+                Børns = _børnService.CreateBørn(Børns);
+                return RedirectToPage("GetBørn");
             }
             catch (NegativeAmountExceptioncs ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                BÃ¸rnegruppeOptions = _bÃ¸rnService.GetBÃ¸rnegruppeOptions();
+                BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
                 return Page();
             }
 
             catch (DuplicateKeyException ex)
             {
-                ModelState.AddModelError("BÃ¸rns.BÃ¸rn_ID", ex.Message);
-                BÃ¸rnegruppeOptions = _bÃ¸rnService.GetBÃ¸rnegruppeOptions();
+                ModelState.AddModelError("Børns.Børn_ID", ex.Message);
+                BørnegruppeOptions = _børnService.GetBørnegruppeOptions();
                 return Page();
 
             }
@@ -76,19 +76,19 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
         //{
         //    if (!ModelState.IsValid)
         //    {
-        //        bool addResult = _genericRepository.Add(BÃ¸rns);
+        //        bool addResult = _genericRepository.Add(Børns);
 
         //        if (addResult)
         //        {
         //            // Addition was successful
         //            // Optionally, you can redirect to another page or return a success message
-        //            BÃ¸rnegruppeOptions = _bÃ¸rnService.GetBÃ¸rnegruppeOptions(); // Include the line here
+        //            BørnegruppeOptions = _børnService.GetBørnegruppeOptions(); // Include the line here
 
-        //            // Assuming BÃ¸rns is the entity you added, you can retrieve its ID and redirect
-        //            int addedEntityId = BÃ¸rns.BÃ¸rn_ID; // Adjust this based on your entity structure
+        //            // Assuming Børns is the entity you added, you can retrieve its ID and redirect
+        //            int addedEntityId = Børns.Børn_ID; // Adjust this based on your entity structure
 
-        //            // Redirect to the "GetBÃ¸rn" page with the added entity ID as a route parameter
-        //            return RedirectToPage("GetBÃ¸rn", new { id = addedEntityId });
+        //            // Redirect to the "GetBørn" page with the added entity ID as a route parameter
+        //            return RedirectToPage("GetBørn", new { id = addedEntityId });
         //        }
         //        else
         //        {
@@ -104,4 +104,3 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
 
     }
 }
-

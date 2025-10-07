@@ -1,7 +1,7 @@
-ï»¿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
 using LodSalgsSystemFDF.Repository;
-using LodSalgsSystemFDF.Services.ADOServices.ADOIndtÃ¦gtService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -46,11 +46,11 @@ namespace LodSalgsSystemFDF.Pages.Salgs
             Salgs = _salgService.GetAntalSolgteLodseddelerASC();
         }
 
-        public IActionResult OnPostBÃ¸rnegruppeByID()
+        public IActionResult OnPostBørnegruppeByID()
         {
             if (IDSearch != 0)
             {
-                Salgs = _salgService.GetBÃ¸rnegruppeByID(IDSearch);
+                Salgs = _salgService.GetBørnegruppeByID(IDSearch);
                 return Page();
             }
             return Page();

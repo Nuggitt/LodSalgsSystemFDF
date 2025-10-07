@@ -1,4 +1,4 @@
-ï»¿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,7 +27,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
 
         public IActionResult OnGet()
         {
-            _salgService.GetBÃ¸rnById(Id, Bid);
+            _salgService.GetBørnById(Id, Bid);
             LederOptions = _salgService.GetLederOptions();
             return Page();
             
@@ -40,11 +40,10 @@ namespace LodSalgsSystemFDF.Pages.Salgs
                 LederOptions = _salgService.GetLederOptions();
                 
             }
-            Salg.BÃ¸rn_ID = Id;
-            Salg.BÃ¸rnegruppe_ID = Bid;
+            Salg.Børn_ID = Id;
+            Salg.Børnegruppe_ID = Bid;
             Salg = _salgService.CreateSalg(Salg);
             return RedirectToPage("GetSalgs");
         }
     }
 }
-

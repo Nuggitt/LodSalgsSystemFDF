@@ -321,4 +321,3 @@ WHERE Børnegruppe_ID = @Børnegruppe_ID;";
         }
     }
 }
-

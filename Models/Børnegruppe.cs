@@ -27,4 +27,3 @@ namespace LodSalgsSystemFDF.Models
         public virtual Leder Leder { get; set; }
     }
 }
-

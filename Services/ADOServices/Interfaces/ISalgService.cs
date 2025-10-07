@@ -26,4 +26,3 @@ namespace LodSalgsSystemFDF.Services.ADOServices.Interfaces
         IEnumerable<Salg> GetAntalSolgteLodseddelerASC();
     }
 }
-

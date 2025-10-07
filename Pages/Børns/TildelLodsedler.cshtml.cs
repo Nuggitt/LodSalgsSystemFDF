@@ -1,40 +1,40 @@
-﻿using LodSalgsSystemFDF.Models;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnegruppeService;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBÃ¸rnService;
+using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBørnService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.BÃ¸rns
+namespace LodSalgsSystemFDF.Pages.Børns
 {
     public class TildelLodsedlerModel : PageModel
     {
         [BindProperty]
-        public BÃ¸rn BÃ¸rn { get; set; }
+        public Børn Børn { get; set; }
         [BindProperty]
         public int Amount { get; set; }
-        public IEnumerable<BÃ¸rn> BÃ¸rns { get; set; } = new List<BÃ¸rn>();
-        private IBÃ¸rnService _bÃ¸rneService { get; set; }
+        public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
+        private IBørnService _børneService { get; set; }
 
         [BindProperty]
         public string NameSearch { get; set; }
 
-        public TildelLodsedlerModel(IBÃ¸rnService bÃ¸rneService)
+        public TildelLodsedlerModel(IBørnService børneService)
         {
-            _bÃ¸rneService = bÃ¸rneService;
+            _børneService = børneService;
         }
         public async Task OnGet(int id)
         {
 
-            BÃ¸rn = await _bÃ¸rneService.GetBÃ¸rn(id);
-            BÃ¸rns = await _bÃ¸rneService.GetBÃ¸rn();
+            Børn = await _børneService.GetBørn(id);
+            Børns = await _børneService.GetBørn();
 
         }
 
-        public async Task OnGetBÃ¸rnInBÃ¸rnegruppe(int id)
+        public async Task OnGetBørnInBørnegruppe(int id)
         {
-            BÃ¸rn = await _bÃ¸rneService.GetBÃ¸rn(id); //Henter modal
-            BÃ¸rns = await _bÃ¸rneService.GetBÃ¸rnInBÃ¸rnegruppe(id);
+            Børn = await _børneService.GetBørn(id); //Henter modal
+            Børns = await _børneService.GetBørnInBørnegruppe(id);
           
         }
 
@@ -42,9 +42,8 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
         public IActionResult OnPost()
         {
             
-            BÃ¸rn = _bÃ¸rneService.TildelLodsedler(BÃ¸rn, Amount);
-            return RedirectToPage("GetBÃ¸rn");
+            Børn = _børneService.TildelLodsedler(Børn, Amount);
+            return RedirectToPage("GetBørn");
         }
     }
 }
-

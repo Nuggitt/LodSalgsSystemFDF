@@ -1,43 +1,43 @@
-﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Repository;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using static Dapper.SqlMapper;
 
-namespace LodSalgsSystemFDF.Pages.BÃ¸rns
+namespace LodSalgsSystemFDF.Pages.Børns
 {
     public class UpdateModel : PageModel
     {
-        private IBÃ¸rnService _bÃ¸rnService;
-        private IGenericRepository<BÃ¸rn> _genericRepository;
+        private IBørnService _børnService;
+        private IGenericRepository<Børn> _genericRepository;
 
         [BindProperty]
-        public BÃ¸rn BÃ¸rn { get; set; }
+        public Børn Børn { get; set; }
 
-        public UpdateModel(IBÃ¸rnService bÃ¸rnService, IGenericRepository<BÃ¸rn> genericRepository)
+        public UpdateModel(IBørnService børnService, IGenericRepository<Børn> genericRepository)
         {
-            _bÃ¸rnService = bÃ¸rnService;
+            _børnService = børnService;
             _genericRepository = genericRepository;
         }
 
         public async Task OnGet(int id) //Almindelig
         {
-            BÃ¸rn = await _bÃ¸rnService.GetBÃ¸rn(id);
+            Børn = await _børnService.GetBørn(id);
 
         }
 
         //public IActionResult OnGet(int id) //Generic
         //{
-        //    BÃ¸rn = _genericRepository.GetById(id);
+        //    Børn = _genericRepository.GetById(id);
         //    return Page();
         //}
 
         public IActionResult OnPost() // Almindelig
         {
 
-            BÃ¸rn = _bÃ¸rnService.UpdateBÃ¸rn(BÃ¸rn);
-            return RedirectToPage("GetBÃ¸rn");
+            Børn = _børnService.UpdateBørn(Børn);
+            return RedirectToPage("GetBørn");
         }
 
         //public IActionResult OnPost()
@@ -47,12 +47,12 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
         //        try
         //        {
         //            
-        //            bool updateResult = _genericRepository.Update(BÃ¸rn);
+        //            bool updateResult = _genericRepository.Update(Børn);
 
         //            if (updateResult)
         //            {
         //                
-        //                return RedirectToPage("GetBÃ¸rn"); // Redirect to a success page
+        //                return RedirectToPage("GetBørn"); // Redirect to a success page
         //            }
         //            else
         //            {
@@ -77,4 +77,3 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
     }
 
 }
-

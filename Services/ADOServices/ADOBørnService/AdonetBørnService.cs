@@ -287,4 +287,3 @@ WHERE Børn_ID=@Børn_ID";
         }
     }
 }
-

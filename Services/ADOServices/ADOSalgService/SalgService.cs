@@ -70,4 +70,3 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         }
     }
 }
-

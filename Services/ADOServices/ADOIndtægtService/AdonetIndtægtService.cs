@@ -450,4 +450,3 @@ ORDER BY Børnegruppe.AntalSolgteLodseddelerPrGruppe DESC;";
         }
     }
 }
-

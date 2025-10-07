@@ -51,4 +51,3 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         }
     }
 }
-

@@ -1,84 +1,84 @@
-﻿using LodSalgsSystemFDF.Models;
+using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LodSalgsSystemFDF.Pages.BÃ¸rns
+namespace LodSalgsSystemFDF.Pages.Børns
 {
     [Authorize(Roles = "admin, lotteribestyrer, leder")]
-    public class BÃ¸rnIBÃ¸rnegrupperModel : PageModel
+    public class BørnIBørnegrupperModel : PageModel
     {
         
-        private IBÃ¸rnService _bÃ¸rnService;
+        private IBørnService _børnService;
 
         [BindProperty]
         public string NameSearch { get; set; }
-        public BÃ¸rnIBÃ¸rnegrupperModel(IBÃ¸rnService bÃ¸rnService)
+        public BørnIBørnegrupperModel(IBørnService børnService)
         {
-            _bÃ¸rnService = bÃ¸rnService;
+            _børnService = børnService;
         }
         [BindProperty]
-        public IEnumerable<BÃ¸rn> BÃ¸rns { get; set; } = new List<BÃ¸rn>();
+        public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
         public async Task OnGet(int bid)
         {
 
-            BÃ¸rns = await _bÃ¸rnService.GetBÃ¸rnInBÃ¸rnegruppe(bid);
+            Børns = await _børnService.GetBørnInBørnegruppe(bid);
 
 
         }
 
-        public async Task OnGetBÃ¸rnInBÃ¸rnegruppe(int id)
+        public async Task OnGetBørnInBørnegruppe(int id)
         {
-            BÃ¸rns = await _bÃ¸rnService.GetBÃ¸rnInBÃ¸rnegruppe(id);
+            Børns = await _børnService.GetBørnInBørnegruppe(id);
 
         }
 
         public void OnGetNavnDescending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnNavnDescending();
+            Børns = _børnService.GetAllBørnNavnDescending();
         }
 
         public void OnGetIDDescending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnIDDescending();
+            Børns = _børnService.GetAllBørnIDDescending();
         }
 
         public void OnGetAntalSolgteLodseddelerDescending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnAntalSolgteLodseddelerDescending();
+            Børns = _børnService.GetAllBørnAntalSolgteLodseddelerDescending();
         }
 
         public void OnGetGruppeIDDescending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnGruppeIDDescending();
+            Børns = _børnService.GetAllBørnGruppeIDDescending();
         }
 
         public void OnGetNavnAscending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnNavnAscending();
+            Børns = _børnService.GetAllBørnNavnAscending();
         }
 
         public void OnGetIDAscending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnIDAscending();
+            Børns = _børnService.GetAllBørnIDAscending();
         }
 
         public void OnGetAntalSolgteLodseddelerAscending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnAntalSolgteLodseddelerAscending();
+            Børns = _børnService.GetAllBørnAntalSolgteLodseddelerAscending();
         }
 
         public void OnGetGruppeIDAscending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetAllBÃ¸rnGruppeIDAscending();
+            Børns = _børnService.GetAllBørnGruppeIDAscending();
         }
 
-        public IActionResult OnPostBÃ¸rnByName()
+        public IActionResult OnPostBørnByName()
         {
             if (NameSearch != null)
             {
-                BÃ¸rns = _bÃ¸rnService.GetBÃ¸rnByName(NameSearch);
+                Børns = _børnService.GetBørnByName(NameSearch);
                 return Page();
             }
 
@@ -86,13 +86,12 @@ namespace LodSalgsSystemFDF.Pages.BÃ¸rns
         }
         public void OnGetGivetLodsedlerDescending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetGivetLodsedlerDescending();
+            Børns = _børnService.GetGivetLodsedlerDescending();
         }
 
         public void OnGetGivetLodsedlerAscending()
         {
-            BÃ¸rns = _bÃ¸rnService.GetGivetLodsedlerAscending();
+            Børns = _børnService.GetGivetLodsedlerAscending();
         }
     }
 }
-

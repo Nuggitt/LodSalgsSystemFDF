@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LodSalgsSystemFDF.Pages.Indtægter
 {
-    [Authorize]
+    [AllowAnonymous]
     public class GetIndtægterModel : PageModel
     {
         private IIndtægtService _indtægtService;

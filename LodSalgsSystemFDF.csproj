@@ -26,7 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 
     <Compile Remove="Pages\Lodseddelarks\**" />
@@ -36,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
 
@@ -45,6 +50,14 @@
   
   <ItemGroup>
     <None Include="wwwroot\Billeder\skjoldetFDF.png" />
+  </ItemGroup>
+
+
+  
+
+  
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
 
 

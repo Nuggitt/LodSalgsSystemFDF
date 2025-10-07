@@ -13,67 +13,66 @@ namespace LodSalgsSystemFDF.Pages.LogIn
 {
     public class LogInPageModel : PageModel
     {
-        public static Bruger LoggedInBruger { get; set; } = null;
-        private BrugerService _brugerService;
+        private readonly AdonetBrugerService _adonetBrugerService;
+        public static Bruger? LoggedInBruger { get; set; }
 
         [BindProperty]
-        public string BrugerNavn { get; set; }
+        public string BrugerNavn { get; set; } = string.Empty;
 
-        [BindProperty, DataType(DataType.Password)]
-        public string Password { get; set; }
+        [BindProperty]
+        public string Password { get; set; } = string.Empty;
 
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
-        public LogInPageModel(BrugerService brugerService)
+        public LogInPageModel(AdonetBrugerService adonetBrugerService)
         {
-            _brugerService = brugerService;
+            _adonetBrugerService = adonetBrugerService;
         }
 
-        public void OnGet()
-        {
-        }
+        public void OnGet() { }
 
         public async Task<IActionResult> OnPost()
         {
+            var navn = (BrugerNavn ?? "").Trim();
+            var rawPwd = (Password ?? "").Trim();
 
-            List<Bruger> brugere = _brugerService.Bruger;
-            foreach (Bruger bruger in brugere)
+            var brugere = _adonetBrugerService.GetAllBrugere();
+            var bruger = brugere.FirstOrDefault(b =>
+                string.Equals(b.BrugerNavn?.Trim(), navn, StringComparison.OrdinalIgnoreCase));
+
+            if (bruger is null)
             {
-
-                if (BrugerNavn == bruger.BrugerNavn)
-                {
-                    var passwordHasher = new PasswordHasher<string>();
-                    if (Password != null)
-                    {
-                        if (passwordHasher.VerifyHashedPassword(null, bruger.Password, Password) == PasswordVerificationResult.Success)
-                        {
-                            LoggedInBruger = bruger;
-
-                            var claims = new List<Claim> { new Claim(ClaimTypes.Name, BrugerNavn) };
-
-
-                            if (BrugerNavn == "admin") claims.Add(new Claim(ClaimTypes.Role, "admin"));
-                            if (BrugerNavn == "leder") claims.Add(new Claim(ClaimTypes.Role, "leder"));
-                            if (BrugerNavn == "lotteribestyrer") claims.Add(new Claim(ClaimTypes.Role, "lotteribestyrer"));
-                            if (BrugerNavn == "bestyrer") claims.Add(new Claim(ClaimTypes.Role, "bestyrer"));
-
-
-
-
-
-
-                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-                            return RedirectToPage("/Index");
-                        }
-                    }
-
-                }
-
+                Message = "Ugyldigt login (bruger findes ikke)";
+                return Page();
             }
 
-            Message = "Ugyldigt Login";
-            return Page();
+            // Her bruger vi nu din VerifyPassword
+            bool ok = _adonetBrugerService.VerifyPassword(navn, rawPwd, bruger.Password);
+
+            if (!ok)
+            {
+                Message = "Ugyldigt login (forkert kode)";
+                return Page();
+            }
+
+            // --- Login success ---
+            LoggedInBruger = bruger;
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, bruger.BrugerNavn) };
+
+            switch (navn.ToLowerInvariant())
+            {
+                case "admin": claims.Add(new Claim(ClaimTypes.Role, "admin")); break;
+                case "leder": claims.Add(new Claim(ClaimTypes.Role, "leder")); break;
+                case "lotteribestyrer": claims.Add(new Claim(ClaimTypes.Role, "lotteribestyrer")); break;
+                case "bestyrer": claims.Add(new Claim(ClaimTypes.Role, "bestyrer")); break;
+            }
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity));
+
+            return RedirectToPage("/Index");
         }
     }
 }

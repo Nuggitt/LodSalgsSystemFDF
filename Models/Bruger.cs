@@ -8,24 +8,18 @@ namespace LodSalgsSystemFDF.Models
     public class Bruger
     {
         [Key]
-        [StringLength(100)]
-        public string BrugerNavn { get; set; }
+        [StringLength(50)] 
+        public string BrugerNavn { get; set; } = string.Empty;
+
         [Required]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
-        private static PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
+        public Bruger() { }
 
-        public Bruger(string brugerNavn, string password)
+        public Bruger(string brugerNavn, string passwordHash)
         {
             BrugerNavn = brugerNavn;
-            Password = password;
+            Password = passwordHash;
         }
-
-        public Bruger()
-        {
-            BrugerNavn = "";
-            Password = "";
-        }
-
     }
 }

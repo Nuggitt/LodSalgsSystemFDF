@@ -11,31 +11,32 @@ namespace LodSalgsSystemFDF.Pages.Admin
     [Authorize(Roles = "admin")]
     public class CreateUserModel : PageModel
     {
-        private BrugerService _brugerService;
-        [BindProperty]
-        public string BrugerNavn { get; set; }
-        [BindProperty,DataType(DataType.Password)]
-        public string Password { get; set; }
-        private PasswordHasher<string> passwordHasher;
-        public string Message { get; set; }
+        private readonly BrugerService _brugerService;
+
+        [BindProperty] public string BrugerNavn { get; set; } = "";
+        [BindProperty, DataType(DataType.Password)] public string Password { get; set; } = "";
+        public string Message { get; set; } = "";
 
         public CreateUserModel(BrugerService brugerService)
         {
             _brugerService = brugerService;
-            passwordHasher = new PasswordHasher<string>();
         }
-        public void OnGet()
-        {
-        }
+
+        public void OnGet() { }
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            var navn = (BrugerNavn ?? "").Trim();
+            var raw = (Password ?? "").Trim();
+
+            if (string.IsNullOrWhiteSpace(navn) || string.IsNullOrWhiteSpace(raw))
             {
+                ModelState.AddModelError("", "Brugernavn og password er påkrævet.");
                 return Page();
             }
-            _brugerService.AddBruger(new Bruger(BrugerNavn, passwordHasher.HashPassword(null, Password)));
-            Message = $"Brugeren: {BrugerNavn} er oprettet.";
+
+            _brugerService.AddBruger(new Bruger { BrugerNavn = navn, Password = raw }); // <-- rå password
+            Message = $"Brugeren: {navn} er oprettet.";
             return Page();
         }
     }

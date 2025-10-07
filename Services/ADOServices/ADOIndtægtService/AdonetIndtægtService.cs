@@ -1,399 +1,452 @@
 ﻿using LodSalgsSystemFDF.Models;
-using System.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService
 {
     public class AdonetIndtægtService
     {
         private IConfiguration configuration { get; }
-        string connectionString;
+        private readonly string connectionString;
 
         public AdonetIndtægtService() { }
 
         public AdonetIndtægtService(IConfiguration config)
         {
             configuration = config;
-            connectionString = configuration.GetConnectionString("Datacraft.dk");
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        // -------------------------------------------------------
+        // Helpers
+        private static DateTime? ReadNullableDate(SqliteDataReader r, string col)
+        {
+            var ord = r.GetOrdinal(col);
+            return r.IsDBNull(ord) ? (DateTime?)null : r.GetDateTime(ord);
+        }
+        // -------------------------------------------------------
 
         public List<Indtægt> GetAllIndtægter()
         {
-            List<Indtægt> indtægtList = new List<Indtægt>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var list = new List<Indtægt>();
+            // Alias’er harmoniserer kolonnenavne i resultatsættet
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID;";
+
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-                string sql = "SELECT Indtægt.Indtægt_ID, Salg.Salg_ID, Salg.Dato, Børn.Børn_ID, Børnegruppe.Børnegruppe_ID, Børnegruppe.Gruppenavn, Børn.Navn, Børn.Adresse, Børn.Telefon, Børn.AntalSolgteLodseddeler, Børnegruppe.AntalSolgteLodSeddelerPrGruppe FROM Indtægt\r\nJOIN Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID";
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (reader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
-
-                        
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-                        
-                        indtægt.Salg.Dato = (DateTime)(reader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(reader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(reader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(reader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(reader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(reader["AntalSolgteLodSeddelerPrGruppe"]);
-
-                        indtægtList.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-
-            return indtægtList;
+            return list;
         }
-
-
 
         public Indtægt GetIndtægtById(int id)
         {
-            List<Indtægt> indtægtsList = new List<Indtægt>();
-            Indtægt indtægt = new Indtægt();
-            string sql = "SELECT * FROM dbo.Indtægt WHERE Indtægt_ID = @Indtægt_ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var ind = new Indtægt();
+            const string sql = "SELECT * FROM Indtægt WHERE Indtægt_ID = @Indtægt_ID";
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.AddWithValue("@Indtægt_ID", id);
+            using var r = cmd.ExecuteReader();
+            if (r.Read())
             {
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Indtægt_ID", id);
-                connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        indtægt.Indtægt_ID = Convert.ToInt32(reader["Indtægt_ID"]);                        
-                        indtægt.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
-                        indtægtsList.Add(indtægt);
-            
-                    }
-                }
+                ind.Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID"));
+                ind.Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID"));
             }
-            return indtægt;
+            return ind;
         }
 
         public Indtægt CreateIndtægt(Indtægt indtægt)
         {
-            List<Indtægt> indtægtsList = new List<Indtægt>();
-            string sql = "INSERT INTO dbo.Indtægt (Indtægt.Indtægt_ID, Indtægt.Salg_ID) VALUES(@Indtægt_ID, @Salg_ID)";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-
-                    command.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
-                    command.Parameters.AddWithValue("@Salg_ID", indtægt.Salg.Salg_ID);
-                    indtægtsList.Add(indtægt);
-
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
-                }
-            }
+            // NB: ingen schema i SQLite, og kolonner må ikke være kvalificeret med tabelnavn
+            const string sql = "INSERT INTO Indtægt (Indtægt_ID, Salg_ID) VALUES (@Indtægt_ID, @Salg_ID);";
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
+            cmd.Parameters.AddWithValue("@Salg_ID", indtægt.Salg?.Salg_ID ?? indtægt.Salg_ID);
+            cmd.ExecuteNonQuery();
             return indtægt;
         }
 
         public Indtægt DeleteIndtægt(Indtægt indtægt)
         {
-            List<Indtægt> indtægtsList = new List<Indtægt>();
-            string sql = "DELETE FROM dbo.Indtægt WHERE Indtægt_ID = @Indtægt_ID";
-
-            using SqlConnection connection = new SqlConnection(connectionString);
-
-            using (SqlCommand command = new SqlCommand(sql, connection))
-            {
-                connection.Open();
-
-                command.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
-
-                int numberOfRowsAffected = command.ExecuteNonQuery();
-            }
+            const string sql = "DELETE FROM Indtægt WHERE Indtægt_ID = @Indtægt_ID";
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
+            cmd.ExecuteNonQuery();
             return indtægt;
         }
 
         public Indtægt UpdateIndtægt(Indtægt indtægt)
         {
-            string sql = "UPDATE dbo.Indtægt SET Salg_ID = @Salg_ID WHERE Indtægt_ID = @Indtægt_ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-
-                    command.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);                   
-                    command.Parameters.AddWithValue("@Salg_ID", indtægt.Salg_ID);
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
-                }
-            }
+            const string sql = "UPDATE Indtægt SET Salg_ID = @Salg_ID WHERE Indtægt_ID = @Indtægt_ID";
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            cmd.Parameters.AddWithValue("@Indtægt_ID", indtægt.Indtægt_ID);
+            cmd.Parameters.AddWithValue("@Salg_ID", indtægt.Salg_ID);
+            cmd.ExecuteNonQuery();
             return indtægt;
         }
 
         public List<Indtægt> GetIndtægtIDDESC()
         {
-            List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n indtægt.Indtægt_ID ASC";
+            var list = new List<Indtægt>();
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID
+ORDER BY Indtægt.Indtægt_ID DESC;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (dataReader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-
-
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-
-                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
-
-                        indtægtlist.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-
-            return indtægtlist;
+            return list;
         }
 
         public List<Indtægt> GetIndtægtIDASC()
         {
-            List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n indtægt.Indtægt_ID DESC";
+            var list = new List<Indtægt>();
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID
+ORDER BY Indtægt.Indtægt_ID ASC;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (dataReader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-
-
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-
-                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
-
-                        indtægtlist.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-
-            return indtægtlist;
+            return list;
         }
-
-
 
         public List<Indtægt> GetAntalSolgteLodseddelerDESC()
         {
-            List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler DESC;";
+            var list = new List<Indtægt>();
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID
+ORDER BY Børn.AntalSolgteLodseddeler DESC;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (dataReader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-
-
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-
-                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
-
-                        indtægtlist.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-
-            return indtægtlist;
+            return list;
         }
-
-
 
         public List<Indtægt> GetAntalSolgteLodseddelerASC()
         {
-            List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børn.AntalSolgteLodseddeler ASC;";
+            var list = new List<Indtægt>();
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID
+ORDER BY Børn.AntalSolgteLodseddeler ASC;";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (dataReader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-
-
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-
-                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
-
-
-                        indtægtlist.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-
-            return indtægtlist;
+            return list;
         }
 
         public List<Indtægt> GetAntalSolgteLodseddelerForGruppenASC()
         {
-            List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe ASC;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var list = new List<Indtægt>();
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID
+ORDER BY Børnegruppe.AntalSolgteLodseddelerPrGruppe ASC;";
+
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (dataReader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-
-
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-
-                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
-
-                        indtægtlist.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-            return indtægtlist;
+            return list;
         }
 
         public List<Indtægt> GetAntalSolgteLodseddelerForGruppenDESC()
         {
-            List<Indtægt> indtægtlist = new List<Indtægt>();
-            string sql = "SELECT\r\n    Indtægt.Indtægt_ID,\r\n    Salg.Salg_ID,\r\n    Salg.Dato,\r\n    Børn.Børn_ID,\r\n    Børnegruppe.Børnegruppe_ID,\r\n    Børnegruppe.Gruppenavn,\r\n    Børn.Navn,\r\n    Børn.Adresse,\r\n    Børn.Telefon,\r\n    Børn.AntalSolgteLodseddeler,\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe\r\nFROM\r\n    Indtægt\r\nJOIN\r\n    Salg ON Indtægt.Salg_ID = Salg.Salg_ID\r\nJOIN\r\n    Børn ON Salg.Børn_ID = Børn.Børn_ID\r\nJOIN\r\n    Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID\r\nORDER BY\r\n    Børnegruppe.AntalSolgteLodSeddelerPrGruppe DESC;\r\n";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var list = new List<Indtægt>();
+            const string sql = @"
+SELECT
+    Indtægt.Indtægt_ID,
+    Salg.Salg_ID,
+    Salg.Dato,
+    Børn.Børn_ID,
+    Børnegruppe.Børnegruppe_ID,
+    Børnegruppe.Gruppenavn,
+    Børn.Navn,
+    Børn.Adresse,
+    Børn.Telefon,
+    Børn.AntalSolgteLodseddeler,
+    Børnegruppe.AntalSolgteLodSeddelerPrGruppe AS AntalSolgteLodseddelerPrGruppe
+FROM Indtægt
+JOIN Salg        ON Indtægt.Salg_ID = Salg.Salg_ID
+JOIN Børn        ON Salg.Børn_ID    = Børn.Børn_ID
+JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Børn.Børnegruppe_ID
+ORDER BY Børnegruppe.AntalSolgteLodseddelerPrGruppe DESC;";
+
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
             {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var it = new Indtægt
                 {
-                    while (dataReader.Read())
+                    Indtægt_ID = r.GetInt32(r.GetOrdinal("Indtægt_ID")),
+                    Salg_ID = r.GetInt32(r.GetOrdinal("Salg_ID")),
+                    Salg = new Salg { Dato = ReadNullableDate(r, "Dato") ?? default },
+                    Børn = new Børn
                     {
-                        Indtægt indtægt = new Indtægt();
-                        indtægt.Indtægt_ID = Convert.ToInt32(dataReader["Indtægt_ID"]);
-                        indtægt.Salg_ID = Convert.ToInt32(dataReader["Salg_ID"]);
-
-
-                        indtægt.Salg = new Salg();
-                        indtægt.Børn = new Børn();
-                        indtægt.Børnegruppe = new Børnegruppe();
-
-
-                        indtægt.Salg.Dato = (DateTime)(dataReader["Dato"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["Dato"]));
-                        indtægt.Børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        indtægt.Børnegruppe.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-                        indtægt.Børnegruppe.Gruppenavn = Convert.ToString(dataReader["Gruppenavn"]);
-                        indtægt.Børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        indtægt.Børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        indtægt.Børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        indtægt.Børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        indtægt.Børnegruppe.AntalSolgteLodseddelerPrGruppe = Convert.ToInt32(dataReader["AntalSolgteLodseddelerPrGruppe"]);
-
-                        indtægtlist.Add(indtægt);
+                        Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+                        Navn = r.GetString(r.GetOrdinal("Navn")),
+                        Adresse = r.GetString(r.GetOrdinal("Adresse")),
+                        Telefon = r.GetString(r.GetOrdinal("Telefon")),
+                        AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler"))
+                    },
+                    Børnegruppe = new Børnegruppe
+                    {
+                        Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID")),
+                        Gruppenavn = r.GetString(r.GetOrdinal("Gruppenavn")),
+                        AntalSolgteLodseddelerPrGruppe = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddelerPrGruppe"))
                     }
-                }
+                };
+                list.Add(it);
             }
-            return indtægtlist;
+            return list;
         }
-
     }
 }

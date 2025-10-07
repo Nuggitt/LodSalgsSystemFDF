@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace LodSalgsSystemFDF.Pages.Børns
 {
-    [Authorize(Roles ="admin, lotteribestyrer, leder")]
+    [AllowAnonymous]
     public class GetBørnModel : PageModel
     {
         private IBørnService _børnService;
@@ -26,19 +26,19 @@ namespace LodSalgsSystemFDF.Pages.Børns
         }
         [BindProperty]
         public IEnumerable<Børn> Børns { get; set; } = new List<Børn>();
-        //public async Task OnGet() //Async almindelig
-        //{
-
-        //    Børns = await _børnService.GetBørn();
-            
-        //}
-
-        public IActionResult OnGet() //Generic
+        public async Task OnGet() //Async almindelig
         {
-            //Børns = _børnRepository.GetAll();
-            Børns = _genericRepository.GetAll();
-            return Page();
+
+            Børns = await _børnService.GetBørn();
+
         }
+
+        //public IActionResult OnGet() //Generic
+        //{
+        //    //Børns = _børnRepository.GetAll();
+        //    Børns = _genericRepository.GetAll();
+        //    return Page();
+        //}
 
         public async Task OnGetBørnInBørnegruppe(int id)
         {

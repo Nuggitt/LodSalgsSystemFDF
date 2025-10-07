@@ -1,92 +1,70 @@
 ﻿using LodSalgsSystemFDF.Models;
 using LodSalgsSystemFDF.Models.Exceptions;
-using System.Data.SqlClient;
-using System.Reflection.Metadata.Ecma335;
-using System.Reflection.PortableExecutable;
+using Microsoft.Data.Sqlite;
 using System.Transactions;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
-
 {
     public class AdonetBørnService
     {
         private IConfiguration configuration { get; }
-        string connectionString;
+        private readonly string connectionString;
 
         public AdonetBørnService() { }
 
         public AdonetBørnService(IConfiguration config)
         {
             configuration = config;
-            connectionString = configuration.GetConnectionString("Datacraft.dk");
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<List<Børn>> GetAllBørn()
         {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "Select * from Børn";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var listbørn = new List<Børn>();
+            const string sql = "SELECT * FROM Børn";
+            using var connection = new SqliteConnection(connectionString);
+            await connection.OpenAsync();
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
             {
-                await connection.OpenAsync();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
+                var børn = new Børn
                 {
-                    while (await dataReader.ReadAsync())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-
-
-                    }
-
-                }
-
+                    Børn_ID = reader.GetInt32(reader.GetOrdinal("Børn_ID")),
+                    Navn = reader.GetString(reader.GetOrdinal("Navn")),
+                    Adresse = reader.GetString(reader.GetOrdinal("Adresse")),
+                    Telefon = reader.GetString(reader.GetOrdinal("Telefon")),
+                    GivetLodsedler = reader.GetInt32(reader.GetOrdinal("GivetLodsedler")),
+                    AntalSolgteLodseddeler = reader.GetInt32(reader.GetOrdinal("AntalSolgteLodseddeler")),
+                    Børnegruppe_ID = reader.GetInt32(reader.GetOrdinal("Børnegruppe_ID"))
+                };
+                listbørn.Add(børn);
             }
-
             return listbørn;
         }
 
         public async Task<Børn> GetBørn(int id)
         {
-            List<Børn> listbørn = new List<Børn>();
-            Børn børn = new Børn();
-            string sql = "Select * FROM dbo.Børn WHERE Børn_ID = @Børn_ID";
+            var børn = new Børn();
+            const string sql = "SELECT * FROM Børn WHERE Børn_ID = @Børn_ID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var connection = new SqliteConnection(connectionString);
+            await connection.OpenAsync();
+
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Børn_ID", id);
+
+            using var reader = await command.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
             {
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Børn_ID", id);
-
-                await connection.OpenAsync();
-
-                using (SqlDataReader dataReader = await command.ExecuteReaderAsync())
-                {
-                    while (await dataReader.ReadAsync())
-
-                    {
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-
-
-
+                børn.Børn_ID = reader.GetInt32(reader.GetOrdinal("Børn_ID"));
+                børn.Navn = reader.GetString(reader.GetOrdinal("Navn"));
+                børn.Adresse = reader.GetString(reader.GetOrdinal("Adresse"));
+                børn.Telefon = reader.GetString(reader.GetOrdinal("Telefon"));
+                børn.GivetLodsedler = reader.GetInt32(reader.GetOrdinal("GivetLodsedler"));
+                børn.AntalSolgteLodseddeler = reader.GetInt32(reader.GetOrdinal("AntalSolgteLodseddeler"));
+                børn.Børnegruppe_ID = reader.GetInt32(reader.GetOrdinal("Børnegruppe_ID"));
             }
             return børn;
         }
@@ -94,634 +72,218 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOBørnService
         public Børn CreateBørn(Børn børn)
         {
             if (børn.AntalSolgteLodseddeler < 0 || børn.Børnegruppe_ID <= 0)
-            {
                 throw new NegativeAmountExceptioncs("Værdi må ikke være negativt");
-            }
 
             if (TjekIdEksisterer(børn.Børn_ID.ToString()))
-            {
                 throw new DuplicateKeyException(" ID Eksisterer allerede, brug en anden.");
-            }
 
-            string sql = "INSERT INTO [dbo].[Børn] (Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler) " +
-                         "VALUES (@Navn, @Adresse, @Telefon, @Børnegruppe_ID, @GivetLodsedler, @AntalSolgteLodseddeler); " +
-                         "SELECT SCOPE_IDENTITY();";
+            const string sql = @"
+INSERT INTO Børn (Navn, Adresse, Telefon, Børnegruppe_ID, GivetLodsedler, AntalSolgteLodseddeler)
+VALUES (@Navn, @Adresse, @Telefon, @Børnegruppe_ID, @GivetLodsedler, @AntalSolgteLodseddeler);
+SELECT last_insert_rowid();";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    
-                    command.Parameters.AddWithValue("@Navn", børn.Navn);
-                    command.Parameters.AddWithValue("@Adresse", børn.Adresse);
-                    command.Parameters.AddWithValue("@Telefon", børn.Telefon);
-                    command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
-                    command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
-                    command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Navn", børn.Navn);
+            command.Parameters.AddWithValue("@Adresse", børn.Adresse);
+            command.Parameters.AddWithValue("@Telefon", børn.Telefon);
+            command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
+            command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
+            command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
 
-                    
-                    børn.Børn_ID = Convert.ToInt32(command.ExecuteScalar());
-                }
-            }
+            var newId = (long)command.ExecuteScalar()!;
+            børn.Børn_ID = Convert.ToInt32(newId);
 
             return børn;
         }
 
-
         public bool TjekIdEksisterer(string børnId)
         {
-            string sql = "SELECT COUNT(*) FROM Børn WHERE Børn_ID = @Børn_ID";
+            const string sql = "SELECT COUNT(*) FROM Børn WHERE Børn_ID = @Børn_ID";
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@Børn_ID", børnId);
-
-                    int count = (int)command.ExecuteScalar();
-
-                    return count > 0;
-                }
-            }
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Børn_ID", børnId);
+            var count = (long)command.ExecuteScalar()!;
+            return count > 0;
         }
-
 
         public Børn DeleteBørn(Børn børn)
         {
-            List<Børn> Børn = new List<Børn>();
-            string sql = "DELETE FROM Børn WHERE Børn_ID = @Børn_ID";
+            const string sql = "DELETE FROM Børn WHERE Børn_ID = @Børn_ID";
+            using var connection = new SqliteConnection(connectionString);
+            using var command = new SqliteCommand(sql, connection);
+            connection.Open();
 
-            using SqlConnection connection = new SqlConnection(connectionString);
-
-            using (SqlCommand command = new SqlCommand(sql, connection))
-            {
-                connection.Open();
-
-                command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
-
-                int numberOfRowsAffected = command.ExecuteNonQuery();
-            }
+            command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+            command.ExecuteNonQuery();
             return børn;
         }
 
         public Børn UpdateBørn(Børn børn)
         {
-            string sql = "UPDATE Børn SET Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, GivetLodsedler = @GivetLodsedler, AntalSolgteLodseddeler = @AntalSolgteLodseddeler, Børnegruppe_ID = @Børnegruppe_ID WHERE Børn_ID = @Børn_ID";
+            const string sql = @"
+UPDATE Børn
+SET Navn=@Navn, Adresse=@Adresse, Telefon=@Telefon, GivetLodsedler=@GivetLodsedler,
+    AntalSolgteLodseddeler=@AntalSolgteLodseddeler, Børnegruppe_ID=@Børnegruppe_ID
+WHERE Børn_ID=@Børn_ID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
+            using var connection = new SqliteConnection(connectionString);
+            using var command = new SqliteCommand(sql, connection);
+            connection.Open();
 
-                    command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
-                    command.Parameters.AddWithValue("@Navn", børn.Navn);
-                    command.Parameters.AddWithValue("@Adresse", børn.Adresse);
-                    command.Parameters.AddWithValue("@Telefon", børn.Telefon);
-                    command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
-                    command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
-                    command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
+            command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+            command.Parameters.AddWithValue("@Navn", børn.Navn);
+            command.Parameters.AddWithValue("@Adresse", børn.Adresse);
+            command.Parameters.AddWithValue("@Telefon", børn.Telefon);
+            command.Parameters.AddWithValue("@GivetLodsedler", børn.GivetLodsedler);
+            command.Parameters.AddWithValue("@AntalSolgteLodseddeler", børn.AntalSolgteLodseddeler);
+            command.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
 
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
-                }
-            }
+            command.ExecuteNonQuery();
             return børn;
         }
 
+        // ---- Sorteringer ----
 
-
-        public List<Børn> GetAllBørnNavnDescending()
+        private static Børn MapBørn(SqliteDataReader r) => new Børn
         {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY Navn DESC";
+            Børn_ID = r.GetInt32(r.GetOrdinal("Børn_ID")),
+            Navn = r.GetString(r.GetOrdinal("Navn")),
+            Adresse = r.GetString(r.GetOrdinal("Adresse")),
+            Telefon = r.GetString(r.GetOrdinal("Telefon")),
+            GivetLodsedler = r.GetInt32(r.GetOrdinal("GivetLodsedler")),
+            AntalSolgteLodseddeler = r.GetInt32(r.GetOrdinal("AntalSolgteLodseddeler")),
+            Børnegruppe_ID = r.GetInt32(r.GetOrdinal("Børnegruppe_ID"))
+        };
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
+        private List<Børn> GetAllOrderBy(string orderBy)
+        {
+            var list = new List<Børn>();
+            var sql = $"SELECT * FROM Børn ORDER BY {orderBy}";
+            using var con = new SqliteConnection(connectionString);
+            con.Open();
+            using var cmd = new SqliteCommand(sql, con);
+            using var r = cmd.ExecuteReader();
+            while (r.Read()) list.Add(MapBørn(r));
+            return list;
         }
 
-        public List<Børn> GetAllBørnIDDescending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY Børn_ID DESC";
+        public List<Børn> GetAllBørnNavnDescending() => GetAllOrderBy("Navn DESC");
+        public List<Børn> GetAllBørnIDDescending() => GetAllOrderBy("Børn_ID DESC");
+        public List<Børn> GetAllBørnAntalSolgteLodseddelerDescending() => GetAllOrderBy("AntalSolgteLodseddeler DESC");
+        public List<Børn> GetAllBørnGruppeIDDescending() => GetAllOrderBy("Børnegruppe_ID DESC");
+        public List<Børn> GetAllBørnNavnAscending() => GetAllOrderBy("Navn ASC");
+        public List<Børn> GetAllBørnIDAscending() => GetAllOrderBy("Børn_ID ASC");
+        public List<Børn> GetAllBørnAntalSolgteLodseddelerAscending() => GetAllOrderBy("AntalSolgteLodseddeler ASC");
+        public List<Børn> GetAllBørnGruppeIDAscending() => GetAllOrderBy("Børnegruppe_ID ASC");
+        public List<Børn> GetGivetLodsedlerDescending() => GetAllOrderBy("GivetLodsedler DESC");
+        public List<Børn> GetGivetLodsedlerAscending() => GetAllOrderBy("GivetLodsedler ASC");
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetAllBørnAntalSolgteLodseddelerDescending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY AntalSolgteLodseddeler DESC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetAllBørnGruppeIDDescending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY Børnegruppe_ID DESC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetAllBørnNavnAscending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY Navn ASC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetAllBørnIDAscending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY Børn_ID ASC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetAllBørnAntalSolgteLodseddelerAscending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY AntalSolgteLodseddeler ASC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetAllBørnGruppeIDAscending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY Børnegruppe_ID ASC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
         public List<Børn> GetBørnByName(string name)
         {
-            List<Børn> listbørn = new List<Børn>();
-            Børn børn = new Børn();
-            string sql = "Select * from Børn Where Navn like @Navn";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Navn", name);
-                connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        børn.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(reader["Navn"]);
-                        børn.Adresse = Convert.ToString(reader["Adresse"]);
-                        børn.Telefon = Convert.ToString(reader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(reader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(reader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
-                        listbørn.Add(børn);
-                    }
-                }
-                return listbørn;
-            }
-        }
+            var list = new List<Børn>();
+            const string sql = "SELECT * FROM Børn WHERE Navn LIKE @Navn";
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
 
-        public List<Børn> GetGivetLodsedlerDescending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY GivetLodsedler DESC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
-        }
-
-        public List<Børn> GetGivetLodsedlerAscending()
-        {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "SELECT * FROM Børn ORDER BY GivetLodsedler ASC";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (dataReader.Read())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
-
-                        listbørn.Add(børn);
-                    }
-                }
-            }
-
-            return listbørn;
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Navn", name);
+            using var reader = command.ExecuteReader();
+            while (reader.Read()) list.Add(MapBørn(reader));
+            return list;
         }
 
         public Børn TildelLodsedler(Børn børn, int amount)
         {
-            string sqlbørn = "UPDATE Børn SET GivetLodsedler = GivetLodsedler + @GivetLodsedler WHERE Børn_ID = @Børn_ID";
+            const string sqlBørn = "UPDATE Børn SET GivetLodsedler = GivetLodsedler + @GivetLodsedler WHERE Børn_ID = @Børn_ID";
+            const string sqlGruppe = "UPDATE Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe - @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var tx = connection.BeginTransaction();
+            try
             {
-                connection.Open();
-
-                using (SqlTransaction transaction = connection.BeginTransaction())
+                using (var cmd = new SqliteCommand(sqlBørn, connection, tx))
                 {
-                    try
-                    {
-                        using (SqlCommand command = new SqlCommand(sqlbørn, connection, transaction))
-                        {
-                            command.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
-                            command.Parameters.AddWithValue("@GivetLodsedler", amount);
-                            command.ExecuteNonQuery();
-                        }
-
-                        if (amount > 0)
-                        {
-                            string sqlbørnegruppe = "UPDATE Børnegruppe SET AntalLodSeddelerPrGruppe = AntalLodSeddelerPrGruppe - @AntalLodSeddelerPrGruppe WHERE Børnegruppe_ID = @Børnegruppe_ID";
-
-                            using (SqlCommand updcommand = new SqlCommand(sqlbørnegruppe, connection, transaction))
-                            {
-                                updcommand.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
-                                updcommand.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", amount);
-                                updcommand.ExecuteNonQuery();
-                            }
-                        }
-
-                        
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        
-                        Console.WriteLine($"Error: {ex.Message}");
-
-                        
-                        transaction.Rollback();
-                        throw;
-                    }
+                    cmd.Parameters.AddWithValue("@Børn_ID", børn.Børn_ID);
+                    cmd.Parameters.AddWithValue("@GivetLodsedler", amount);
+                    cmd.ExecuteNonQuery();
                 }
+
+                if (amount > 0)
+                {
+                    using var cmd2 = new SqliteCommand(sqlGruppe, connection, tx);
+                    cmd2.Parameters.AddWithValue("@Børnegruppe_ID", børn.Børnegruppe_ID);
+                    cmd2.Parameters.AddWithValue("@AntalLodSeddelerPrGruppe", amount);
+                    cmd2.ExecuteNonQuery();
+                }
+
+                tx.Commit();
+            }
+            catch
+            {
+                tx.Rollback();
+                throw;
             }
             return børn;
         }
 
-
-
-
-
-
         public async Task<IEnumerable<Børn>> GetBørnInBørnegruppe(int id)
         {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "Select * from Børn WHERE Børnegruppe_ID = @Børnegruppe_ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
+            var list = new List<Børn>();
+            const string sql = "SELECT * FROM Børn WHERE Børnegruppe_ID = @Børnegruppe_ID";
 
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Børnegruppe_ID", id);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (await dataReader.ReadAsync())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+            using var connection = new SqliteConnection(connectionString);
+            await connection.OpenAsync();
 
-                        listbørn.Add(børn);
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Børnegruppe_ID", id);
 
-
-                    }
-
-                }
-
-            }
-
-            return listbørn;
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync()) list.Add(MapBørn(reader));
+            return list;
         }
 
         public async Task<IEnumerable<Børn>> GetBørnInBørnegruppeByID(int id)
         {
-            List<Børn> listbørn = new List<Børn>();
-            string sql = "Select * from Børn WHERE Børn_ID = @Børn_ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
+            var list = new List<Børn>();
+            const string sql = "SELECT * FROM Børn WHERE Børn_ID = @Børn_ID";
 
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Parameters.AddWithValue("@Børn_ID", id);
-                using (SqlDataReader dataReader = command.ExecuteReader())
-                {
-                    while (await dataReader.ReadAsync())
-                    {
-                        Børn børn = new Børn();
-                        børn.Børn_ID = Convert.ToInt32(dataReader["Børn_ID"]);
-                        børn.Navn = Convert.ToString(dataReader["Navn"]);
-                        børn.Adresse = Convert.ToString(dataReader["Adresse"]);
-                        børn.Telefon = Convert.ToString(dataReader["Telefon"]);
-                        børn.GivetLodsedler = Convert.ToInt32(dataReader["GivetLodsedler"]);
-                        børn.AntalSolgteLodseddeler = Convert.ToInt32(dataReader["AntalSolgteLodseddeler"]);
-                        børn.Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"]);
+            using var connection = new SqliteConnection(connectionString);
+            await connection.OpenAsync();
 
-                        listbørn.Add(børn);
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@Børn_ID", id);
 
-
-                    }
-
-                }
-
-            }
-
-            return listbørn;
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync()) list.Add(MapBørn(reader));
+            return list;
         }
 
         public List<Børnegruppe> GetBørnegruppeOptions()
         {
-            List<Børnegruppe> børnegruppeOptions = new List<Børnegruppe>();
+            var options = new List<Børnegruppe>();
+            const string sql = "SELECT Børnegruppe_ID, Gruppenavn FROM Børnegruppe ORDER BY Gruppenavn";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                connection.Open();
-
-                string sql = "SELECT Børnegruppe_ID, Gruppenavn FROM Børnegruppe ORDER BY Gruppenavn";
-
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                options.Add(new Børnegruppe
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Børnegruppe børnegruppe = new Børnegruppe
-                            {
-                                Børnegruppe_ID = reader.GetInt32(0),
-                                Gruppenavn = reader.GetString(1)
-                            };
-
-                            børnegruppeOptions.Add(børnegruppe);
-                        }
-                    }
-                }
+                    Børnegruppe_ID = reader.GetInt32(0),
+                    Gruppenavn = reader.GetString(1)
+                });
             }
-
-            return børnegruppeOptions;
+            return options;
         }
-
-
-        //public List<T> GetAllBørnItems<T>(string Børn, string Navn)
-        //{
-        //    List<T> listbørn = new List<T>();
-        //    string sql = $"SELECT * FROM Børn ORDER BY Navn DESC";
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-
-        //        SqlCommand command = new SqlCommand(sql, connection);
-        //        using (SqlDataReader dataReader = command.ExecuteReader())
-        //        {
-        //            while (dataReader.Read())
-        //            {
-        //                var børn = Activator.CreateInstance<T>();
-
-        //                foreach (var property in typeof(T).GetProperties())
-        //                {
-        //                    if (!dataReader.IsDBNull(dataReader.GetOrdinal(property.Name)))
-        //                    {
-        //                        var value = dataReader[property.Name];
-        //                        property.SetValue(børn, value == DBNull.Value ? null : value);
-        //                    }
-        //                }
-
-        //                listbørn.Add(børn);
-        //            }
-        //        }
-        //    }
-
-        //    return listbørn;
-        //}
-
-
     }
 }
-
-
-

@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace LodSalgsSystemFDF.Pages.Børnegrupper
 {
-    [Authorize]
+    [AllowAnonymous]
     public class GetBørnegruppeModel : PageModel
     {
         private IBørnegruppeService _IB;

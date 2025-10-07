@@ -1,70 +1,74 @@
 ﻿using LodSalgsSystemFDF.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 
 namespace LodSalgsSystemFDF.Services.ADOServices.BrugerService
 {
     public class AdonetBrugerService
     {
-        private IConfiguration configuration { get; }
-        string connectionString;
+        private readonly string connectionString;
+        private readonly PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
 
-        private PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
-
-        public AdonetBrugerService() { }
-
+        // Prefer DI – remove the parameterless ctor if you can
         public AdonetBrugerService(IConfiguration config)
         {
-            configuration = config;
-            connectionString = configuration.GetConnectionString("Datacraft.dk");
+            connectionString = config.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Missing DefaultConnection");
         }
 
         public List<Bruger> GetAllBrugere()
         {
-            List<Bruger> brugerList = new List<Bruger>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var brugere = new List<Bruger>();
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            const string sql = "SELECT BrugerNavn, Password FROM Bruger ORDER BY BrugerNavn";
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                connection.Open();
-                string sql = "SELECT * FROM Bruger";
-                SqlCommand command = new SqlCommand(sql, connection);
-                using (SqlDataReader reader = command.ExecuteReader())
+                brugere.Add(new Bruger
                 {
-                    while (reader.Read())
-                    {
-                        Bruger bruger = new Bruger();
-                        bruger.BrugerNavn = reader.GetString(0);
-                        bruger.Password = reader.GetString(1);
-                        
-
-                        brugerList.Add(bruger);
-
-
-                    }
-                }
+                    BrugerNavn = reader.GetString(0),
+                    Password = reader.GetString(1) // this is the HASH in DB
+                });
             }
-            return brugerList;
+            return brugere;
         }
 
         public Bruger AddBruger(Bruger bruger)
         {
-            List<Bruger> brugerList = new List<Bruger>();
-            string sql = "INSERT INTO dbo.Bruger (BrugerNavn, Password) VALUES(@BrugerNavn, @Password)";
+            if (string.IsNullOrWhiteSpace(bruger.BrugerNavn))
+                throw new ArgumentException("BrugerNavn is required");
+            if (string.IsNullOrWhiteSpace(bruger.Password))
+                throw new ArgumentException("Password is required");
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    string hashedPassword = passwordHasher.HashPassword(null, bruger.Password);
-                    
-                    command.Parameters.AddWithValue("@BrugerNavn", bruger.BrugerNavn);
-                    command.Parameters.AddWithValue("@Password", bruger.Password);
-                    brugerList.Add(bruger);
+            var navn = bruger.BrugerNavn.Trim();
+            var rawPassword = bruger.Password.Trim();
 
-                    int numberOfRowsAffected = command.ExecuteNonQuery();
-                }
-            }
-            return bruger;
+            // Hash and store the hash
+            var hash = passwordHasher.HashPassword(navn, rawPassword);
+
+            const string sql = "INSERT INTO Bruger (BrugerNavn, Password) VALUES (@BrugerNavn, @Password)";
+
+            using var connection = new SqliteConnection(connectionString);
+            using var command = new SqliteCommand(sql, connection);
+            connection.Open();
+
+            command.Parameters.AddWithValue("@BrugerNavn", navn);
+            command.Parameters.AddWithValue("@Password", hash);
+
+            command.ExecuteNonQuery();
+
+            // Return the user object with the hashed password if you want
+            return new Bruger { BrugerNavn = navn, Password = hash };
+        }
+
+        // Optional: helper for verifying during login
+        public bool VerifyPassword(string brugerNavn, string rawPassword, string storedHash)
+        {
+            var result = passwordHasher.VerifyHashedPassword(brugerNavn.Trim(), storedHash, rawPassword.Trim());
+            return result == PasswordVerificationResult.Success || result == PasswordVerificationResult.SuccessRehashNeeded;
         }
     }
 }

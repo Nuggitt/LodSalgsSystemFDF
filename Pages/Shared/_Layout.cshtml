@@ -1,10 +1,18 @@
-﻿@using LodSalgsSystemFDF.Pages.LogIn;
+﻿@using LodSalgsSystemFDF.Pages.LogIn
+@{
+    Layout = null; // <- layout-filer har intet layout over sig selv
+    var user = LogInPageModel.LoggedInBruger;
+    var role = user?.BrugerNavn;
+    var isAdmin = string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase);
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - LodSalgsSystemFDF</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LodSalgsSystemFDF.styles.css" asp-append-version="true" />
@@ -12,119 +20,60 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light fixed-top" style="background-color: #326295; border-bottom: 1px solid #000; box-shadow: 0 4px 2px -2px #333; margin-bottom: 20px;"   <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light fixed-top"
+             style="background-color: #326295; border-bottom: 1px solid #000; box-shadow: 0 4px 2px -2px #333; margin-bottom: 20px;">
+            <!-- VIGTIGT: korrekt > herover -->
             <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">
-                <img src="~/Billeder/skjoldetFDF.png" alt="Logo" height="50" />
-            </a>
-            <a class="navbar-brand text-white" asp-area="" asp-page="/Index" style="weight">Ticket Treasure - Vanløse K19</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <img src="~/Billeder/skjoldetFDF.png" alt="Logo" height="50" />
+                </a>
+                <a class="navbar-brand text-white" asp-area="" asp-page="/Index" style="font-weight:600;">
+                    Ticket Treasure - Vanløse K19
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a></li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                            @{
+                        <!-- Menupunkter for alle (anonymt også) -->
+                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Børns/GetBørn">Børn</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a></li>
 
-                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "admin")
-                                {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Børns/GetBørn">Børn</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegruppe</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                        </li>
-                                        // <li class="nav-item">
-                                        //     <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                        // </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a>
-                                        </li>
-
-                                }
-
-                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "lotteribestyrer")
-                                {
-
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                        </li>
-                                        // <li class="nav-item">
-                                        //     <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                        // </li>
-                                }
-
-                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "leder")
-                                {
-
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Børnegrupper/GetBørnegrupper">Børnegrupper</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                        </li>
-
-                                }
-                                if (LogInPageModel.LoggedInBruger != null && LogInPageModel.LoggedInBruger.BrugerNavn == "bestyrer")
-                                {
-                                        // <li class="nav-item">
-                                        //       <a class="nav-link text-white" asp-area="" asp-page="/Indtægter/GetIndtægter">Indtægter</a>
-                                        // </li>
-                                           <li class="nav-item">
-                                                 <a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a>
-                                           </li>
-                                }
-
-                            }
-
+                        @* Admin-kun link *@
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a></li>
+                        }
                     </ul>
-                    <ul class="navbar-nav">
-                            @{
-                                if (LogInPageModel.LoggedInBruger == null)
-                                {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogInPage">Login</a>
-                                        </li>
-                                }
-                                else
-                                {
-                                        <li class="nav-item nav-link text-white me-3">
-                                            User: @LogInPageModel.LoggedInBruger.BrugerNavn
-                                        </li>
 
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a>
-                                        </li>
-                                }
-                            }
+                    <ul class="navbar-nav">
+                        @if (user is null)
+                        {
+                            <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogInPage">Login</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item nav-link text-white me-3">User: @user.BrugerNavn</li>
+                            <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a></li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container" style="padding-top: 90px;">
         <main role="main" class="pb-3">
-            @RenderBody()
+            @RenderBody()   <!-- VIGTIGT: skal være her præcis én gang -->
         </main>
     </div>
-
-    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

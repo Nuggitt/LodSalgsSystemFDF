@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LodSalgsSystemFDF.Pages.Ledere
 {
-    [Authorize]
+    [AllowAnonymous]
     public class GetLedereModel : PageModel
     {
         private ILederService _lederService;

@@ -46,7 +46,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
             Salgs = _salgService.GetAntalSolgteLodseddelerASC();
         }
 
-        public IActionResult OnPostBørnegruppeByID()
+        public IActionResult OnPostBornegruppeByID()
         {
             if (IDSearch != 0)
             {

@@ -12,21 +12,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
-// Vælg sti til SQLite-db. På Render bruger vi en disk mountet på /var/data.
+
+// 1) Prøv env var først (så du kan overstyre lokalt)
 var dbPath = Environment.GetEnvironmentVariable("DB_PATH");
+
+// 2) Hvis ikke sat, brug /tmp (skrivbar men ikke persistent)
 if (string.IsNullOrWhiteSpace(dbPath))
 {
-    // Lokalt / container uden env var: brug App_Data i projektet
-    var appData = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
-    Directory.CreateDirectory(appData);
-    dbPath = Path.Combine(appData, "LodSalgsSystemDB.db");
+    Directory.CreateDirectory("/tmp/lodsalg"); // no-op hvis findes
+    dbPath = Path.Combine("/tmp/lodsalg", "LodSalgsSystemDB.db");
 }
 
-// Overstyr conn string, så alt bruger samme sti
+// (Valgfrit) Seed fra App_Data hvis filen ikke findes endnu
+var seedPath = Path.Combine(builder.Environment.ContentRootPath, "App_Data", "LodSalgsSystemDB.db");
+if (!File.Exists(dbPath) && File.Exists(seedPath))
+{
+    try
+    {
+        File.Copy(seedPath, dbPath, overwrite: false);
+    }
+    catch { /* best effort */ }
+}
+
+// Overstyr conn string til at pege på /tmp
 builder.Configuration["ConnectionStrings:DefaultConnection"] = $"Data Source={dbPath}";
 
-
-// --- Kør SQLite init (opretter DB, tabeller og dine data hvis tom) ---
+// Init DB/tabeller hvis tom
 var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 await EnsureSqliteInitializedAsync(cs);
 

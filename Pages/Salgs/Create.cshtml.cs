@@ -27,7 +27,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
 
         public IActionResult OnGet()
         {
-            _salgService.GetBørnById(Id, Bid);
+            _salgService.GetBornById(Id, Bid);
             LederOptions = _salgService.GetLederOptions();
             return Page();
             
@@ -40,8 +40,8 @@ namespace LodSalgsSystemFDF.Pages.Salgs
                 LederOptions = _salgService.GetLederOptions();
                 
             }
-            Salg.Børn_ID = Id;
-            Salg.Børnegruppe_ID = Bid;
+            Salg.Born_ID = Id;
+            Salg.Bornegruppe_ID = Bid;
             Salg = _salgService.CreateSalg(Salg);
             return RedirectToPage("GetSalgs");
         }

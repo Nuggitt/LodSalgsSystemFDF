@@ -11,9 +11,9 @@ namespace LodSalgsSystemFDF.Models
         [Required]
         public int Salg_ID { get; set; }
         [Required]
-        public int Børn_ID { get; set; }
+        public int Born_ID { get; set; }
         [Required]
-        public int Børnegruppe_ID { get; set; }
+        public int Bornegruppe_ID { get; set; }
         [Required]
         public int Leder_ID { get; set; }
         [Required]
@@ -27,8 +27,8 @@ namespace LodSalgsSystemFDF.Models
 
         public virtual Leder Leder { get; set; }
 
-        public virtual Børn Børn { get; set; }
-        public virtual Børnegruppe Børnegruppe { get; set; }
+        public virtual Born Born { get; set; }
+        public virtual Bornegruppe Bornegruppe { get; set; }
 
 
 

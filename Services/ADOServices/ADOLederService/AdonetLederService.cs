@@ -37,7 +37,7 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
                     Telefon = Convert.ToString(dataReader["Telefon"]) ?? "",
                     Email = Convert.ToString(dataReader["Email"]) ?? "",
                     ErLotteriBestyrer = ToBool(dataReader["ErLotteriBestyrer"]),
-                    Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"])
+                    Bornegruppe_ID = Convert.ToInt32(dataReader["Bornegruppe_ID"])
                 };
 
                 lederList.Add(leder);
@@ -49,8 +49,8 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         public Leder CreateLeder(Leder leder)
         {
             const string sql = @"
-INSERT INTO Leder (Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Børnegruppe_ID)
-VALUES (@Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer, @Børnegruppe_ID);
+INSERT INTO Leder (Navn, Adresse, Telefon, Email, ErLotteriBestyrer, Bornegruppe_ID)
+VALUES (@Navn, @Adresse, @Telefon, @Email, @ErLotteriBestyrer, @Bornegruppe_ID);
 SELECT last_insert_rowid();";
 
             using var connection = new SqliteConnection(connectionString);
@@ -62,7 +62,7 @@ SELECT last_insert_rowid();";
             cmd.Parameters.AddWithValue("@Telefon", leder.Telefon ?? "");
             cmd.Parameters.AddWithValue("@Email", leder.Email ?? "");
             cmd.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
+            cmd.Parameters.AddWithValue("@Bornegruppe_ID", leder.Bornegruppe_ID);
 
             var newId = (long)cmd.ExecuteScalar()!;
             leder.Leder_ID = (int)newId;
@@ -89,7 +89,7 @@ SELECT last_insert_rowid();";
                 leder.Telefon = Convert.ToString(reader["Telefon"]) ?? "";
                 leder.Email = Convert.ToString(reader["Email"]) ?? "";
                 leder.ErLotteriBestyrer = ToBool(reader["ErLotteriBestyrer"]);
-                leder.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                leder.Bornegruppe_ID = Convert.ToInt32(reader["Bornegruppe_ID"]);
             }
 
             return leder;
@@ -113,7 +113,7 @@ SELECT last_insert_rowid();";
         {
             const string sql =
                 "UPDATE Leder SET Leder_ID = @Leder_ID, Navn = @Navn, Adresse = @Adresse, Telefon = @Telefon, " +
-                "Email = @Email, ErLotteriBestyrer = @ErLotteriBestyrer, Børnegruppe_ID = @Børnegruppe_ID " +
+                "Email = @Email, ErLotteriBestyrer = @ErLotteriBestyrer, Bornegruppe_ID = @Bornegruppe_ID " +
                 "WHERE Leder_ID = @Leder_ID";
 
             using var connection = new SqliteConnection(connectionString);
@@ -127,7 +127,7 @@ SELECT last_insert_rowid();";
             command.Parameters.AddWithValue("@Telefon", leder.Telefon ?? "");
             command.Parameters.AddWithValue("@Email", leder.Email ?? "");
             command.Parameters.AddWithValue("@ErLotteriBestyrer", leder.ErLotteriBestyrer ? 1 : 0);
-            command.Parameters.AddWithValue("@Børnegruppe_ID", leder.Børnegruppe_ID);
+            command.Parameters.AddWithValue("@Bornegruppe_ID", leder.Bornegruppe_ID);
 
             command.ExecuteNonQuery();
 
@@ -155,7 +155,7 @@ SELECT last_insert_rowid();";
                     Telefon = Convert.ToString(reader["Telefon"]) ?? "",
                     Email = Convert.ToString(reader["Email"]) ?? "",
                     ErLotteriBestyrer = ToBool(reader["ErLotteriBestyrer"]),
-                    Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"])
+                    Bornegruppe_ID = Convert.ToInt32(reader["Bornegruppe_ID"])
                 };
                 lederListS.Add(leder);
             }
@@ -187,29 +187,29 @@ SELECT last_insert_rowid();";
             return QueryMany("SELECT * FROM Leder ORDER BY Navn ASC");
         }
 
-        public List<Børnegruppe> GetBørneIDOptions()
+        public List<Bornegruppe> GetBorneIDOptions()
         {
-            var børneIDOptions = new List<Børnegruppe>();
+            var borneIDOptions = new List<Bornegruppe>();
 
             using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
-            const string sql = "SELECT Børnegruppe_ID, Gruppenavn FROM Børnegruppe ORDER BY Gruppenavn";
+            const string sql = "SELECT Bornegruppe_ID, Gruppenavn FROM Bornegruppe ORDER BY Gruppenavn";
             using var command = new SqliteCommand(sql, connection);
             using var reader = command.ExecuteReader();
 
             while (reader.Read())
             {
-                var børnegruppe = new Børnegruppe
+                var bornegruppe = new Bornegruppe
                 {
-                    Børnegruppe_ID = reader.GetInt32(0),
+                    Bornegruppe_ID = reader.GetInt32(0),
                     Gruppenavn = reader.GetString(1)
                 };
 
-                børneIDOptions.Add(børnegruppe);
+                borneIDOptions.Add(bornegruppe);
             }
 
-            return børneIDOptions;
+            return borneIDOptions;
         }
 
         // Helpers
@@ -238,7 +238,7 @@ SELECT last_insert_rowid();";
                     Telefon = Convert.ToString(dataReader["Telefon"]) ?? "",
                     Email = Convert.ToString(dataReader["Email"]) ?? "",
                     ErLotteriBestyrer = ToBool(dataReader["ErLotteriBestyrer"]),
-                    Børnegruppe_ID = Convert.ToInt32(dataReader["Børnegruppe_ID"])
+                    Bornegruppe_ID = Convert.ToInt32(dataReader["Bornegruppe_ID"])
                 };
                 list.Add(leder);
             }

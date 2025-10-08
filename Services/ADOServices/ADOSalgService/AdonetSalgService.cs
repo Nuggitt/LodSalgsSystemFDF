@@ -26,20 +26,20 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             const string sql = @"
 SELECT 
     Salg.Salg_ID,
-    Børn.Børn_ID,
-    Børn.Navn,
-    Børn.Telefon,
-    Børnegruppe.Gruppenavn,
+    Born.Born_ID,
+    Born.Navn,
+    Born.Telefon,
+    Bornegruppe.Gruppenavn,
     Leder.Navn,
     Salg.Dato,
     Salg.AntalLodseddelerRetur,
     Salg.AntalSolgteLodseddelerPrSalg,
-    Børn.AntalSolgteLodseddeler,
+    Born.AntalSolgteLodseddeler,
     Salg.Pris
 FROM Salg
-JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Salg.Børnegruppe_ID
-JOIN Børn        ON Børn.Børn_ID = Salg.Børn_ID
-JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID";
+LEFT JOIN Bornegruppe ON Bornegruppe.Bornegruppe_ID = Salg.Bornegruppe_ID
+LEFT JOIN Born        ON Born.Born_ID = Salg.Born_ID
+LEFT JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID";
 
             using var command = new SqliteCommand(sql, connection);
             using var reader = command.ExecuteReader();
@@ -48,25 +48,26 @@ JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID";
                 var salg = new Salg
                 {
                     Leder = new Leder(),
-                    Børn = new Børn(),
-                    Børnegruppe = new Børnegruppe(),
+                    Born = new Born(),
+                    Bornegruppe = new Bornegruppe(),
 
                     Salg_ID = reader.GetInt32(0),
-                    Børn_ID = reader.GetInt32(1),
+                    Born_ID = reader.GetInt32(1),
                     Dato = reader.GetDateTime(6),
                     AntalLodseddelerRetur = reader.GetInt32(7),
                     AntalSolgteLodseddelerPrSalg = reader.GetInt32(8),
                     Pris = reader.GetDouble(10)
                 };
 
-                salg.Børn.Navn = reader.GetString(2);
-                salg.Børn.Telefon = reader.GetString(3);
-                salg.Børnegruppe.Gruppenavn = reader.GetString(4);
-                salg.Leder.Navn = reader.GetString(5);
-                salg.Børn.AntalSolgteLodseddeler = reader.GetInt32(9);
+                salg.Born.Navn = reader.IsDBNull(2) ? "(ukendt barn)" : reader.GetString(2);
+                salg.Born.Telefon = reader.IsDBNull(3) ? "" : reader.GetString(3);
+                salg.Bornegruppe.Gruppenavn = reader.IsDBNull(4) ? "(ukendt gruppe)" : reader.GetString(4);
+                salg.Leder.Navn = reader.IsDBNull(5) ? "(ukendt leder)" : reader.GetString(5);
+                salg.Born.AntalSolgteLodseddeler = reader.IsDBNull(9) ? 0 : reader.GetInt32(9);
 
                 salgList.Add(salg);
             }
+
 
             return salgList;
         }
@@ -85,8 +86,8 @@ JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID";
             if (reader.Read())
             {
                 salg.Salg_ID = Convert.ToInt32(reader["Salg_ID"]);
-                salg.Børn_ID = Convert.ToInt32(reader["Børn_ID"]);
-                salg.Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]);
+                salg.Born_ID = Convert.ToInt32(reader["Born_ID"]);
+                salg.Bornegruppe_ID = Convert.ToInt32(reader["Bornegruppe_ID"]);
                 salg.Leder_ID = Convert.ToInt32(reader["Leder_ID"]);
                 salg.Dato = Convert.ToDateTime(reader["Dato"]);
                 salg.AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]);
@@ -113,14 +114,14 @@ JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID";
                 }
 
                 const string insertSql = @"
-INSERT INTO Salg (Salg_ID, Børn_ID, Børnegruppe_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodseddelerPrSalg, Pris)
-VALUES (@Salg_ID, @Børn_ID, @Børnegruppe_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodseddelerPrSalg, @Pris);";
+INSERT INTO Salg (Salg_ID, Born_ID, Bornegruppe_ID, Leder_ID, Dato, AntalLodseddelerRetur, AntalSolgteLodseddelerPrSalg, Pris)
+VALUES (@Salg_ID, @Born_ID, @Bornegruppe_ID, @Leder_ID, @Dato, @AntalLodseddelerRetur, @AntalSolgteLodseddelerPrSalg, @Pris);";
 
                 using (var insertCommand = new SqliteCommand(insertSql, connection, transaction))
                 {
                     insertCommand.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
-                    insertCommand.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
-                    insertCommand.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
+                    insertCommand.Parameters.AddWithValue("@Born_ID", salg.Born_ID);
+                    insertCommand.Parameters.AddWithValue("@Bornegruppe_ID", salg.Bornegruppe_ID);
                     insertCommand.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
                     insertCommand.Parameters.AddWithValue("@Dato", salg.Dato);
                     insertCommand.Parameters.AddWithValue("@AntalLodseddelerRetur", salg.AntalLodseddelerRetur);
@@ -133,29 +134,29 @@ VALUES (@Salg_ID, @Børn_ID, @Børnegruppe_ID, @Leder_ID, @Dato, @AntalLodseddel
                 // Opdater aggregerede felter
                 if (salg.AntalSolgteLodseddelerPrSalg != 0)
                 {
-                    const string sqlBørn1 =
-                        "UPDATE Børn SET AntalSolgteLodseddeler = AntalSolgteLodseddeler + @Antal WHERE Børn_ID = @Børn_ID";
-                    using (var cmd = new SqliteCommand(sqlBørn1, connection, transaction))
+                    const string sqlBorn1 =
+                        "UPDATE Born SET AntalSolgteLodseddeler = AntalSolgteLodseddeler + @Antal WHERE Born_ID = @Born_ID";
+                    using (var cmd = new SqliteCommand(sqlBorn1, connection, transaction))
                     {
-                        cmd.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                        cmd.Parameters.AddWithValue("@Born_ID", salg.Born_ID);
                         cmd.Parameters.AddWithValue("@Antal", salg.AntalSolgteLodseddelerPrSalg);
                         cmd.ExecuteNonQuery();
                     }
 
-                    const string sqlBørn2 =
-                        "UPDATE Børn SET GivetLodsedler = GivetLodsedler - @Antal WHERE Børn_ID = @Børn_ID";
-                    using (var cmd = new SqliteCommand(sqlBørn2, connection, transaction))
+                    const string sqlBorn2 =
+                        "UPDATE Born SET GivetLodsedler = GivetLodsedler - @Antal WHERE Born_ID = @Born_ID";
+                    using (var cmd = new SqliteCommand(sqlBorn2, connection, transaction))
                     {
-                        cmd.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
+                        cmd.Parameters.AddWithValue("@Born_ID", salg.Born_ID);
                         cmd.Parameters.AddWithValue("@Antal", salg.AntalSolgteLodseddelerPrSalg);
                         cmd.ExecuteNonQuery();
                     }
 
                     const string sqlGruppe =
-                        "UPDATE Børnegruppe SET AntalSolgteLodSeddelerPrGruppe = AntalSolgteLodSeddelerPrGruppe + @Antal WHERE Børnegruppe_ID = @Børnegruppe_ID";
+                        "UPDATE Bornegruppe SET AntalSolgteLodSeddelerPrGruppe = AntalSolgteLodSeddelerPrGruppe + @Antal WHERE Bornegruppe_ID = @Bornegruppe_ID";
                     using (var cmd = new SqliteCommand(sqlGruppe, connection, transaction))
                     {
-                        cmd.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
+                        cmd.Parameters.AddWithValue("@Bornegruppe_ID", salg.Bornegruppe_ID);
                         cmd.Parameters.AddWithValue("@Antal", salg.AntalSolgteLodseddelerPrSalg);
                         cmd.ExecuteNonQuery();
                     }
@@ -190,8 +191,8 @@ VALUES (@Salg_ID, @Børn_ID, @Børnegruppe_ID, @Leder_ID, @Dato, @AntalLodseddel
         {
             const string sql = @"
 UPDATE Salg 
-SET Børn_ID = @Børn_ID,
-    Børnegruppe_ID = @Børnegruppe_ID,
+SET Born_ID = @Born_ID,
+    Bornegruppe_ID = @Bornegruppe_ID,
     Leder_ID = @Leder_ID,
     Dato = @Dato,
     AntalLodseddelerRetur = @AntalLodseddelerRetur,
@@ -205,8 +206,8 @@ WHERE Salg_ID = @Salg_ID";
             connection.Open();
 
             command.Parameters.AddWithValue("@Salg_ID", salg.Salg_ID);
-            command.Parameters.AddWithValue("@Børn_ID", salg.Børn_ID);
-            command.Parameters.AddWithValue("@Børnegruppe_ID", salg.Børnegruppe_ID);
+            command.Parameters.AddWithValue("@Born_ID", salg.Born_ID);
+            command.Parameters.AddWithValue("@Bornegruppe_ID", salg.Bornegruppe_ID);
             command.Parameters.AddWithValue("@Leder_ID", salg.Leder_ID);
             command.Parameters.AddWithValue("@Dato", salg.Dato);
             command.Parameters.AddWithValue("@AntalLodseddelerRetur", salg.AntalLodseddelerRetur);
@@ -217,14 +218,14 @@ WHERE Salg_ID = @Salg_ID";
             return salg;
         }
 
-        public List<Salg> GetBørnegruppeByID(int ID)
+        public List<Salg> GetBornegruppeByID(int ID)
         {
             var listsalg = new List<Salg>();
-            const string sql = "SELECT * FROM Salg WHERE Børnegruppe_ID = @Børnegruppe_ID";
+            const string sql = "SELECT * FROM Salg WHERE Bornegruppe_ID = @Bornegruppe_ID";
 
             using var connection = new SqliteConnection(connectionString);
             using var command = new SqliteCommand(sql, connection);
-            command.Parameters.AddWithValue("@Børnegruppe_ID", ID);
+            command.Parameters.AddWithValue("@Bornegruppe_ID", ID);
 
             connection.Open();
             using var reader = command.ExecuteReader();
@@ -233,8 +234,8 @@ WHERE Salg_ID = @Salg_ID";
                 var salg = new Salg
                 {
                     Salg_ID = Convert.ToInt32(reader["Salg_ID"]),
-                    Børn_ID = Convert.ToInt32(reader["Børn_ID"]),
-                    Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]),
+                    Born_ID = Convert.ToInt32(reader["Born_ID"]),
+                    Bornegruppe_ID = Convert.ToInt32(reader["Bornegruppe_ID"]),
                     Leder_ID = Convert.ToInt32(reader["Leder_ID"]),
                     Dato = Convert.ToDateTime(reader["Dato"]),
                     AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]),
@@ -271,8 +272,8 @@ WHERE (@MinPrice = 0 OR Pris >= @MinPrice)
                 var salg = new Salg
                 {
                     Salg_ID = Convert.ToInt32(reader["Salg_ID"]),
-                    Børn_ID = Convert.ToInt32(reader["Børn_ID"]),
-                    Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"]),
+                    Born_ID = Convert.ToInt32(reader["Born_ID"]),
+                    Bornegruppe_ID = Convert.ToInt32(reader["Bornegruppe_ID"]),
                     Leder_ID = Convert.ToInt32(reader["Leder_ID"]),
                     Dato = Convert.ToDateTime(reader["Dato"]),
                     AntalLodseddelerRetur = Convert.ToInt32(reader["AntalLodseddelerRetur"]),
@@ -286,15 +287,15 @@ WHERE (@MinPrice = 0 OR Pris >= @MinPrice)
             return filterList;
         }
 
-        public IEnumerable<Salg> GetBørnById(int id, int bid)
+        public IEnumerable<Salg> GetBornById(int id, int bid)
         {
             var listsalg = new List<Salg>();
-            const string sql = "SELECT * FROM Børn WHERE Børn_ID = @Børn_ID AND Børnegruppe_ID = @Børnegruppe_ID";
+            const string sql = "SELECT * FROM Born WHERE Born_ID = @Born_ID AND Bornegruppe_ID = @Bornegruppe_ID";
 
             using var connection = new SqliteConnection(connectionString);
             using var command = new SqliteCommand(sql, connection);
-            command.Parameters.AddWithValue("@Børn_ID", id);
-            command.Parameters.AddWithValue("@Børnegruppe_ID", bid);
+            command.Parameters.AddWithValue("@Born_ID", id);
+            command.Parameters.AddWithValue("@Bornegruppe_ID", bid);
 
             connection.Open();
             using var reader = command.ExecuteReader();
@@ -302,8 +303,8 @@ WHERE (@MinPrice = 0 OR Pris >= @MinPrice)
             {
                 var salg = new Salg
                 {
-                    Børn_ID = Convert.ToInt32(reader["Børn_ID"]),
-                    Børnegruppe_ID = Convert.ToInt32(reader["Børnegruppe_ID"])
+                    Born_ID = Convert.ToInt32(reader["Born_ID"]),
+                    Bornegruppe_ID = Convert.ToInt32(reader["Bornegruppe_ID"])
                 };
                 listsalg.Add(salg);
             }
@@ -335,12 +336,12 @@ WHERE (@MinPrice = 0 OR Pris >= @MinPrice)
 
         public List<Salg> GetAntalSolgteLodseddelerDESC()
         {
-            return GetAllOrderBy("Børn.AntalSolgteLodseddeler DESC");
+            return GetAllOrderBy("Born.AntalSolgteLodseddeler DESC");
         }
 
         public List<Salg> GetAntalSolgteLodseddelerASC()
         {
-            return GetAllOrderBy("Børn.AntalSolgteLodseddeler ASC");
+            return GetAllOrderBy("Born.AntalSolgteLodseddeler ASC");
         }
 
         // helper
@@ -353,19 +354,19 @@ WHERE (@MinPrice = 0 OR Pris >= @MinPrice)
             var sql = $@"
 SELECT 
     Salg.Salg_ID,
-    Børn.Børn_ID,
-    Børn.Navn,
-    Børn.Telefon,
-    Børnegruppe.Gruppenavn,
+    Born.Born_ID,
+    Born.Navn,
+    Born.Telefon,
+    Bornegruppe.Gruppenavn,
     Leder.Navn,
     Salg.Dato,
     Salg.AntalLodseddelerRetur,
     Salg.AntalSolgteLodseddelerPrSalg,
-    Børn.AntalSolgteLodseddeler,
+    Born.AntalSolgteLodseddeler,
     Salg.Pris
 FROM Salg
-JOIN Børnegruppe ON Børnegruppe.Børnegruppe_ID = Salg.Børnegruppe_ID
-JOIN Børn        ON Børn.Børn_ID = Salg.Børn_ID
+JOIN Bornegruppe ON Bornegruppe.Bornegruppe_ID = Salg.Bornegruppe_ID
+JOIN Born        ON Born.Born_ID = Salg.Born_ID
 JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID
 ORDER BY {orderBy}";
 
@@ -376,22 +377,22 @@ ORDER BY {orderBy}";
                 var salg = new Salg
                 {
                     Leder = new Leder(),
-                    Børn = new Børn(),
-                    Børnegruppe = new Børnegruppe(),
+                    Born = new Born(),
+                    Bornegruppe = new Bornegruppe(),
 
                     Salg_ID = reader.GetInt32(0),
-                    Børn_ID = reader.GetInt32(1),
+                    Born_ID = reader.GetInt32(1),
                     Dato = reader.GetDateTime(6),
                     AntalLodseddelerRetur = reader.GetInt32(7),
                     AntalSolgteLodseddelerPrSalg = reader.GetInt32(8),
                     Pris = reader.GetDouble(10)
                 };
 
-                salg.Børn.Navn = reader.GetString(2);
-                salg.Børn.Telefon = reader.GetString(3);
-                salg.Børnegruppe.Gruppenavn = reader.GetString(4);
+                salg.Born.Navn = reader.GetString(2);
+                salg.Born.Telefon = reader.GetString(3);
+                salg.Bornegruppe.Gruppenavn = reader.GetString(4);
                 salg.Leder.Navn = reader.GetString(5);
-                salg.Børn.AntalSolgteLodseddeler = reader.GetInt32(9);
+                salg.Born.AntalSolgteLodseddeler = reader.GetInt32(9);
 
                 list.Add(salg);
             }

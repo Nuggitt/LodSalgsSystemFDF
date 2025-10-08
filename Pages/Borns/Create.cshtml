@@ -1,0 +1,67 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Borns.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="content-container">
+    <h1 style="margin-top:80px"></h1>
+        <h1>Opret Barn</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    <div asp-validation-summary="  ModelOnly  " class="text-danger">
+                    </div>
+
+                    @* <div class="form-group">
+                    <label asp-for="@Model.Borns.Born_ID" class="control-label"></label>
+                    <input asp-for="@Model.Borns.Born_ID" class="form-control" readonly />
+                    <span asp-validation-for="@Model.Borns.Born_ID" class="text-danger"></span>
+                    </div> *@
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Borns.Navn" class="control-label"></label>
+                        <input asp-for="@Model.Borns.Navn" class="form-control" />
+                        <span asp-validation-for="@Model.Borns.Navn" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Borns.Adresse" class="control-label"></label>
+                        <input asp-for="@Model.Borns.Adresse" class="form-control" />
+                        <span asp-validation-for="@Model.Borns.Adresse" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Borns.Telefon" class="control-label"></label>
+                        <input asp-for="@Model.Borns.Telefon" class="form-control" />
+                        <span asp-validation-for="@Model.Borns.Telefon" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Borns.GivetLodsedler" class="control-label">Tildelte Lodsedler</label>
+                        <input asp-for="@Model.Borns.GivetLodsedler" class="form-control" />
+                        <span asp-validation-for="@Model.Borns.GivetLodsedler" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Borns.AntalSolgteLodseddeler" class="control-label">Solgte Lodsedler</label>
+                        <input asp-for="@Model.Borns.AntalSolgteLodseddeler" class="form-control" />
+                        <span asp-validation-for="@Model.Borns.AntalSolgteLodseddeler" class="text-danger"></span>
+                    </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Borns.Bornegruppe.Gruppenavn" class="control-label"></label>
+                    <select asp-for="@Model.Borns.Bornegruppe_ID" asp-items="@(new SelectList(Model.BornegruppeOptions, "Bornegruppe_ID", "Gruppenavn"))" class="form-control">
+                        <option value="">Vælg Bornegruppe</option>
+                    </select>
+                    <span asp-validation-for="@Model.Borns.Bornegruppe_ID" class="text-danger"></span>
+                </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+                <div class="center-container">
+                    <a asp-page="/Borns/GetBorn">Tilbage til Børn</a>
+                </div>
+            </div>
+        </div>
+</div>

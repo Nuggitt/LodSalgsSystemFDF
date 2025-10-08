@@ -1,0 +1,65 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Borns.UpdateModel
+@{
+}
+<div class="content-container">
+<h1 style="margin-top:80px">
+<h1>Ret Barnet</h1>
+
+        <h3 style="color:red">Er du sikker på du vil rette dette Barn?</h3>
+<div>
+    <h4>Børn</h4>
+    <hr />
+    <form method="post">
+
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.Born_ID" class="control-label"></label>
+            <input asp-for="@Model.Born.Born_ID" class="form-control" readonly />
+            <span asp-validation-for="@Model.Born.Born_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.Navn" class="control-label"></label>
+            <input asp-for="@Model.Born.Navn" class="form-control" />
+            <span asp-validation-for="@Model.Born.Navn" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.Adresse" class="control-label"></label>
+            <input asp-for="@Model.Born.Adresse" class="form-control" />
+            <span asp-validation-for="@Model.Born.Adresse" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.Telefon" class="control-label"></label>
+            <input asp-for="@Model.Born.Telefon" class="form-control" />
+            <span asp-validation-for="@Model.Born.Telefon" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.GivetLodsedler" class="control-label"></label>
+            <input asp-for="@Model.Born.GivetLodsedler" class="form-control" />
+            <span asp-validation-for="@Model.Born.GivetLodsedler" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.AntalSolgteLodseddeler" class="control-label"></label>
+            <input asp-for="@Model.Born.AntalSolgteLodseddeler" class="form-control" />
+            <span asp-validation-for="@Model.Born.AntalSolgteLodseddeler" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Born.Bornegruppe_ID" class="control-label"></label>
+            <input asp-for="@Model.Born.Bornegruppe_ID" class="form-control" />
+            <span asp-validation-for="@Model.Born.Bornegruppe_ID" class="text-danger"></span>
+        </div>
+
+
+
+        <input type="hidden" asp-for="Born.Born_ID" />
+        <input type="submit" value="Update" class="btn btn-danger" />
+        <a asp-page="/Borns/Getborn">Tilbage til listen af børn</a>
+    </form>
+</div>
+</div>

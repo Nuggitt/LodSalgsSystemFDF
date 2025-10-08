@@ -1,0 +1,106 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Borns.GetBornModel
+@{
+    ViewData["Title"] = "GetBorn";
+}
+
+<div class="content-container">
+    <div class="container-fluid" style="margin-top:80px">
+        <h1 style="margin-top:80px">Liste over alle Børn</h1>
+
+        <!-- Knappen vises altid -->
+        <div class="mb-3">
+            <a asp-page="/Borns/Create" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Tilføj Nyt Barn
+            </a>
+        </div>
+
+        <!-- Søgning -->
+        <form method="post" class="mb-3">
+            <div class="input-group">
+                <input asp-for="NameSearch" class="form-control" placeholder="Søg efter navn" />
+                <div class="input-group-append">
+                    <button type="submit" asp-page-handler="BornByName" class="btn btn-primary">Søg</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Tabel -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            ID
+                            <a data-toggle="tooltip" title="Sorter ID faldende" asp-page-handler="IDDescending"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter ID stigende" asp-page-handler="IDAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Navn
+                            <a data-toggle="tooltip" title="Sorter navn faldende" asp-page-handler="NavnDescending"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter navn stigende" asp-page-handler="NavnAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>Adresse</th>
+                        <th>Telefon</th>
+                        <th>
+                            Tildelte Lodsedler
+                            <a data-toggle="tooltip" title="Sorter faldende" asp-page-handler="GivetLodsedlerDescending"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter stigende" asp-page-handler="GivetLodsedlerAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Solgte Lodsedler
+                            <a data-toggle="tooltip" title="Sorter faldende" asp-page-handler="AntalSolgteLodseddelerDescending"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter stigende" asp-page-handler="AntalSolgteLodseddelerAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Børnegruppe ID
+                            <a data-toggle="tooltip" title="Sorter faldende" asp-page-handler="GruppeIDDescending"><i class="fa fa-angle-down"></i></a>
+                            <a data-toggle="tooltip" title="Sorter stigende" asp-page-handler="GruppeIDAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>Slet Barn</th>
+                        <th>Redigér Barn</th>
+                        <th>Tildel Lodsedler</th>
+                        <th>Opret Salg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model?.Borns != null)
+                    {
+                        foreach (var item in Model.Borns)
+                        {
+                            <tr>
+                                <td>@item.Born_ID</td>
+                                <td>@item.Navn</td>
+                                <td>@item.Adresse</td>
+                                <td>@item.Telefon</td>
+                                <td>@item.GivetLodsedler</td>
+                                <td>@item.AntalSolgteLodseddeler</td>
+                                <td>@item.Bornegruppe_ID</td>
+                                <td>
+                                    <a asp-page="/Borns/Delete" asp-route-id="@item.Born_ID">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Slet
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Borns/Update" asp-route-id="@item.Born_ID">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Borns/TildelLodsedler" asp-route-id="@item.Born_ID">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Salgs/Create" asp-route-id="@item.Born_ID" asp-route-bid="@item.Bornegruppe_ID">
+                                        <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

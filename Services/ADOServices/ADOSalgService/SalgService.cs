@@ -1,6 +1,6 @@
 ﻿using LodSalgsSystemFDF.Models;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
-using LodSalgsSystemFDF.Services.ADOServices.ADOIndtægtService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBornegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOIndtaegtService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 using Microsoft.AspNetCore.Server.IIS.Core;
 
@@ -39,9 +39,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
         {
             return _salgService.UpdateSalg(salg);
         }
-        public IEnumerable<Salg> GetBørnegruppeByID(int ID)
+        public IEnumerable<Salg> GetBornegruppeByID(int ID)
         {
-            return _salgService.GetBørnegruppeByID(ID);
+            return _salgService.GetBornegruppeByID(ID);
         }
 
         public IEnumerable<Salg> PriceFilter(float maxPrice, float minPrice)
@@ -49,9 +49,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOSalgService
             return _salgService.PriceFilters(maxPrice, minPrice);
         }
 
-        public IEnumerable<Salg> GetBørnById(int id, int bid)
+        public IEnumerable<Salg> GetBornById(int id, int bid)
         {
-            return _salgService.GetBørnById(id, bid);
+            return _salgService.GetBornById(id, bid);
         }
 
         public IEnumerable<Leder> GetLederOptions()

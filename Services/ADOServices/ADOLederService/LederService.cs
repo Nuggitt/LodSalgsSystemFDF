@@ -1,5 +1,5 @@
 ﻿using LodSalgsSystemFDF.Models;
-using LodSalgsSystemFDF.Services.ADOServices.ADOBørnegruppeService;
+using LodSalgsSystemFDF.Services.ADOServices.ADOBornegruppeService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOSalgService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
 
@@ -45,9 +45,9 @@ namespace LodSalgsSystemFDF.Services.ADOServices.ADOLederService
         {
             return _lederService.GetAllLederNavnAscending();
         }
-        public IEnumerable<Børnegruppe> GetBørneIDOptions()
+        public IEnumerable<Bornegruppe> GetBorneIDOptions()
         {
-            return _lederService.GetBørneIDOptions();
+            return _lederService.GetBorneIDOptions();
         }
     }
 }

@@ -9,7 +9,7 @@
         new[] { "lotteribestyrer", "admin", "leder" }
         .Contains(LogInPageModel.LoggedInBruger?.BrugerNavn);
 
-    var sortedSalgs = Model?.Salgs.OrderByDescending(s => s.Børn.AntalSolgteLodseddeler).ToList();
+    var sortedSalgs = Model?.Salgs.OrderByDescending(s => s.Born.AntalSolgteLodseddeler).ToList();
     var highestValueItem = sortedSalgs?.FirstOrDefault();
 }
 
@@ -20,9 +20,9 @@
     {
         <div style="text-align:center; margin-top:-40px;">
             <h3>SUPERSÆLGER:</h3>
-            <p>ID: @highestValueItem.Børn_ID</p>
-            <p>Navn: @highestValueItem.Børn.Navn</p>
-            <p>SolgteLodsedler: @highestValueItem.Børn.AntalSolgteLodseddeler</p>
+            <p>ID: @highestValueItem.Born_ID</p>
+            <p>Navn: @highestValueItem.Born.Navn</p>
+            <p>SolgteLodsedler: @highestValueItem.Born.AntalSolgteLodseddeler</p>
         </div>
     }
 
@@ -39,7 +39,7 @@
     <form method="post" class="form-inline">
         <div class="input-group mb-3">
             <input asp-for="IDSearch" class="form-control mr-1" placeholder="Søg efter BørnegruppeID" />
-            <input type="submit" asp-page-handler="BørnegruppeByID" value="Søg" class="btn btn-primary" />
+            <input type="submit" asp-page-handler="BornegruppeByID" value="Søg" class="btn btn-primary" />
         </div>
     </form>
 
@@ -93,15 +93,15 @@
                     {
                         <tr>
                             <td>@item.Salg_ID</td>
-                            <td>@item.Børn_ID</td>
-                            <td>@item.Børn.Navn</td>
-                            <td>@item.Børn.Telefon</td>
-                            <td>@item.Børnegruppe.Gruppenavn</td>
+                            <td>@item.Born_ID</td>
+                            <td>@item.Born.Navn</td>
+                            <td>@item.Born.Telefon</td>
+                            <td>@item.Bornegruppe.Gruppenavn</td>
                             <td>@item.Leder.Navn</td>
                             <td>@item.Dato</td>
                             <td>@item.AntalLodseddelerRetur</td>
                             <td>@item.AntalSolgteLodseddelerPrSalg</td>
-                            <td>@item.Børn.AntalSolgteLodseddeler</td>
+                            <td>@item.Born.AntalSolgteLodseddeler</td>
                             <td>@item.Pris</td>
 
                             @if (CanManage)

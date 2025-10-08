@@ -1,0 +1,65 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Bornegrupper.UpdateBorngruppeModel
+@{
+}
+<div class="content-container">
+<h1 style="margin-top:80px"> </h1>
+<h1>Ret børnegruppe</h1>
+
+<h3 style="color:red">  Er du sikker på du vil rette denne børnegruppe?</h3>
+<div>
+    <h4>Børnegruppe</h4>
+    <hr />
+    <form method="post">
+
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.Bornegruppe_ID" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.Bornegruppe_ID" class="form-control" readonly/>
+            <span asp-validation-for="@Model.Bornegruppe.Bornegruppe_ID" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.Gruppenavn" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.Gruppenavn" class="form-control" />
+            <span asp-validation-for="@Model.Bornegruppe.Gruppenavn" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.Lokale" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.Lokale" class="form-control" />
+            <span asp-validation-for="@Model.Bornegruppe.Lokale" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.Antalborn" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.Antalborn" class="form-control" />
+            <span asp-validation-for="@Model.Bornegruppe.Antalborn" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.Leder_ID" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.Leder_ID" class="form-control" />
+            <span asp-validation-for="@Model.Bornegruppe.Leder_ID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.AntalLodSeddelerPrGruppe" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.AntalLodSeddelerPrGruppe" class="form-control" />
+            <span asp-validation-for="@Model.Bornegruppe.AntalLodSeddelerPrGruppe" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Bornegruppe.AntalSolgteLodseddelerPrGruppe" class="control-label"></label>
+            <input asp-for="@Model.Bornegruppe.AntalSolgteLodseddelerPrGruppe" class="form-control" />
+            <span asp-validation-for="@Model.Bornegruppe.AntalSolgteLodseddelerPrGruppe" class="text-danger"></span>
+        </div>
+
+        <input type="hidden" asp-for="Bornegruppe.Bornegruppe_ID" />
+        <input type="submit" value="Update" class="btn btn-danger" />
+        <a asp-page="/Bornegrupper/GetBornegrupper">Tilbage til listen af Børnegrupper</a>
+    </form>
+
+</div>
+</div>

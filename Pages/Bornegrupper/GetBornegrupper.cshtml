@@ -1,0 +1,109 @@
+﻿@page
+@model LodSalgsSystemFDF.Pages.Bornegrupper.GetBornegruppeModel
+@{
+    ViewData["Title"] = "GetBornegrupper";
+}
+
+<div class="content-container">
+    <div class="container-fluid" style="margin-top:80px">
+
+        <h1>Liste over alle børnegrupper</h1>
+
+        <!-- Knappen vises altid -->
+        <div class="mb-3">
+            <a asp-page="/Bornegrupper/CreateBorngruppe" class="btn btn-primary">
+                <i class="fa fa-plus" aria-hidden="true"></i> Tilføj ny børnegruppe
+            </a>
+        </div>
+
+        <!-- Søgefelt -->
+        <form method="post" class="form-inline">
+            <div class="input-group mb-3">
+                <input asp-for="NameSearch" class="form-control mr-1" placeholder="Søg efter børnegrupper" />
+                <input type="submit" asp-page-handler="BornegruppeByName" value="Søg" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <!-- Tabel -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                            <a asp-page-handler="BornegruppeIDDescending"><i class="fa fa-angle-down"></i></a>
+                            <a asp-page-handler="BornegruppeIDAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Gruppe navn
+                            <a asp-page-handler="SortAllGruppeNavnDescending"><i class="fa fa-angle-down"></i></a>
+                            <a asp-page-handler="SortAllGruppeNavnAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>Lokale</th>
+                        <th>
+                            Antal børn
+                            <a asp-page-handler="SortAntalBornDescending"><i class="fa fa-angle-down"></i></a>
+                            <a asp-page-handler="SortAntalBornAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Leder ID
+                            <a asp-page-handler="SortAntalLederDescending"><i class="fa fa-angle-down"></i></a>
+                            <a asp-page-handler="SortAntalLederAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Tildelte Lodsedler
+                            <a asp-page-handler="SortAllAntalLodSeddelerPrGruppeDescending"><i class="fa fa-angle-down"></i></a>
+                            <a asp-page-handler="SortAllAntalLodSeddelerPrGruppeAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>
+                            Solgte lodseddeler pr. gruppe
+                            <a asp-page-handler="SortAllAntalSolgtePrGruppeDescending"><i class="fa fa-angle-down"></i></a>
+                            <a asp-page-handler="SortAllAntalSolgtePrGruppeAscending"><i class="fa fa-angle-up"></i></a>
+                        </th>
+                        <th>Slet</th>
+                        <th>Opdater</th>
+                        <th>Se Børn</th>
+                        <th>Tildel Lodsedler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Bornegrupper != null)
+                    {
+                        foreach (var item in Model.Bornegrupper)
+                        {
+                            <tr>
+                                <td>@item.Bornegruppe_ID</td>
+                                <td>@item.Gruppenavn</td>
+                                <td>@item.Lokale</td>
+                                <td>@item.Antalborn</td>
+                                <td>@item.Leder_ID</td>
+                                <td>@item.AntalLodSeddelerPrGruppe</td>
+                                <td>@item.AntalSolgteLodseddelerPrGruppe</td>
+                                <td>
+                                    <a asp-page="/Bornegrupper/DeleteBorngruppe" asp-route-id="@item.Bornegruppe_ID">
+                                        <i class="fa fa-trash"></i> Slet
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Bornegrupper/UpdateBorngruppe" asp-route-id="@item.Bornegruppe_ID">
+                                        <i class="fa fa-pencil-square-o"></i> Redigér
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Borns/BornIBornegrupper" asp-route-bid="@item.Bornegruppe_ID">
+                                        Se børn
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Bornegrupper/TildelLodsedlerBornegruppe" asp-route-id="@item.Bornegruppe_ID">
+                                        <i class="fa fa-plus-square-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

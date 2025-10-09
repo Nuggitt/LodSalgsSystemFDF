@@ -1,67 +1,132 @@
 ﻿@using LodSalgsSystemFDF.Pages.LogIn
 @{
-    Layout = null; // <- layout-filer har intet layout over sig selv
+    Layout = null;
     var user = LogInPageModel.LoggedInBruger;
     var role = user?.BrugerNavn;
     var isAdmin = string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase);
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - LodSalgsSystemFDF</title>
+
+    <meta name="theme-color" content="#326295" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LodSalgsSystemFDF.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* --- Mobil-først forbedringer til navbar + spacing --- */
+        :root {
+            --nav-bg: #326295;
+            --nav-border: rgba(0,0,0,.25);
+            --nav-shadow: 0 4px 2px -2px rgba(0,0,0,.4);
+        }
+
+        /* Giv plads til fixed-top navbar – uden inline styles */
+        .with-fixed-nav {
+            padding-top: 72px;
+        }
+        @@media (min-width: 576px) {
+            .with-fixed-nav
+
+        {
+            padding-top: 84px;
+        }
+
+        }
+
+        .app-navbar {
+            background-color: var(--nav-bg) !important;
+            border-bottom: 1px solid var(--nav-border);
+            box-shadow: var(--nav-shadow);
+            /* hvis du kører BS5: variabler (fint at lade dem stå) */
+            --bs-navbar-color: #fff;
+            --bs-navbar-hover-color: rgba(255,255,255,.9);
+            --bs-navbar-active-color: #fff;
+            --bs-navbar-brand-color: #fff;
+            --bs-navbar-brand-hover-color: rgba(255,255,255,.95);
+        }
+
+            /* 🔧 Hårdt (og effektivt) override af linkfarver – virker i både BS4 og BS5 */
+            .app-navbar.navbar-dark .navbar-nav .nav-link,
+            .app-navbar .navbar-nav .nav-link {
+                color: #fff !important;
+            }
+
+                .app-navbar .navbar-nav .nav-link:hover,
+                .app-navbar .navbar-nav .nav-link:focus {
+                    color: rgba(255,255,255,.9) !important;
+                }
+
+                .app-navbar .navbar-nav .nav-link.active,
+                .app-navbar .navbar-nav .nav-link.show {
+                    color: #fff !important;
+                    text-decoration: underline; /* valgfrit */
+                }
+            /* Brand og “User: …” */
+            .app-navbar .navbar-brand,
+            .app-navbar .navbar-text {
+                color: #fff !important;
+            }
+
+
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light fixed-top"
-             style="background-color: #326295; border-bottom: 1px solid #000; box-shadow: 0 4px 2px -2px #333; margin-bottom: 20px;">
-            <!-- VIGTIGT: korrekt > herover -->
+        <!-- Brug navbar-dark, så toggler-ikonet bliver lyst og synligt -->
+        <nav class="navbar navbar-expand-sm navbar-dark fixed-top app-navbar">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">
-                    <img src="~/Billeder/skjoldetFDF.png" alt="Logo" height="50" />
-                </a>
-                <a class="navbar-brand text-white" asp-area="" asp-page="/Index" style="font-weight:600;">
-                    Ticket Treasure - Vanløse K19
+                <!-- Brand: logo + tekst. Skjul lange tekster på XS hvis pladsen mangler -->
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-page="/Index">
+                    <img src="~/Billeder/skjoldetFDF.png" alt="Logo" height="42" width="42" class="d-inline-block align-text-top" />
+                    <span class="brand-title d-inline d-sm-none">Ticket Treasure - Vanløse K19</span>
+                    <span class="brand-title d-none d-sm-inline">Ticket Treasure - Vanløse K19</span>
+
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- Toggler: retter target til et specifikt id -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a></li>
+                <div id="mainNav" class="collapse navbar-collapse">
+                    <!-- Venstre side -->
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                        </li>
 
-                        <!-- Menupunkter for alle (anonymt også) -->
-                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Borns/GetBorn">Børn</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Bornegrupper/GetBornegrupper">Børnegrupper</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a></li>
-                        <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a></li>
+                        <!-- Menupunkter for alle -->
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Borns/GetBorn">Børn</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Bornegrupper/GetBornegrupper">Børnegrupper</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Ledere/GetLedere">Ledere</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Salgs/GetSalgs">Salg</a></li>
 
-                        @* Admin-kun link *@
+                        @* Admin-kun *@
                         @if (isAdmin)
                         {
-                            <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Admin/CreateUser">Opret Bruger</a></li>
                         }
                     </ul>
 
+                    <!-- Højre side -->
                     <ul class="navbar-nav">
                         @if (user is null)
                         {
-                            <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogInPage">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/LogIn/LogInPage">Login</a></li>
                         }
                         else
                         {
-                            <li class="nav-item nav-link text-white me-3">User: @user.BrugerNavn</li>
-                            <li class="nav-item"><a class="nav-link text-white" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a></li>
+                            <li class="nav-item">
+                                <span class="nav-user navbar-text">User: @user.BrugerNavn</span>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/LogIn/LogOutPage">Logout</a></li>
                         }
                     </ul>
                 </div>
@@ -69,9 +134,10 @@
         </nav>
     </header>
 
-    <div class="container" style="padding-top: 90px;">
+    <!-- Fjern inline padding; brug klassen i stedet -->
+    <div class="container with-fixed-nav">
         <main role="main" class="pb-3">
-            @RenderBody()   <!-- VIGTIGT: skal være her præcis én gang -->
+            @RenderBody()
         </main>
     </div>
 

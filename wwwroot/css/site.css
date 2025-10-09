@@ -1,70 +1,67 @@
-html {
-  font-size: 14px;
-}
-
+/* ===== Base (mobil først) ===== */
+html { font-size: 16px; position: relative; min-height: 100%; }
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+  html { font-size: 16px; } /* behold hvis du vil, men 14px -> 16px spring er sjældent nødvendigt */
 }
 
 body {
-    margin-bottom: 0px;
-    background-color: rgb(137, 207, 240);
-    background-blend-mode: hard-light;
-    background-image: url(../Billeder/FDF-lejr-apr-22-1.jpg);
-    background-size: cover;
-    background-position: center;
-    color: darkblue;
-}
-.content-container {
-    
-    background-color: white;
-    padding: 20px; 
-    margin: 50px auto; 
-    max-width: 1500px;
+  margin: 0;
+  background-color: rgb(137,207,240);
+  background-blend-mode: hard-light;
+  background-image: url(../Billeder/FDF-lejr-apr-22-1.jpg);
+  background-size: cover;
+  background-position: center;
+  color: darkblue;
 }
 
-th {
-    background-color: #f2f2f2; /* Add background color to the header for better visibility */
-    font-size: 12px; /* Adjust the font size of the header */
-}
-    
+/* Plads til fixed-top navbar (matcher vores layout) */
+.with-fixed-nav { padding-top: 72px; }
+@media (min-width: 576px) { .with-fixed-nav { padding-top: 84px; } }
 
-td {
-    font-size: 12px; /* Adjust the font size of the cells */
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%; /* Set the width of the table as needed */
-}
-
-ul {
-    font-size: 16px;
-    
+/* ===== Container: elastisk og telefonvenlig ===== */
+.content-container{
+  background: #fff;
+  padding: clamp(12px, 3vw, 24px);
+  margin: 24px auto;
+  width: min(100% - 2rem, 1100px);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
 }
 
-nav {
-    background-color: #333; /* Set the background color of your navbar */
-    overflow: hidden;
+/* ===== Tabeller: læsbar + scroll på små skærme ===== */
+table { border-collapse: collapse; width: 100%; }
+th, td { font-size: 12px; padding: .5rem; }
+th { background: #f2f2f2; }
+@media (max-width: 480px){
+  .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  th, td { font-size: 11px; padding: .4rem; }
 }
 
-nav a {
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        /*text-decoration: none;*/
-        font-size: 16px; /* Adjust the font size as needed */
+/* ===== Lister ===== */
+ul { font-size: 1rem; margin: 0; padding-left: 1.25rem; }
+
+/* ===== Bootstrap navbar – hold fingrene fra generisk 'nav' ===== */
+/* Fjern/omdøb dine gamle regler:
+nav { background-color:#333; overflow:hidden; }
+nav a { float:left; ... }
+*/
+
+/* Brug i stedet vores app-navbar (fra .cshtml) */
+.app-navbar{
+  background-color: #326295 !important;
+  border-bottom: 1px solid rgba(0,0,0,.25);
+  box-shadow: 0 4px 2px -2px rgba(0,0,0,.4);
+
+  /* Gør teksten ren hvid i navbar-dark */
+  --bs-navbar-color: #fff;
+  --bs-navbar-hover-color: rgba(255,255,255,.85);
+  --bs-navbar-active-color: #fff;
+  --bs-navbar-brand-color: #fff;
+  --bs-navbar-brand-hover-color: rgba(255,255,255,.9);
+}
+
+/* Fokus (behold din styling, men gør den lidt mildere på mobil) */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem #fff, 0 0 0 0.25rem #258cfb;
 }

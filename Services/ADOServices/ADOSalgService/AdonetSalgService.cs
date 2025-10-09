@@ -52,7 +52,7 @@ LEFT JOIN Leder       ON Leder.Leder_ID = Salg.Leder_ID";
                     Bornegruppe = new Bornegruppe(),
 
                     Salg_ID = reader.GetInt32(0),
-                    Born_ID = reader.GetInt32(1),
+                    Born_ID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
                     Dato = reader.GetDateTime(6),
                     AntalLodseddelerRetur = reader.GetInt32(7),
                     AntalSolgteLodseddelerPrSalg = reader.GetInt32(8),
@@ -381,7 +381,7 @@ ORDER BY {orderBy}";
                     Bornegruppe = new Bornegruppe(),
 
                     Salg_ID = reader.GetInt32(0),
-                    Born_ID = reader.GetInt32(1),
+                    Born_ID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
                     Dato = reader.GetDateTime(6),
                     AntalLodseddelerRetur = reader.GetInt32(7),
                     AntalSolgteLodseddelerPrSalg = reader.GetInt32(8),

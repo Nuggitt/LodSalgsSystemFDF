@@ -23,7 +23,7 @@ namespace LodSalgsSystemFDF.Pages.Bornegrupper
         public IActionResult OnPost() 
         {
             Bornegrupper = IBS.DeleteBornegruppe(Bornegrupper);
-            return RedirectToPage("GetBørnegrupper");
+            return RedirectToPage("GetBornegrupper");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@page
+@page
 @using LodSalgsSystemFDF.Pages.LogIn
 @model LodSalgsSystemFDF.Pages.Salgs.GetSalgsModel
 @{
@@ -14,15 +14,15 @@
 }
 
 <div class="content-container">
-    <h1 style="margin-top:80px">Liste over alle salg</h1>
+    <h1 class="mt-5 mb-4 text-primary fw-bold text-center">Liste over alle salg</h1>
 
     @if (highestValueItem != null)
     {
-        <div style="text-align:center; margin-top:-40px;">
-            <h3>SUPERSÆLGER:</h3>
-            <p>ID: @highestValueItem.Born_ID</p>
-            <p>Navn: @highestValueItem.Born.Navn</p>
-            <p>SolgteLodsedler: @highestValueItem.Born.AntalSolgteLodseddeler</p>
+        <div class="supersaelger-card text-center mb-4">
+            <h3 class="text-success fw-bold mb-2">🏆 SUPERSÆLGER 🏆</h3>
+            <p><strong>ID:</strong> @highestValueItem.Born_ID</p>
+            <p><strong>Navn:</strong> @highestValueItem.Born.Navn</p>
+            <p><strong>Solgte lodsedler:</strong> @highestValueItem.Born.AntalSolgteLodseddeler</p>
         </div>
     }
 
@@ -44,7 +44,7 @@
     </form>
 
     <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered table-stacked">
             <thead class="thead-dark">
                 <tr>
                     <p>Filtrer Efter Pris</p>
@@ -82,36 +82,37 @@
                     @if (CanManage)
                     {
                         <th>Slet Salg</th>
-                        <th>Ret Salg</th>
+                        <th>Redigér Salg</th>
                     }
                 </tr>
             </thead>
+
             <tbody>
                 @if (Model?.Salgs != null)
                 {
-                    @foreach (var item in Model.Salgs)
+                    foreach (var item in Model.Salgs)
                     {
                         <tr>
-                            <td>@item.Salg_ID</td>
-                            <td>@item.Born_ID</td>
-                            <td>@item.Born.Navn</td>
-                            <td>@item.Born.Telefon</td>
-                            <td>@item.Bornegruppe.Gruppenavn</td>
-                            <td>@item.Leder.Navn</td>
-                            <td>@item.Dato</td>
-                            <td>@item.AntalLodseddelerRetur</td>
-                            <td>@item.AntalSolgteLodseddelerPrSalg</td>
-                            <td>@item.Born.AntalSolgteLodseddeler</td>
-                            <td>@item.Pris</td>
+                            <td data-label="Salg ID">@item.Salg_ID</td>
+                            <td data-label="Børn ID">@item.Born_ID</td>
+                            <td data-label="Barnets navn">@item.Born.Navn</td>
+                            <td data-label="Barnets Telefon">@item.Born.Telefon</td>
+                            <td data-label="Gruppens navn">@item.Bornegruppe.Gruppenavn</td>
+                            <td data-label="Leder navn">@item.Leder.Navn</td>
+                            <td data-label="Dato">@item.Dato</td>
+                            <td data-label="Antal Lodsedler Retur">@item.AntalLodseddelerRetur</td>
+                            <td data-label="Antal Solgte Lod Pr Salg">@item.AntalSolgteLodseddelerPrSalg</td>
+                            <td data-label="SuperSælger">@item.Born.AntalSolgteLodseddeler</td>
+                            <td data-label="Pris">@item.Pris</td>
 
                             @if (CanManage)
                             {
-                                <td>
+                                <td data-label="Slet Salg">
                                     <a asp-page="/Salgs/Delete" asp-route-id="@item.Salg_ID">
                                         <i class="fa fa-trash" aria-hidden="true"></i> Slet
                                     </a>
                                 </td>
-                                <td>
+                                <td data-label="Redigér Salg">
                                     <a asp-page="/Salgs/Update" asp-route-id="@item.Salg_ID">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
                                     </a>

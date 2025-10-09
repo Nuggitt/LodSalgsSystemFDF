@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LodSalgsSystemFDF.Models
@@ -32,6 +32,6 @@ namespace LodSalgsSystemFDF.Models
         public virtual Bornegruppe Bornegruppe { get; set; }
 
         public virtual Leder Leder { get; set; }
-        
+
     }
 }

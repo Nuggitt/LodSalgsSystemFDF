@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model LodSalgsSystemFDF.Pages.Ledere.GetLedereModel
 @{
     ViewData["Title"] = "GetLedere";
@@ -24,75 +24,51 @@
                 </div>
             </form>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered table-stacked">
                     <thead class="thead-dark">
                         <tr>
+                            <th>ID</th>
                             <th>
-                                ID
+                                Leder navn
+                                <a data-toggle="tooltip" title="Sorter navn faldende" asp-page-handler="LederNavnDescending">
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <a data-toggle="tooltip" title="Sorter navn stigende" asp-page-handler="LederNavnAscending">
+                                    <i class="fa fa-angle-up"></i>
+                                </a>
                             </th>
-                            <th>
-                                Leder navn <a data-toggle="tooltip" title="Sorter navn faldende" asp-page-handler="LederNavnDescending"><i class="fa fa-angle-down"></i></a> <a data-toggle="tooltip" title="Sorter navn rejsende" asp-page-handler="LederNavnAscending"><i class="fa fa-angle-up"></i></a>
-                            </th>
-                            <th>
-                                Adresse
-                            </th>
-                            <th>
-                                Telefon
-                            </th>
-                            <th>
-                                Email
-                            </th>
-                            @*<th>
-                            Er Lotteri Bestyrer
-                            </th>*@
-                            <th>
-                                Børnegruppe ID
-                            </th>
-                            <th>
-                                Slet Leder
-                            </th>
-                            <th>
-                                Ret Leder
-                            </th>
+                            <th>Adresse</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
+                            <th>Børnegruppe ID</th>
+                            <th>Slet Leder</th>
+                            <th>Redigér Leder</th>
                         </tr>
                     </thead>
-                    <tbody>
 
+                    <tbody>
                         @if (Model != null)
                         {
-                            @foreach (var item in Model.Ledere)
+                            foreach (var item in Model.Ledere)
                             {
                                 <tr>
-                                    <td>
-                                        @item.Leder_ID
+                                    <td data-label="ID">@item.Leder_ID</td>
+                                    <td data-label="Leder navn">@item.Navn</td>
+                                    <td data-label="Adresse">@item.Adresse</td>
+                                    <td data-label="Telefon">@item.Telefon</td>
+                                    <td data-label="Email">@item.Email</td>
+                                    <td data-label="Børnegruppe ID">@item.Bornegruppe_ID</td>
+
+                                    <td data-label="Slet Leder">
+                                        <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID">
+                                            <i class="fa fa-trash" aria-hidden="true"></i> Slet
+                                        </a>
                                     </td>
-                                    <td>
-                                        @item.Navn
-                                    </td>
-                                    <td>
-                                        @item.Adresse
-                                    </td>
-                                    <td>
-                                        @item.Telefon
-                                    </td>
-                                    <td>
-                                        @item.Email
-                                    </td>
-                                    @*<td>
-                            @item.ErLotteriBestyrer
-                            </td>*@
-                                    <td>
-                                        @item.Bornegruppe_ID
-                                    </td>
-                                    <td>
-                                        <p>
-                                            <a asp-page="/Ledere/DeleteLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-trash" aria-hidden="true"></i> Slet  </a>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p>
-                                            <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér  </a>
-                                        </p>
+
+                                    <td data-label="Redigér Leder">
+                                        <a asp-page="/Ledere/UpdateLeder" asp-route-Leder_ID="@item.Leder_ID">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Redigér
+                                        </a>
                                     </td>
                                 </tr>
                             }

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace LodSalgsSystemFDF.Models
@@ -22,7 +22,7 @@ namespace LodSalgsSystemFDF.Models
         [Required]
         public int AntalLodSeddelerPrGruppe { get; set; }
         [Required]
-        public int AntalSolgteLodseddelerPrGruppe {  get; set; }
+        public int AntalSolgteLodseddelerPrGruppe { get; set; }
 
         public virtual Leder Leder { get; set; }
     }

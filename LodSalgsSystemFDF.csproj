@@ -49,6 +49,7 @@
 
   
   <ItemGroup>
+    <None Include="C:\Users\Phuli\Projects\FDFTicket\.editorconfig" />
     <None Include="wwwroot\Billeder\skjoldetFDF.png" />
   </ItemGroup>
 
@@ -58,6 +59,14 @@
   
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+
+
+  
+
+  
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Phuli\Projects\FDFTicket\.editorconfig" />
   </ItemGroup>
 
 

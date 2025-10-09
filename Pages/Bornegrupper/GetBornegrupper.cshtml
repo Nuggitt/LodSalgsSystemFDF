@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model LodSalgsSystemFDF.Pages.Bornegrupper.GetBornegruppeModel
 @{
     ViewData["Title"] = "GetBornegrupper";
@@ -26,7 +26,7 @@
 
         <!-- Tabel -->
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-sm">
+            <table class="table table-striped table-bordered table-sm table-stacked">
                 <thead>
                     <tr>
                         <th>
@@ -72,29 +72,30 @@
                         foreach (var item in Model.Bornegrupper)
                         {
                             <tr>
-                                <td>@item.Bornegruppe_ID</td>
-                                <td>@item.Gruppenavn</td>
-                                <td>@item.Lokale</td>
-                                <td>@item.Antalborn</td>
-                                <td>@item.Leder_ID</td>
-                                <td>@item.AntalLodSeddelerPrGruppe</td>
-                                <td>@item.AntalSolgteLodseddelerPrGruppe</td>
-                                <td>
+                                <td data-label="ID">@item.Bornegruppe_ID</td>
+                                <td data-label="Gruppe navn">@item.Gruppenavn</td>
+                                <td data-label="Lokale">@item.Lokale</td>
+                                <td data-label="Antal børn">@item.Antalborn</td>
+                                <td data-label="Leder ID">@item.Leder_ID</td>
+                                <td data-label="Tildelte Lodsedler">@item.AntalLodSeddelerPrGruppe</td>
+                                <td data-label="Solgte lodseddeler pr. gruppe">@item.AntalSolgteLodseddelerPrGruppe</td>
+
+                                <td data-label="Slet">
                                     <a asp-page="/Bornegrupper/DeleteBorngruppe" asp-route-id="@item.Bornegruppe_ID">
                                         <i class="fa fa-trash"></i> Slet
                                     </a>
                                 </td>
-                                <td>
+                                <td data-label="Opdater">
                                     <a asp-page="/Bornegrupper/UpdateBorngruppe" asp-route-id="@item.Bornegruppe_ID">
                                         <i class="fa fa-pencil-square-o"></i> Redigér
                                     </a>
                                 </td>
-                                <td>
+                                <td data-label="Se Børn">
                                     <a asp-page="/Borns/BornIBornegrupper" asp-route-bid="@item.Bornegruppe_ID">
                                         Se børn
                                     </a>
                                 </td>
-                                <td>
+                                <td data-label="Tildel Lodsedler">
                                     <a asp-page="/Bornegrupper/TildelLodsedlerBornegruppe" asp-route-id="@item.Bornegruppe_ID">
                                         <i class="fa fa-plus-square-o"></i>
                                     </a>

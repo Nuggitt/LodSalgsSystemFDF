@@ -7,13 +7,14 @@ using LodSalgsSystemFDF.Services.ADOServices.ADOLederService;
 using LodSalgsSystemFDF.Services.ADOServices.ADOSalgService;
 using LodSalgsSystemFDF.Services.ADOServices.BrugerService;
 using LodSalgsSystemFDF.Services.ADOServices.Interfaces;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) Prøv env var først (så du kan overstyre lokalt)
+// 1) PrÃ¸v env var fÃ¸rst (sÃ¥ du kan overstyre lokalt)
 var dbPath = Environment.GetEnvironmentVariable("DB_PATH");
 
 // 2) Hvis ikke sat, brug /tmp (skrivbar men ikke persistent)
@@ -34,7 +35,7 @@ if (!File.Exists(dbPath) && File.Exists(seedPath))
     catch { /* best effort */ }
 }
 
-// Overstyr conn string til at pege på /tmp
+// Overstyr conn string til at pege pÃ¥ /tmp
 builder.Configuration["ConnectionStrings:DefaultConnection"] = $"Data Source={dbPath}";
 
 // Init DB/tabeller hvis tom
@@ -47,7 +48,7 @@ await EnsureSqliteInitializedAsync(cs);
 // ---------- Services ----------
 builder.Services.AddRazorPages(options =>
 {
-    // Gør hele sitet offentligt som default
+    // GÃ¸r hele sitet offentligt som default
     options.Conventions.AllowAnonymousToFolder("/");
 });
 
@@ -57,7 +58,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         cookieOptions.LoginPath = "/Login/LogInPage"; // kun relevant hvis man rammer en BESKYTTET side
     });
-builder.Services.AddAuthorization(); // <- nødvendig når du kalder app.UseAuthorization()
+builder.Services.AddAuthorization(); // <- nÃ¸dvendig nÃ¥r du kalder app.UseAuthorization()
 
 // ADONET
 builder.Services.AddTransient<AdonetIndtaegtService>();
@@ -98,7 +99,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();   // før UseAuthorization
+app.UseAuthentication();   // fÃ¸r UseAuthorization
 app.UseAuthorization();
 
 app.MapRazorPages();
@@ -112,7 +113,7 @@ static async Task EnsureSqliteInitializedAsync(string cs)
     await conn.OpenAsync();
     using var tx = await conn.BeginTransactionAsync();
 
-    // Drop og opret alle tabeller på ny
+    // Drop og opret alle tabeller pÃ¥ ny
     var createSql = @"
 DROP TABLE IF EXISTS Indtaegt;
 DROP TABLE IF EXISTS Salg;
@@ -285,4 +286,9 @@ FROM Salg s WHERE s.Bornegruppe_ID = Bornegruppe.Bornegruppe_ID), 0);
     }
 
     await tx.CommitAsync();
+
+
+
+
+
 }

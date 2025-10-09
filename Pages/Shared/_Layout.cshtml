@@ -1,4 +1,4 @@
-﻿@using LodSalgsSystemFDF.Pages.LogIn
+@using LodSalgsSystemFDF.Pages.LogIn
 @{
     Layout = null;
     var user = LogInPageModel.LoggedInBruger;
@@ -76,6 +76,7 @@
 
     </style>
 </head>
+
 <body>
     <header>
         <!-- Brug navbar-dark, så toggler-ikonet bliver lyst og synligt -->
@@ -144,7 +145,14 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            .forEach(function (el) { new bootstrap.Tooltip(el); });
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

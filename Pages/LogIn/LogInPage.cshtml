@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model LodSalgsSystemFDF.Pages.LogIn.LogInPageModel
 <div class="container mt-5" style="background-color:white">
     <style>
@@ -25,19 +25,19 @@
         <div class="center">@Model.Message</div>
         <form method="post">
             <div class="form-group">
-                <label asp-for="BrugerNavn" class="col-form-label"></label>
+                <label asp-for="BrugerNavn" class="col-form-label">Brugernavn</label>
                 <div>
                     <input asp-for="BrugerNavn" />
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="col-form-label"></label>
+                <label asp-for="Password" class="col-form-label">Password</label>
                 <div>
                     <input asp-for="Password" type="password" />
                 </div>
             </div>
             <div class="form-group">
-                <button class="btn btn-outline-dark">Log in</button>
+                <button class="btn btn-outline-dark mt-2 mb-2">Log in</button>
             </div>
         </form>
     </div>

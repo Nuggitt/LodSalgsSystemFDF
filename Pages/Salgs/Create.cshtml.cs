@@ -43,6 +43,7 @@ namespace LodSalgsSystemFDF.Pages.Salgs
             Salg.Born_ID = Id;
             Salg.Bornegruppe_ID = Bid;
             Salg = _salgService.CreateSalg(Salg);
+            
             return RedirectToPage("GetSalgs");
         }
     }
